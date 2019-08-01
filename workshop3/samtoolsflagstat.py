@@ -8,9 +8,6 @@ class SamtoolsFlagstat(j.CommandTool):
         return "samtoolsflagstat"
 
     @staticmethod
-    def friendly_name(): return "Samtools: Flagstat"
-
-    @staticmethod
     def base_command() -> Optional[Union[str, List[str]]]:
         return ["samtools", "flagstat"]
 
@@ -32,4 +29,4 @@ class SamtoolsFlagstat(j.CommandTool):
     def version() -> str:
         return "1.9.0"
 
-# SamtoolsFlagstat().translate("wdl")
+SamtoolsFlagstat().translate("wdl")

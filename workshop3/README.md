@@ -190,9 +190,6 @@ class SamtoolsFlagstat(CommandTool):
         return "samtoolsflagstat"
 
     @staticmethod
-    def friendly_name(): return "Samtools: Flagstat"
-
-    @staticmethod
     def base_command() -> Optional[Union[str, List[str]]]:
         return ["samtools", "flagstat"]
 
