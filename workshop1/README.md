@@ -15,30 +15,31 @@ You must have Python 3.6 or later installed.
 Janis can be easily installed by running the following pip command:
 
 ```bash
-pip3 install janis-pipelines[bioinformatics,runner]
+pip3 install janis-pipelines
 ```
 
-This will install the core Janis API, the unix and bioinformatics tools and a workflow running assistant that makes running workflows a lot easier.
+This will install the core Janis API, the unix and bioinformatics tools and a workflow running assistant that makes running workflows simpler.
 
-> If you're getting permission issues, you might need to include the `--user` flag. It's also a good idea to include the `--no-cache` flag
+> If you're getting permission issues, you might need to include the `--user` flag. If you're getting an older version of Janis, include the `--no-cache` flag
 
-### Testing the installation
+### Installing a workflow engine
 
-We can easily test the installation by jumping into a Python terminal:
+Janis requires the use of a workflow engine to run your pipelines and a container assistant. For this tutorial, we require you to have Docker installed, but each engine can be configured to use Singularity.
+
+#### Installing CWLTool
+
+> More instructions on GitHub: [common-workflow-language/cwltool#install](https://github.com/common-workflow-language/cwltool#install)
+
+CWLTool must be installed and be available on your `$PATH`. The simplest method is through:
 
 ```bash
-# Inside Python terminal
->>> import janis as j
->>> j.__version__ 
-'v0.4.0`
-```
-We can also confirm this through a regular terminal:
-```bash
-janis --version
-#v0.4.0
+pip3 install cwltool
 ```
 
-> These versions might be slightly different, `janis.__version__` returns the version of `janis.core`, while `janis --version` returns the version of `janis.runner`, however both test that we have a correct installation of Janis.
+#### Installing Cromwell
+
+Cromwell requires java to be installed. Janis will automatically download Cromwell to `~/.janis/cromwell-xx.jar`, so this option should work without extra effort.
+
 
 ## Simple example
 
@@ -46,17 +47,15 @@ Let's build the simple `echo` workflow from the README. This just connects a str
 
 > DIAGRAM
 
-> The next steps can be achieved in a Python terminal or a saved file (and running the result), we'll do it in a file for isolation.
+### Selecting our tools
 
-#### Selecting our tools
+We know we want to use the `Echo` tool. Janis' documentation contains tool descriptions we can consult to learn more about the tool. 
 
-We know we want to use the `Echo` tool. Janis' documentation contains automatically generated tool descriptions we can consult to learn more about the tool. 
+By visiting [`documentation > tools (sidebar) > unix > Echo`](https://janis.readthedocs.io/en/latest/tools/unix/echo.html), we get the following page:
 
-By visiting `documentation > tools (sidebar) > unix > Echo`, we get the following page:
+![Screenshot of Echo's documentation](/resources/echo-docs.png)
 
-![Screenshot of [Echo](https://janis.readthedocs.io/en/latest/tools/unix/echo.html) documentation](/resources/echo-docs.png)
-
-It also gives us the import location which we can use to import the file:
+We need to `import` the Echo tool into our file. The documentation gives us the import statement we can use to import the appropriate tool wrapper.
 
 ```python
 import janis as j
@@ -65,62 +64,58 @@ from janis_unix.tools.echo import Echo
 
 #### Assembling our workflow components
 
-Let's build the workflow, an input of type `string` called `name`, a step called `echoStep` and an output called `out`.
-
-> Our Python variable names can be different from the identifier. 
+Let's declare the workflow and expose an input of type `String` called `name` with a default of `"Douglas"`. Our input will be available as a property on the workflow, and accessible through dot-notation.
 
 ```python
 # After our imports
 
-myWorkflow = j.Workflow("echoWf")
-inp = j.Workflow("name", data_type=j.String(), value="Michael")
-stp = j.Step("echoStep", tool=Echo())
-out = j.Output("out")	# Will automatically determine the output type
+w = j.Workflow("echoWf")
+w.input("name", j.String, default="Douglas")
+# accessible with `w.name`
 ```
 
-#### Making our connections
+#### Tools and Connections
 
-We'll use the [`Workflow.add_edge`](https://janis.readthedocs.io/en/latest/references/workflow.html#janis.Workflow.add_edge) method on our workflow to build our connections, first between our input (`inp`) and the input of our Echo step (`stp.inp`), and secondly between the output of our step (`stp.out`) and our output (`out`).
+When we create out step, we provide an `identifier`, a tool and our connections. Our parameter names for our `Workflow.step` function mirror the inputs that the tool requires.
+
+We want to connect our input (accessible through `w.name`) to the `inp` connection on the tool Echo. We can do that with the following code.
 
 ```python
-myWorkflow.add_edge(inp, stp.inp)
-myWorkflow.add_edge(stp.out, out)
+# After our input declaration
+w.step("echo", Echo, inp=w.name)
+```
+
+#### Exposing the tool output
+
+We can finish off our workflow by adding a output, this has an identifier and a `source`.
+
+```python
+w.output("out", source=w.echo)
+```
+
+#### Final workflow
+
+If all has gone well, you should end up with the workflow:
+
+```python
+w = j.Workflow("echoWf")
+w.input("name", j.String, default="Douglas")
+w.step("echo", Echo, inp=w.name)
+w.output("out", source=w.echo)
 ```
 
 #### Translating our output
 
-We can use the [`Workflow.translate`](https://janis.readthedocs.io/en/latest/references/workflow.html#janis.Workflow.translate) method to convert our workflow to a [`"cwl"`](https://janis.readthedocs.io/en/latest/references/cwl.html) or [`"wdl"`](https://janis.readthedocs.io/en/latest/references/wdl.html) representation. By default this method will print the workflow, tools and input-job to the console. However it can be configured to write to disk (with the `to_disk` param).
+There are two ways we can see a "CWL" / "WDL", 
 
-```python
-myWorkflow.translate("cwl", to_disk=False)  # or "wdl"
-```
+1. Include a  [`Workflow.translate`](https://janis.readthedocs.io/en/latest/references/workflow.html#janis.Workflow.translate) method to convert our workflow to a [`"cwl"`](https://janis.readthedocs.io/en/latest/references/cwl.html) or [`"wdl"`](https://janis.readthedocs.io/en/latest/references/wdl.html) representation. 
 
+2. Run `janis translate myworkflow.py wdl` from the shell.
 
-### Final result
-
-Congratulations, you've built a workflow! You can run this file to see your `cwl` or `wdl` in the console.
-
-```python
-import janis as j  
-from janis_unix.tools.echo import Echo  
-    
-myWorkflow = j.Workflow("echoWf")
-inp = j.Input("name", data_type=j.String(), value="Michael")
-stp = j.Step("echoStep", tool=Echo())
-out = j.Output("out")	# Will automatically determine the output type
-  
-myWorkflow.add_edge(inp, stp.inp)
-myWorkflow.add_edge(stp.out, out)
-  
-# Will print the CWL, input file and relevant tools to the console  
-myWorkflow.translate("cwl", to_disk=False)  # or "wdl"
-```
 
 ## Running our workflow with `janis-runner`
 
 You've built a workflow and translated it to CWL or WDL which you can run on your preferred engine. Janis-runner is designed to streamline that process of running workflows.
-
-> We installed `janis-runner` when we included the `runner` install extra in `pip3 install janis-pipelines[bioinformatics, runner]`. 
 
 We'll run our workflow with CWLTool, the reference runner for CWL.
 
