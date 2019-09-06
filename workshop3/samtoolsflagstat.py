@@ -15,11 +15,13 @@ class SamtoolsFlagstat(j.CommandTool):
         return [
             j.ToolInput("bam", Bam(), position=1, doc="Input bam to generate statistics for"),
             j.ToolInput("inputFmtOption", j.Boolean(optional=True), prefix="--input-fmt-option", doc="Specify a single input file format option in the form of OPTION or OPTION=VALUE"),
-            j.ToolInput("threads", j.Int(optional=True), prefix="--threads", doc="(-@)  Number of additional threads to use [0] ")
+            j.ToolInput("threads", j.Int(optional=True), prefix="--threads", doc="(-@)  Number of additional threads to use [0] "),
+            j.ToolInput("outputFilename", j.Filename(extension=".txt"))
+
         ]
 
     def outputs(self) -> List[j.ToolOutput]:
-        return [j.ToolOutput("out", j.Stdout())]
+        return [j.ToolOutput("out", j.Stdout(stdoutname=j.InputSelector("outputFilename")))]
 
     @staticmethod
     def container() -> str:
@@ -29,4 +31,4 @@ class SamtoolsFlagstat(j.CommandTool):
     def version() -> str:
         return "1.9.0"
 
-SamtoolsFlagstat().translate("wdl")
+SamtoolsFlagstat().translate("cwl")

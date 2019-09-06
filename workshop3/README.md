@@ -175,16 +175,18 @@ The only output of `samtools flagstat` is the statistics that are written to `st
 ToolOutput(tag="stats", output_type=Stdout())
 ```
 
+### Naming our Stdout
+
 ### Tool definition
 
 Putting this all together, you should have the following tool definition:
 
 ```python
 from typing import List, Optional, Union
-from janis import CommandTool, ToolArgument, ToolInput, ToolOutput, Stdout, String, Boolean, CpuSelector, Int
+import janis as j
 from janis.bioinformatics.data_types import Bam
 
-class SamtoolsFlagstat(CommandTool):
+class SamtoolsFlagstat(j.CommandTool):
     @staticmethod
     def tool() -> str:
         return "samtoolsflagstat"
@@ -193,15 +195,17 @@ class SamtoolsFlagstat(CommandTool):
     def base_command() -> Optional[Union[str, List[str]]]:
         return ["samtools", "flagstat"]
 
-    def inputs(self) -> List[ToolInput]:
+    def inputs(self) -> List[j.ToolInput]:
         return [
-            ToolInput("bam", Bam(), position=1, doc="Input bam to generate statistics for"),
-            ToolInput("inputFmtOption", Boolean(optional=True), prefix="--input-fmt-option", doc="Specify a single input file format option in the form of OPTION or OPTION=VALUE"),
-            ToolInput("threads", Int(optional=True), default=CpuSelector(), prefix="--threads", doc="(-@)  Number of additional threads to use [0] ")
+            j.ToolInput("bam", Bam(), position=1, doc="Input bam to generate statistics for"),
+            j.ToolInput("inputFmtOption", j.Boolean(optional=True), prefix="--input-fmt-option", doc="Specify a single input file format option in the form of OPTION or OPTION=VALUE"),
+            j.ToolInput("threads", j.Int(optional=True), prefix="--threads", doc="(-@)  Number of additional threads to use [0] "),
+            j.ToolInput("outputFilename", j.Filename(extension=".txt"))
+
         ]
 
-    def outputs(self) -> List[ToolOutput]:
-        return [ToolOutput("out", Stdout())]
+    def outputs(self) -> List[j.ToolOutput]:
+        return [j.ToolOutput("out", j.Stdout(stdoutname=j.InputSelector("outputFilename")))]
 
     @staticmethod
     def container() -> str:
@@ -245,31 +249,48 @@ janis run samtoolsflagstat.py --inputs inp-job.yml
 
 OUTPUT:
 ```
-TID:        dc6506
-WID:        dc6506
-Name:       dc6506
+TID:        dc7844
+WID:        dc7844
+Name:       samtoolsflagstatWf
 
 Engine:     cwltool
 Engine url: N/A
 
-Path:       /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190801_121913_dc6506/
+Path:       /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190806_095944_dc7844/
 
 Status:     Completed
 Duration:   3
-Start:      2019-08-01T02:19:13.693171+00:00
+Start:      2019-08-05T23:59:44.596567+00:00
 Finish:     N/A
 
 Jobs: 
+       
 
 Outputs:    out
-2019-08-01T02:19:17+00:00 [INFO]: Hard linking /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190801_121913_dc6506/workflow/fe348dc8e89f1b03bfdef0b833d222ca8624b359 to /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190801_121913_dc6506/outputs/out
-Finished managing task 'dc6506'. View the task outputs: file:///Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190801_121913_dc6506/
+2019-08-05T23:59:47+00:00 [INFO]: Hard linking /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190806_095944_dc7844/workflow/generated-18f2defe-b7dd-11e9-8af4-f218985ebfa7.txt to /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190806_095944_dc7844/outputs/out.txt
+Finished managing task 'dc7844'. View the task outputs: file:///Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190806_095944_dc7844/
 ```
 
 We can test this by looking at our output file: 
 
 ```bash
-cat /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190801_121913_dc6506/outputs/out
+cat /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190806_095944_dc7844/outputs/out.txt
+```
+
+```
+20061 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+337 + 0 supplementary
+0 + 0 duplicates
+19971 + 0 mapped (99.55% : N/A)
+19724 + 0 paired in sequencing
+9862 + 0 read1
+9862 + 0 read2
+18606 + 0 properly paired (94.33% : N/A)
+19544 + 0 with itself and mate mapped
+90 + 0 singletons (0.46% : N/A)
+860 + 0 with mate mapped to a different chr
+691 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
 
 ## Outcomes
@@ -277,11 +298,5 @@ cat /Users/franklinmichael/janis/execution/samtoolsflagstatWf/20190801_121913_dc
 - Learn about the structure of a CommandTool
 - Use an existing docker container
 - Look at the inputs and outputs of an existing tool
-- Globs + InputSelectors
-
-
-
-
-
-
+- Use InputSelectors to get the value of an input
 
