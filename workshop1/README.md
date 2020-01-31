@@ -4,11 +4,12 @@ Welcome to the first workshop for Janis!
 
 > This guide is designed as an aid to a presented workshop.
 
-Welcome to Janis! Janis is a Python framework to assist in building computational workflows that can be exported to [CWL](https://www.commonwl.org/) and [WDL](http://www.openwdl.org/).
+Janis is workflow framework that uses Python to construct a declarative workflow. It has a simple workflow API within Python that you use to declare your workflow. Janis can convert your pipeline to the Common Workflow Language (CWL) and Workflow Description Language (WDL) for execution, but it’s also great for publishing and archiving.
 
 ## Requirements
 
-You must have Python 3.6 or later installed.
+- Python 3.6+
+- Docker 
 
 ## Installing Janis
 

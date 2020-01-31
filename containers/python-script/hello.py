@@ -1,3 +1,3 @@
 #!/usr/bin/env python3
-
-print("Hello, World")
+import sys
+print("Hello, World", file=sys.stderr)
