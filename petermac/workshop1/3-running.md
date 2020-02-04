@@ -3,20 +3,18 @@
 Let's run the following command to see how to configure Janis when running a workflow:
 
 ```
-janis run -h
-```
+$ janis run -h
 
-```
 usage: janis run [-h] [-i INPUTS] [-o OUTPUT_DIR] [-B] 
                  [--keep-intermediate-files] [...OTHER OPTIONS]
                  workflow [...WORKFLOW INPUTS]
 ```
 
-> It's important that these configuration options come AFTER the `run`, but before the `$workflowname`. Any inputs after the `$workflowname` are passed as inputs to the workflow.
+> It's important that these configuration options come AFTER the `run`, but before the `<workflow>` argument. Any parameters after the `<workflow>` are passed as inputs to the workflow.
 
 We'll highlight a few options:
 
-- `-o OUTPUT_DIR, --output-dir OUTPUT_DIR` - [REQUIRED] This directory to copy outputs to. By default intermediate results are within a janis/execution subfolder (unless overriden by a template)
+- `-o OUTPUT_DIR, --output-dir OUTPUT_DIR` - [REQUIRED] This directory to copy outputs to. By default intermediate results are within a janis/execution subfolder (unless overriden by your configuration)
 
 - `-i INPUTS, --inputs INPUTS` - YAML or JSON inputs file to provide values for the workflow (can specify multiple times)
 
@@ -27,9 +25,9 @@ We'll highlight a few options:
 
 ## Running a test workflow
 
-We'll run a simple workflow called ([`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html)) to make sure that Janis is configured properly. This workflow prints "Hello, World" to the console. This tests that Janis is installed and that you can submit to the cluster correctly.
+To test that Janis is configured properly, We'll run a simple workflow called [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) [click the link to see the dcoumentation]. This workflow prints `"Hello, World"` to stdout, and this stdout is captured as an output. This will test that Janis can submit to the cluster correctly.
 
-> We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to create a subdirectory called `part1`:
+> We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to create a subdirectory called `part1` within our `workshop1` directory:
 
 ```
 janis run -o part1 hello
@@ -38,9 +36,9 @@ janis run -o part1 hello
 This command will:
 
 - Create an output directory called `part1` (relative to the current directory),
-- start Cromwell,
-- submit to the cluster and run a task that calls "echo",
-- collect the results.
+- Start Cromwell,
+- Submit to the cluster and run a task that calls "echo",
+- Collect the results.
 
 
 You'll see logs from Cromwell in the terminal. There's a number of statements that are worth highlighting:
@@ -59,7 +57,7 @@ Cromwell is starting with pid=14497
 2020-01-31T12:59:05 [INFO]: View the task outputs: file://$HOME/janis-workshop1/part1
 ```
 
-In our output folder, there are two items (`ll part1`):
+In our output folder, there are two items (`ls part1`):
 ```
 drwxr-sr-x 8 mfranklin punim0755 133K Jan 31 12:59 janis
 -rw-r--r-- 1 mfranklin punim0755   14 Jan 31 12:58 out
@@ -72,12 +70,14 @@ The output to the task is called `out`, as this is the name of the output that t
 
 We've run the workflow within our terminal session. But often our workflow is too long to run in one session and it would be useful to submit the workflow to the cluster.
 
-The Peter Mac configuration can submit to the janis partition on the cluster when the `--background` (`-B`) parameter is provided.
+The Peter Mac configuration can submit to the janis partition on the cluster when the `--background` (`-B`) parameter is provided. 
 
-Let's run the same workflow with a new output directory (`part2`), except now providing the background parameter. Janis quickly returns with our workflow ID, which we can capture by running:
+The tool [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) allows us to override the default text to print by passing a value for the input `inp`. We can do this by appending `--inp "Hello $(whoami)"`, 
+
+Let's run the same workflow with a new output directory (`part2`), except now providing the background parameter and the new text to print. Janis quickly returns with our workflow ID, which we can capture by running:
 
 ```
-wid=$(janis run --background -o part2 hello)
+wid=$(janis run --background -o part2 hello --inp "Hello $(whoami)")
 ```
 
 We can track the progress of our workflow with:
