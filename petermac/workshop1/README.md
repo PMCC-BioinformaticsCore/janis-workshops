@@ -17,7 +17,7 @@ The intended scope:
 - How to align some samples,
 - How to debug if something goes wrong (check logs),
 - How to override amount of resources,
-- How to run same pipeline on cohort of samples,
+- How to run the same pipeline on cohort of samples,
 
 
 ## History
