@@ -4,6 +4,8 @@ Janis is workflow framework that uses Python to construct a declarative workflow
 
 Janis can run pipelines at Peter Mac, as it knows how to interact with Slurm.
 
+This tutorial has a bioinformatics focus, although Janis is generic as a workflow assistant and can be used outside of the computational genomics.
+
 ## Learning outcomes
 
 In this workshop, we'll learn:
@@ -15,7 +17,7 @@ In this workshop, we'll learn:
 - How to align some samples.
 - How to debug if something goes wrong (check logs)
 - How to override amount of resources
-- Multiple samples 
+- How to run same pipeline on cohort of samples,
 
 
 ## Foundations
@@ -31,25 +33,31 @@ In this workshop, we'll learn:
 
 - Janis uses an _abstracted execution environment_ which removes the shared file system you're used to.
 
-    - For a file or directory to be available to your tool, you need to EXPLICITLY include it.
+    - For a file or directory to be available to your tool, you need to EXPLICITLY include it. 
+        - This includes associated files, if you want an indexed bam, you must use the BamBai type.
 
     - Outputs of tools must be EXPLICITLY collected, else they will be removed.
+        - This is equivalent to a _SAVE_ stage in seqliner.
 
     - A step's requirements (its inputs) can be an input to a workflow, or the output of a previous step (hence creating a dependency).
 
-- In Janis, all tasks are executed inside a isolated virtual environment called a [_Container_](https://www.docker.com/resources/what-container).
+    _Diagram_
+
+- In Janis, all tasks are executed inside a isolated virtual environment called a [_Container_](https://www.docker.com/resources/what-container). Docker and Singularity are two common container types. (Docker containers can be executed by Singularity.)
 
 
 ## Getting started
 
-> Copy this TAR from the cluster and extract it with this command
+Create a folder called `janis-workshop1` in a location where you have plenty of storage (we'd recommend you researcher folder).
+
+> Copy this `<path to data>` to your local 
 
 ## Loading and configuring Janis
 
 1. Load Janis through the module system
 
 ```
-module load janis/v0.9.0
+module load janis/0.9.0
 ```
 
 2. [First run only] Initialize Peter Mac template
@@ -58,20 +66,67 @@ module load janis/v0.9.0
 janis init pmac
 ```
 
-By default, your configuration is placed at `~/.janis/janis.conf`. You can see and edit some of these details with `vim ~/.janis/janis.conf` (eg: email).
+By default, your configuration is placed at `~/.janis/janis.conf`. You can see and edit some of these details with `vim ~/.janis/janis.conf`:
+
+
+```yaml
+engine: cromwell
+notifications:
+    email: null
+template:
+    id: pmac
+    catch_slurm_errors: false
+    send_job_emails: false
+```
 
 This configuration tells Janis (and Cromwell) how to interact with Slurm and Singularity.
 
+## Running workflows with Janis
+
+Let's run the following command to see how to configure Janis when running a workflow:
+
+```
+janis run -h
+```
+
+```
+usage: janis run [-h] [-i INPUTS] [-o OUTPUT_DIR] [-B] 
+                 [--keep-intermediate-files] [...OTHER OPTIONS]
+                 workflow [...WORKFLOW INPUTS]
+```
+
+> It's important that these configuration options come AFTER the `run`, but before the `$workflowname`. Any inputs after the `$workflowname` are passed as inputs to the workflow.
+
+We'll highlight a few options:
+
+- `-o OUTPUT_DIR, --output-dir OUTPUT_DIR` - [REQUIRED] This directory to copy outputs to. By default intermediate results are within a janis/execution subfolder (unless overriden by a template)
+
+- `-i INPUTS, --inputs INPUTS` - YAML or JSON inputs file to provide values for the workflow (can specify multiple times)
+
+- `-B, --background` - Run the workflow engine in the background (or submit to a cluster if your template supports it)
+
+- `--keep-intermediate-files` - Do not remove execution directory on successful complete
+
+
 ## Running a test workflow
 
-We'll run a simple test workflow ([Hello](https://janis.readthedocs.io/en/latest/tools/unix/hello.html)) to make sure that Janis is configured properly, and that you can submit to the cluster correctly. We need to specify an output directory to contain the execution and outputs:
+We'll run a simple workflow called ([`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html)) to make sure that Janis is configured properly. This workflow prints "Hello, World" to the console. This tests that Janis is installed and that you can submit to the cluster correctly.
+
+> We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to create a subdirectory called `part1`:
 
 ```
 janis run -o part1 hello
 ```
 
-This will start Cromwell, run a small task on the cluster and then collect the results. You'll see logs from Cromwell in the terminal. There's a number of statements that are worth highlighting:
+This command will:
 
+- Create an output directory called `part1` (relative to the current directory),
+- start Cromwell,
+- submit to the cluster and run a task that calls "echo",
+- collect the results.
+
+
+You'll see logs from Cromwell in the terminal. There's a number of statements that are worth highlighting:
 
 ```
 # 1. Your Workflow ID
@@ -84,7 +139,7 @@ Cromwell is starting with pid=14497
 2020-01-31T12:58:46 [INFO]: Status changed to: Running
 
 # 4. The task has completed successfully 
-2020-01-31T12:59:05 [INFO]: View the task outputs: file:///data/cephfs/punim0755/part1
+2020-01-31T12:59:05 [INFO]: View the task outputs: file://$HOME/janis-workshop1/part1
 ```
 
 In our output folder, there are two items (`ll part1`):
@@ -102,13 +157,11 @@ We've run the workflow within our terminal session. But often our workflow is to
 
 The Peter Mac configuration can submit to the janis partition on the cluster when the `--background` (`-B`) parameter is provided.
 
-Let's run the same workflow, except now providing the background parameter:
+Let's run the same workflow with a new output directory (`part2`), except now providing the background parameter. Janis quickly returns with our workflow ID, which we can capture by running:
 
 ```
-janis run --background -o test2 hello
+wid=$(janis run --background -o part2 hello)
 ```
-
-Our workflow is prepared, submitted to the cluster (see: `Starting Janis in the background with: `) and janis returns quickly with our workflow ID. Our workflow ID is logged to stdout and can be captured with `wid=$(janis run --background -o test2 hello)`.
 
 We can track the progress of our workflow with:
 
@@ -116,7 +169,7 @@ We can track the progress of our workflow with:
 janis watch $wid
 ```
 
-It might take some time for the workflow to move into the `running` state, but you should see a progress screen that highlights key information about the workflow:
+You will see a progress screen like the following 
 
 ```
 WID:        d12763
@@ -152,16 +205,16 @@ We see that the tool requires:
 - `reference` - FastaWithDict
 - `fastq` - FastqGzPair
 
-and will return as a BamPair called `out`.
+and will return an indexed bam (`.bam` + `.bam.bai`) called `out`.
 
-On the cluster, we've prepared _recipes_ for common inputs that you might have, eg: hg38, hg19, mm10. We can use this recipe to fill in the HG38 reference file. We're also going to add `--keep-intermediate-files` as it will be useful for the next section.
+We're also going to add `--keep-intermediate-files` as it will be useful for the next section.
 
 > The order of arugments is important here
 
 Let's run the workflow!
 
 ```
-janis run -B -r hg38 --keep-intermediate-files BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz
+janis run -B --keep-intermediate-files BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz
 ```
 
 ```
@@ -170,8 +223,8 @@ EngId:      a07054bd-aa50-417e-a3e6-af3e62dd98cb
 Name:       BwaAligner
 Engine:     cromwell (localhost:49681) [PID=31868]
 
-Task Dir:   /data/cephfs/punim0755/test2
-Exec Dir:   /data/cephfs/punim0755/test2/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
+Task Dir:   $HOME/janis-workshop1/test2
+Exec Dir:   $HOME/janis-workshop1/test2/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
 
 Status:     Completed
 Duration:   3m:08s
@@ -185,7 +238,7 @@ Jobs:
     [✓] sortsam (31s)       
 
 Outputs:
-    - out: /data/cephfs/punim0755/test2/out.bam
+    - out: $HOME/janis-workshop1/test2/out.bam
 ```
 
 At `test2/out.bam`, we have our aligned sample.
@@ -240,6 +293,7 @@ _TBA_
 Here's some advanced functionality of Janis:
 
 - Scattering by multiple fields (dot + cross product)
+- Output naming
 - Python Tool for arbitrary code execution
-- 
+- Cloud execution of workflows
 
