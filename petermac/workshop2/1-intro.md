@@ -35,3 +35,5 @@ Janis is available through the module system with:
 ```
 module load janis
 ```
+
+> Alternatively, Janis can be installed in a virtual env, instructions are [available in the documentation](https://janis.readthedocs.io/en/latest/tutorials/tutorial0.html).
