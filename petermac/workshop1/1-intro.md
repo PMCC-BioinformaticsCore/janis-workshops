@@ -36,18 +36,20 @@ In this workshop, we'll learn:
     - For a file or directory to be available to your tool, you need to EXPLICITLY include it. 
         - This includes associated files, if you want an indexed bam, you must use the BamBai type.
 
-    - Outputs of tools must be EXPLICITLY collected, else they will be removed.
+    - Outputs of a _tool_ must be EXPLICITLY collected to be used by future steps, else they will be removed.
+
+    - Outputs of a workflow must be EXPLICITLY collected.
         - This is equivalent to a _SAVE_ stage in seqliner.
 
     - A step's requirements (its inputs) can be an input to a workflow, or the output of a previous step (hence creating a dependency).
 
-    _Diagram_
+        ![Diagram of alignment workflow showing connections](graphics/align-light.png)
 
 - In Janis, all tasks are executed inside a isolated virtual environment called a [_Container_](https://www.docker.com/resources/what-container). Docker and Singularity are two common container types. (Docker containers can be executed by Singularity.)
 
 
 ## Getting started
 
-Create a folder called `janis-workshop1` in a location where you have plenty of storage (we'd recommend you researcher folder).
+Create a folder called `janis-workshop1` in a location where you have plenty of storage (we'd recommend your researcher folder).
 
 > Copy this `<path to data>` to your local 
