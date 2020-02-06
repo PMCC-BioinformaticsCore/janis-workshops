@@ -2,9 +2,7 @@
 
 Janis comes with a number of prebuilt pipelines. We're going to use the [BWAAligner](https://janis.readthedocs.io/en/latest/tools/bioinformatics/common/bwaaligner.html) (Cutadapt + BwaMem + Samtools + SortSam) to turn out a fastq pair into an indexed Bam.
 
-By looking at the documentation for this tool: https://janis.readthedocs.io/en/latest/tools/bioinformatics/common/bwaaligner.html
-
-We see that the tool requires:
+By looking at the documentation for this tool: https://janis.readthedocs.io/en/latest/tools/bioinformatics/common/bwaaligner.html we see that the tool requires:
 
 - `sample_name` - String
 - `reference` - FastaWithDict
@@ -14,13 +12,20 @@ and will return an indexed bam (`.bam` + `.bam.bai`) called `out`.
 
 We're also going to add `--keep-intermediate-files` as it will be useful for the next section.
 
-> The order of arugments is important here
+It's important to keep the following argument format when running your workflow. Providing parameters after the `$workflowname` will result in that parameter passed to the workflow as an input.
+
+```
+janis run <run options> worklowname <workflow inputs>
+```
+
 
 Let's run the workflow!
 
 ```
-janis run -B --keep-intermediate-files BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz
+$ wid=$(janis run -B --keep-intermediate-files BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz)
 ```
+
+Once the workflow completes, you will receive something similar to the following progress screen from `janis watch $wid`:
 
 ```
 WID:        ed6702
@@ -46,4 +51,4 @@ Outputs:
     - out: $HOME/janis-workshop1/test2/out.bam
 ```
 
-At `test2/out.bam`, we have our aligned sample.
+Our aligned BamPair is copied to `test2/out.bam` (you'll also see the index at `test2/out.bam.bai`)
