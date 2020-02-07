@@ -6,6 +6,12 @@ Janis can run pipelines at Peter Mac, as it knows how to interact with Slurm.
 
 This tutorial has a bioinformatics focus, although Janis is generic as a workflow assistant and can be used outside of the computational genomics.
 
+Important Links:
+
+- Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
+- Janis Documentation: https://janis.readthedocs.io/en/latest
+- This workshop: https://github.com/PMCC-BioinformaticsCore/janis-workshops/tree/master/petermac/workshop1
+
 ## Learning outcomes
 
 In this workshop, we'll learn:
@@ -19,19 +25,32 @@ In this workshop, we'll learn:
 - How to override amount of resources
 - How to run same pipeline on cohort of samples,
 
-
 ## Foundations
 
 - A workflow is a collection of tools are run in an organised manner.
 
-- A workflow specification is a format that exactly describes the relatinoship between your tools. Popular workflow specification types include:
+- A workflow specification is a format that exactly describes the relationship between your tools. Popular workflow specification types include:
 
     - Common Workflow Language (CWL)
     - Workflow Description Language (WDL)
     - [_Unsupported_] Nextflow
     - [_Unsupported_] Snakemake
 
-- Janis uses an _abstracted execution environment_ which removes the shared file system you're used to.
+### What is Janis
+
+Janis is a project that aims to address two questions:
+
+- How do we build pipelines that can run everywhere?
+- How can we make running pipelines easier?
+
+In fact, Janis is actually split into two components that addresses these questions separately:
+
+- `janis-core` - Helps users **build** portable pipelines using existing workflow **specifications**.
+- `janis-assistant` - Helps users **run** pipelines using existing workflow **engines**.
+
+### How is Janis different to BPipe?
+
+- Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to.
 
     - For a file or directory to be available to your tool, you need to EXPLICITLY include it. 
         - This includes associated files, if you want an indexed bam, you must use the BamBai type.
