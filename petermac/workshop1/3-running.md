@@ -83,14 +83,14 @@ drwxr-sr-x 8 mfranklin punim0755 133K Jan 31 12:59 janis
 -rw-r--r-- 1 mfranklin punim0755   14 Jan 31 12:58 out
 ```
 
-The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies. The `janis` folder contains information about the execution, including logs.
+The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies. The `janis` folder contains information about the execution, including logs, we'll see more about that in the next section.
 
 
 ### Running in the background
 
 We've run the workflow within our terminal session. But often our workflow is too long to run in one session and it would be useful to submit the workflow to the cluster.
 
-The Peter Mac configuration can submit to the janis partition on the cluster when the `--background` (`-B`) parameter is provided. 
+The Peter Mac configuration can submit to the janis partition on the cluster when the `--background` (`-B`) parameter is provided.
 
 The tool [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) allows us to override the default text to print by passing a value for the input `inp`. We can do this by appending `--inp "Hello $(whoami)"`, 
 
@@ -114,8 +114,8 @@ EngId:      291b6f91-6246-4ded-934b-98773e265ead
 Name:       hello
 Engine:     cromwell (localhost:53489) [PID=43580]
 
-Task Dir:   /Users/franklinmichael/source/CWLab/test2
-Exec Dir:   /Users/franklinmichael/source/CWLab/test2/janis/execution/hello/291b6f91-6246-4ded-934b-98773e265ead
+Task Dir:   $HOME/janis-workshop1/part2
+Exec Dir:   $HOME/janis-workshop1/part2/janis/execution/hello/291b6f91-6246-4ded-934b-98773e265ead
 
 Status:     Completed
 Duration:   44s
@@ -127,5 +127,26 @@ Jobs:
     [✓] hello (11s)       
 
 Outputs:
-    - out: /Users/franklinmichael/source/CWLab/test2/out
+    - out: $HOME/part2/out
 ```
+
+
+### Aborting a workflow
+
+As Janis manages other software to run your workflow, it's important to not directly kill the Janis instance, but rather ask to safely abort.
+
+```
+janis abort $wid
+```
+
+If this isn't completed:
+
+- Internal databases may be corrupted,
+- Instances of Cromwell may be let running in the background,
+- Jobs submitted for execution may still run, including on cloud infrastructure.
+
+
+## Resources
+
+- Talk about `hints` and `--hint-captureType`
+- Mention `janis inputs --resources BwaAligner` to override inputs.

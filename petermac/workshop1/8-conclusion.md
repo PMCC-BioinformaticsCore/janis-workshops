@@ -3,8 +3,6 @@
 Thanks for taking part of the Introduction to Janis workshop!
 
 
-
-
 ## Advanced functionality
 
 Here's some additional functionality that Janis supports:

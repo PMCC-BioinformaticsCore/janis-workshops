@@ -19,10 +19,10 @@ janis run <run options> worklowname <workflow inputs>
 ```
 
 
-Let's run the workflow!
+Let's run the workflow in the directory `part3`!
 
 ```
-$ wid=$(janis run -B --keep-intermediate-files BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz)
+$ wid=$(janis run -B --keep-intermediate-files -o part3 BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz)
 ```
 
 Once the workflow completes, you will receive something similar to the following progress screen from `janis watch $wid`:
@@ -33,8 +33,8 @@ EngId:      a07054bd-aa50-417e-a3e6-af3e62dd98cb
 Name:       BwaAligner
 Engine:     cromwell (localhost:49681) [PID=31868]
 
-Task Dir:   $HOME/janis-workshop1/test2
-Exec Dir:   $HOME/janis-workshop1/test2/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
+Task Dir:   $HOME/janis-workshop1/part3
+Exec Dir:   $HOME/janis-workshop1/part3/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
 
 Status:     Completed
 Duration:   3m:08s
@@ -48,7 +48,7 @@ Jobs:
     [✓] sortsam (31s)       
 
 Outputs:
-    - out: $HOME/janis-workshop1/test2/out.bam
+    - out: $HOME/janis-workshop1/part3/out.bam
 ```
 
 Our aligned BamPair is copied to `test2/out.bam` (you'll also see the index at `test2/out.bam.bai`)
