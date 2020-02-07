@@ -23,6 +23,26 @@ We'll highlight a few options:
 - `--keep-intermediate-files` - Do not remove execution directory on successful complete
 
 
+## How does Janis run a workflow?
+
+As discussed in the introduction, the janis-assistant leverages community driven engines to run workflows. For our workflows at Peter Mac, we use the [Cromwell](https://github.com/broadinstitute/cromwell) execution engine, configured to work with [Slurm + Singularity](https://cromwell.readthedocs.io/en/stable/tutorials/Containers/). 
+
+For our tests, Janis will:
+
+- Start up a Cromwell instance,
+- Convert the workflow to WDL (which Cromwell supports),
+- Submits this WDL workflow to Cromwell,
+- Watches the progress of the workflow,
+- Performs a number of tasks after the workflow is completed.
+
+The limitations with this include:
+
+- Increased complexity to run a workflow
+- Issues with running may become harder to find.
+
+It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow.
+
+
 ## Running a test workflow
 
 To test that Janis is configured properly, We'll run a simple workflow called [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) [click the link to see the dcoumentation]. This workflow prints `"Hello, World"` to stdout, and this stdout is captured as an output. This will test that Janis can submit to the cluster correctly.
