@@ -144,9 +144,3 @@ If this isn't completed:
 - Internal databases may be corrupted,
 - Instances of Cromwell may be let running in the background,
 - Jobs submitted for execution may still run, including on cloud infrastructure.
-
-
-## Resources
-
-- Talk about `hints` and `--hint-captureType`
-- Mention `janis inputs --resources BwaAligner` to override inputs.

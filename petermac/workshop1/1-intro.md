@@ -71,10 +71,7 @@ In fact, Janis is actually split into two components that addresses these questi
 
 Create a folder called `janis-workshop1` in a location where you have plenty of storage (we'd recommend your researcher folder).
 
-> The `/data/janis/` folder has not yet been created, use `/researchers/michael.franklin/workshop1`
-
-
 ```
 mkdir janis-workshop1 && cd janis-workshop1
-cp /data/janis/workshop1 .
+cp /data/janis/workshops/2020/workshop1/ .
 ```

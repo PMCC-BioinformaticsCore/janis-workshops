@@ -22,7 +22,7 @@ janis run <run options> worklowname <workflow inputs>
 Let's run the workflow in the directory `part3`!
 
 ```
-$ wid=$(janis run -B --keep-intermediate-files -o part3 BwaAligner --sample_name NA12878 --fastq data/align/BRCA1_R*.fastq.gz)
+$ wid=$(janis run -B --keep-intermediate-files -o part3 BwaAligner --sample_name NA12878 --fastq data/BRCA1_R*.fastq.gz)
 ```
 
 Once the workflow completes, you will receive something similar to the following progress screen from `janis watch $wid`:
@@ -51,4 +51,4 @@ Outputs:
     - out: $HOME/janis-workshop1/part3/out.bam
 ```
 
-Our aligned BamPair is copied to `test2/out.bam` (you'll also see the index at `test2/out.bam.bai`)
+Our aligned BamPair is copied to `part3/out.bam` (you'll also see the index at `part3/out.bam.bai`)

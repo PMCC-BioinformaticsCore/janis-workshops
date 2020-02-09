@@ -33,7 +33,7 @@ The input `reference` is going to be the same for each of the alignments, where 
 
 Let's see this in action and we can investigate the output:
 
-```
+```bash
 janis run \
     -o part3 \
     --batchrun \
@@ -41,10 +41,10 @@ janis run \
     --batchrun-fields sample_name fastq \
     BwaAligner \
     --reference /path/to/reference.fasta \
-    --sample_name NA12878 \
-    --sample_name NA12879 \
-    --fastq BRCA1_R*.fastq.gz \
-    --fastq BRCA2_R*.fastq.gz
+    --sample_name Sample1 \
+    --sample_name Sample2 \
+    --fastq BRCA1_R*.fastq.gz \ 
+    --fastq BRCA2_R*.fastq.gz # We'll use the same files to keep it simple
 ```
 
 Let's have a look at the watch screen:
@@ -69,13 +69,13 @@ Jobs:
         [✓] cutadapt (6s)
         [✓] bwamem (1m:59s)
         [✓] sortsam (9s)
-    [✓] NA12878_BwaAligner (1m:51s)
+    [✓] Sample2_BwaAligner (1m:51s)
         [✓] cutadapt (6s)
         [✓] bwamem (1m:18s)
         [✓] sortsam (19s)       
 
 Outputs:
-    - NA12878_out: $HOME/part3/NA12878/NA12878_out.bam
+    - NA12878_out: $HOME/part3/Sample1/Sample1_out.bam
     - Sample2_out: $HOME/part3/Sample2/Sample2_out.bam
 ```
 
@@ -85,7 +85,45 @@ A few points to note:
 - The outputs are separated into a folder called `sample_name`.
     - If you run a workflow that already groups it's outputs, they are placed in a subdirectory of the groupby field (in this case `sample_name`). 
 
+## Cascading input files
 
+It's possible to prepare a number of files for individual samples, and then Janis will stack these together during a batch run. To represent the previous example:
 
+> The paths in the YAML file need to be already fully qualified (`$HOME` is workshop placeholder)
 
+**`inputs1.yml`**
+```yaml
+sample_name: Sample1
+fastq:
+- $HOME/data/BRCA1_R1.fastq.gz
+- $HOME/data/BRCA1_R2.fastq.gz
+reference: /path/to/reference.fasta
+```
 
+**`inputs2.yml`**
+```yaml
+sample_name: Sample2
+fastq:
+- $HOME/data/BRCA1_R1.fastq.gz
+- $HOME/data/BRCA1_R2.fastq.gz
+
+# Janis will correctly realise it doesn't need to stack the reference file
+# and will instead override the previously defined value
+reference: /path/to/reference.fasta
+```
+
+Run statement:
+
+```bash
+janis run \
+    -o part3-cascade \
+    --batchrun \
+    --batchrun-groupby sample_name \
+    --batchrun-fields sample_name fastq \
+    \ # this time the inputs need to go BEFORE the workflow name
+    --inputs inputs1.yml \
+    --inputs inputs2.yml \
+    BwaAligner \
+    \ # specifying the reference here will override the two values inside the input yamls
+    --reference /path/to/reference.fasta
+```

@@ -24,8 +24,14 @@ We see the following table from the documentation:
 
 We note particularly the `ID: WGSGermlineGATK` row, as this is the name of the workflow that we'll use to run from the CLI, example:
 
-```
+```bash
 janis run [...] WGSGermlineGATK
 ```
 
-### 
+### Generating an inputs template
+
+```bash
+# can be directed to a file with '> germline-inputs.yml` on the end
+janis inputs WGSGermlineGATK
+```
+
