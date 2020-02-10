@@ -10,6 +10,12 @@ By looking at the documentation for this tool: https://janis.readthedocs.io/en/l
 
 and will return an indexed bam (`.bam` + `.bam.bai`) called `out`.
 
+Janis can also generate an input file for a workflow:
+
+```bash
+janis inputs BwaAligner # > align-inputs.yml
+```
+
 We're also going to add `--keep-intermediate-files` as it will be useful for the next section.
 
 It's important to keep the following argument format when running your workflow. Providing parameters after the `$workflowname` will result in that parameter passed to the workflow as an input.
@@ -22,7 +28,13 @@ janis run <run options> worklowname <workflow inputs>
 Let's run the workflow in the directory `part3`!
 
 ```
-$ wid=$(janis run -B --keep-intermediate-files -o part3 BwaAligner --sample_name NA12878 --fastq data/BRCA1_R*.fastq.gz)
+wid=$(janis run \
+    -B --keep-intermediate-files \
+    -o part3 \
+    BwaAligner \
+    --sample_name NA12878 \
+    --fastq data/BRCA1_R*.fastq.gz \
+    --reference /bioinf_core/Proj/hg38_testing/Resources/Gatk_Resource_Bundle_hg38/hg38_contigs_renamed/Homo_sapiens_assembly38.fasta)
 ```
 
 Once the workflow completes, you will receive something similar to the following progress screen from `janis watch $wid`:

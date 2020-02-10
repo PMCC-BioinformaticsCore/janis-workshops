@@ -36,6 +36,8 @@ In this workshop, we'll learn:
     - [_Unsupported_] Nextflow
     - [_Unsupported_] Snakemake
 
+- YAML (.yml) is a file-format for specifying key-value pairs (like a dictionary). YAML is very similar to, and is in fact a superset of JSON.
+
 ### What is Janis
 
 Janis is a project that aims to address two questions:
@@ -73,5 +75,5 @@ Create a folder called `janis-workshop1` in a location where you have plenty of 
 
 ```
 mkdir janis-workshop1 && cd janis-workshop1
-cp /data/janis/workshops/2020/workshop1/ .
+cp -r /data/janis/workshops/2020/workshop1/* .
 ```

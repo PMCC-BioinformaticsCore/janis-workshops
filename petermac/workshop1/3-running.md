@@ -49,7 +49,7 @@ To test that Janis is configured properly, We'll run a simple workflow called [`
 
 > We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to create a subdirectory called `part1` within our `workshop1` directory:
 
-```
+```bash
 janis run -o part1 hello
 ```
 
@@ -83,7 +83,13 @@ drwxr-sr-x 8 mfranklin punim0755 133K Jan 31 12:59 janis
 -rw-r--r-- 1 mfranklin punim0755   14 Jan 31 12:58 out
 ```
 
-The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies. The `janis` folder contains information about the execution, including logs, we'll see more about that in the next section.
+The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies.
+
+```bash
+cat part1/out
+```
+
+The `janis` folder contains information about the execution, including logs, we'll see more about that in the next section.
 
 
 ### Running in the background
@@ -99,6 +105,15 @@ Let's run the same workflow with a new output directory (`part2`), except now pr
 ```
 wid=$(janis run --background -o part2 hello --inp "Hello $(whoami)")
 ```
+
+We'll get similar text to before, but instead of the workflow starting, we'll get:
+
+```
+[INFO]: Starting Janis in the background with: <sbatch command>
+[INFO]: Submitted batch job 4830620
+[INFO]: Exiting
+```
+
 
 We can track the progress of our workflow with:
 
@@ -131,7 +146,7 @@ Outputs:
 ```
 
 
-### Aborting a workflow
+## Aborting a workflow
 
 As Janis manages other software to run your workflow, it's important to not directly kill the Janis instance, but rather ask to safely abort.
 

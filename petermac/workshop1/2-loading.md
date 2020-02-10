@@ -3,7 +3,7 @@
 ## Load Janis through the module system:
 
 ```
-module load janis/0.9.0
+module load janis/dev
 ```
 
 > Alternatively, Janis can be installed in a virtual env, instructions are [available in the documentation](https://janis.readthedocs.io/en/latest/tutorials/tutorial0.html).

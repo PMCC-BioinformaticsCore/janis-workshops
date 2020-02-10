@@ -14,7 +14,7 @@ In this section, we're going to investigate inside the `janis` folder, and look 
 
 ### Execution folder notes
 
-Usually when a workflow is a success, Janis automatically removes the intermediate input files. In the previous section, we ran an alignment workflow with `--keep-intermediate-files`, which means these files will persist even if the worklfow succeded.
+Usually when a workflow is a success, Janis automatically removes the intermediate input files. In the previous section, we ran an alignment workflow with `--keep-intermediate-files`, which means these files will persist even when the worklfow succeeded.
 
 By default, the execution directory is under `$outputdir/janis/execution/`. Cromwell places the execution under two additional subfolders (workflow name, engine id). The exact task execution directory can be found from the progress screen as `executionDir`.
 
@@ -33,15 +33,15 @@ drwxr-xr-x  franklinmichael  320B  janis
 We see our outputs `out.bam*`, let's look inside the `janis` directory:
 
 ```
-$ ll $HOME/workshop1/failed/janis/
+$ ls part3/janis/
 total 136
 drwxr-xr-x  franklinmichael    96B  configuration
 drwxr-xr-x  franklinmichael    64B  database
 drwxr-xr-x  franklinmichael   128B  execution
 drwxr-xr-x  franklinmichael   320B  logs
 drwxr-xr-x  franklinmichael    96B  metadata
-drwxr-xr-x  franklinmichael    64B  mysql
 -rw-r--r--  franklinmichael    68K  task.db
+drwxr-xr-x  franklinmichael   300B  workflow
 ```
 
 There are a couple we'll highlight:
@@ -61,7 +61,7 @@ And a brief explanation fo the other folders
 Cromwell additionally scopes the execution directory inside two additional directories (WorkflowName/internal EngineID). The `executionDir` field in the progress screen gives you the direct link, let's look inside:
 
 ```
-$ ls $HOME/janis-workshop1/part3/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
+$ ls part3/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
 
 drwxr-xrwx  mfranklin 4.3K  call-bwamem
 drwxr-xrwx  mfranklin 2.2M  call-cutadapt
@@ -139,6 +139,3 @@ Error: Job BwaAligner.bwamem:NA:1 exited with return code -1 which has not been 
 ```
 
 This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stdout` / `stderr`. Note that depending on the failure, these might not exist. But the execution folder is a good start: `$HOME/workshop1/failed/janis/execution/BwaAligner/f54e4868-2005-4f1f-a630-6e2b90b289e6/call-bwamem/execution/`.
-
-
-
