@@ -23,11 +23,12 @@ import janis
 
 Python requires that you import the tools and types that you use, these import statements are available on the documentation. We'll have one import per tool, and one import for every data-types we use.
 
-We have three inputs we want to expose on this workflow:
+We have four inputs we want to expose on this workflow:
 
-1. Sample name (`String`)
-2. Sequencing Reads (`FastqGzPair` - paired end sequence)
-3. Reference files (`Fasta` + index files)
+1. Sequencing Reads (`FastqGzPair` - paired end sequence)
+2. Sample name (`String`)
+3. Read group header (`String`)
+4. Reference files (`Fasta` + index files)
 
 
 We can use the `janis.String` datatype (imported with Janis) for the first, and we can import the remaining bioinformatics types:
@@ -46,7 +47,8 @@ We'll create an instance of the [`janis.WorkflowBuilder`](https://janis.readthed
 ```python
 w = janis.WorkflowBuilder("alignmentWorkflow")
 
-w.input("readGroup", janis.String)
+w.input("sample_name", janis.String)
+w.input("read_group", janis.String)
 w.input("fastq", FastqGzPair)
 w.input("reference", FastaWithDict)
 ```
@@ -55,7 +57,7 @@ w.input("reference", FastaWithDict)
 
 Steps are easy to create, however you may need to refer to the documentation when writing your own workflows to know which named parameters a tool takes (and their types). Similar to exposing inputs, we create steps with the `janis.Workflow.step` method.
 
-We can refer to any node on the workflow graph (such as an input) by accessing the property of the same name (dot-notation). Eg, to access the `readGroup` on our workflow, we can use `w.readGroup`.
+We can refer to any node on the workflow graph (such as an input) by accessing the property of the same name (dot-notation). Eg, to access the `read_group` on our workflow, we can use `w.read_group`.
 
 We instantiate our tool with the named parameters we want to provide and pass that as the second parameter to the `janis.Workflow.step` method:
 
@@ -66,7 +68,7 @@ w.step(
     "bwamem", 
     BwaMemLatest( 
         reads=w.fastq, 
-        readGroupHeaderLine=w.readGroup, 
+        readGroupHeaderLine=w.read_group, 
         reference=w.reference
     )
 )
@@ -77,7 +79,12 @@ w.step(
 When creating the connection between `bwamem` and `samtoolsview`, we'll access the `out` output of `BwaMemLatest`. This will create a dependency of `"bwamem"` for `samtoolsview`.
 
 ```python
-w.step("samtoolsview", SamToolsView_1_9(sam=w.bwamem.out))
+w.step(
+    "samtoolsview", 
+    SamToolsView_1_9(
+        sam=w.bwamem.out
+    )
+)
 ```
 
 ### SortSam
@@ -120,7 +127,8 @@ from janis_bioinformatics.data_types import FastqGzPair, FastaWithDict
 w = janis.WorkflowBuilder("alignmentWorkflow")
 
 # Inputs
-w.input("readGroup", janis.String, value="@RG\\tID:NA12878\\tSM:NA12878\\tLB:NA12878\\tPL:ILLUMINA")
+w.input("sample_name", janis.String, value="NA12878")
+w.input("read_group", janis.String, value="@RG\\tID:NA12878\\tSM:NA12878\\tLB:NA12878\\tPL:ILLUMINA")
 w.input("fastq", FastqGzPair, value="/path/to/reads.fastq")
 w.input("reference", FastaWithDict, value="/path/to/reference.fasta")
 
@@ -133,7 +141,13 @@ w.step(
         reference=w.reference
     )
 )
-w.step("samtoolsview", SamToolsView_1_9(sam=w.bwamem.out))
+w.step(
+    "samtoolsview", 
+    SamToolsView_1_9(
+        sam=w.bwamem.out
+    )
+)
+
 w.step(
     "sortsam",
     Gatk4SortSam_4_1_2(
@@ -164,5 +178,6 @@ _Something like_
 janis run -o 1-align alignment.py \
     --fastq BRCA1-R*.fastq.gz \
     --reference /data/reference.fasta \
-    --readGroup NA12878
+    --sample_name NA12878
+    --read_group NA12878
 ```
