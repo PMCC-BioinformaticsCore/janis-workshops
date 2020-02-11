@@ -48,7 +48,26 @@ There are multiple ways to specify output directories:
     - `output_folder=["variants", w.sample_name]`
     - `output_folder=[w.other_field, w.sample_name]`
 
+## Example applied
 
+In our alignment example (`alignment.py`), we output the bam file with:
+
+```python
+w.output("out", source=w.sortsam.out)
+```
+
+We want to name the output in the following way:
+
+- Grouped into the folder, `bams`
+- Named `sample_name`.
+
+```python
+w.output(
+    "out", 
+    source=w.sortsam.out,
+    output_name=w.sample_name
+)
+```
 
 
 
