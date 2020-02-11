@@ -1,5 +1,17 @@
 # Workshop 1 - Conclusion
 
+## Resetting your config
+
+At the start of the workshop, we set the template to submit to the `debug` partition with a `max_cpu` of 1. Let's reset that with:
+
+```bash
+vim ~/.janis/janis.conf
+# OR
+janis init --force pmac
+```
+
+## Summary
+
 Thanks for taking part of the Introduction to Janis workshop!
 
 To summarise, in this workflow you've learnt:

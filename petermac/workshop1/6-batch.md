@@ -38,7 +38,7 @@ Let's see this in action and we can investigate the output:
 ```bash
 wid=$(janis run \
     --background \
-    -o part4 \
+    -o part3 \
     --batchrun \
     --batchrun-fields sample_name fastq \
     --batchrun-groupby sample_name \
@@ -58,8 +58,8 @@ EngId:      e5d08985-2111-445c-a41b-aa397c803afe
 Name:       BwaAligner
 Engine:     cromwell (localhost:49276) [PID=22920]
 
-Task Dir:   $HOME/janis-workshop1/part4
-Exec Dir:   $HOME/janis-workshop1/part4/janis/execution/BwaAligner/e5d08985-2111-445c-a41b-aa397c803afe
+Task Dir:   $HOME/janis-workshop1/part3
+Exec Dir:   $HOME/janis-workshop1/part3/janis/execution/BwaAligner/e5d08985-2111-445c-a41b-aa397c803afe
 
 Status:     Completed
 Duration:   2m:55s
@@ -78,8 +78,8 @@ Jobs:
         [✓] sortsam (19s)       
 
 Outputs:
-    - NA12878_out: $HOME/janis-workshop1/part4/Sample1/Sample1_out.bam
-    - Sample2_out: $HOME/janis-workshop1/part4/Sample2/Sample2_out.bam
+    - NA12878_out: $HOME/janis-workshop1/part3/Sample1/Sample1_out.bam
+    - Sample2_out: $HOME/janis-workshop1/part3/Sample2/Sample2_out.bam
 ```
 
 A few points to note:
@@ -123,7 +123,7 @@ Run statement:
 ```bash
 wid=$(janis run \
     --background \
-    -o part4-inputfiles \
+    -o part3-inputfiles \
     --batchrun \
     --batchrun-fields sample_name fastq \
     --batchrun-groupby sample_name \

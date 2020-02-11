@@ -20,10 +20,10 @@ By default, the execution directory is under `$outputdir/janis/execution/`. Crom
 
 ## Looking inside Janis directory
 
-Our previous execution directory `test3` (`$HOME/janis-workshop1/part3`) contains a number of outputs, let's look at it using `ls`:
+Our previous execution directory `part2` (`$HOME/janis-workshop1/part2`) contains a number of outputs, let's look at it using `ls`:
 
 ```
-$ ls part3
+$ ls part2
 
 drwxr-xr-x  franklinmichael  320B  janis
 -rw-r--r--  franklinmichael  2.8M  out.bam
@@ -33,7 +33,7 @@ drwxr-xr-x  franklinmichael  320B  janis
 We see our outputs `out.bam*`, let's look inside the `janis` directory:
 
 ```
-$ ls part3/janis/
+$ ls part2/janis/
 total 136
 drwxr-xr-x  franklinmichael    96B  configuration
 drwxr-xr-x  franklinmichael    64B  database
@@ -61,7 +61,7 @@ And a brief explanation fo the other folders
 Cromwell additionally scopes the execution directory inside two additional directories (WorkflowName/internal EngineID). The `executionDir` field in the progress screen gives you the direct link, let's look inside:
 
 ```
-$ ls part3/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
+$ ls part2/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb
 
 drwxr-xrwx  mfranklin 4.3K  call-bwamem
 drwxr-xrwx  mfranklin 2.2M  call-cutadapt
@@ -85,7 +85,7 @@ Each `call-*` folder has two subdirectories:
 Let's look at the `script` for `sortsam`:
 
 ```
-$ less $HOME/janis-workshop1/part3/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb/call-sortsam/execution/script
+$ less $HOME/janis-workshop1/part2/janis/execution/BwaAligner/a07054bd-aa50-417e-a3e6-af3e62dd98cb/call-sortsam/execution/script
 
 [... other details]
 gatk SortSam \

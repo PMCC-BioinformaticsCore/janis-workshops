@@ -39,21 +39,24 @@ janis init pmac
 
 - Update the `notifications.email` field so Janis can send you notifications about the status of a workflow
 - Janis can send you slurm notifications by settings `template.send_job_emails` to `true`
+- Set the `template.queues` field to `debug`
+- Set the `template.max_cores` to 1
+
+> Remember to reset `max_cores` and `queues` to their original setting at the end of this workshop.
 
 ```yaml
 engine: cromwell
 notifications:
-email: null
+    email: null
 template:
-catch_slurm_errors: true
-container_dir: /config/binaries/singularity/containers_devel/janis/
-id: pmac
-max_cores: 40
-max_ram: 256
-max_workflow_time: 20100
-queues: prod_med,prod
-send_job_emails: false
-singularity_version: 3.4.0
+    id: pmac
+    container_dir: /config/binaries/singularity/containers_devel/janis/
+    catch_slurm_errors: true
+    send_job_emails: false
+    max_cores: 1 # 40
+    max_ram: 256
+    max_workflow_time: 20100
+    queues: debug # prod_med,prod
 ```
 
 This configuration tells Janis (and Cromwell) how to interact with Slurm and Singularity.
