@@ -63,7 +63,7 @@ Summary:
 - Capture the workflow identifier with `wid=$(...)`
 
 ```bash
-wid=$(janis run -o part1 hello --inp "Hello $(whoami)")
+wid=$(janis run -B -o part1 hello --inp "Hello $(whoami)")
 ```
 
 This command will:
