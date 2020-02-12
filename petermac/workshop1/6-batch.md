@@ -45,9 +45,9 @@ wid=$(janis run \
     BwaAligner \
     --reference /bioinf_core/Proj/hg38_testing/Resources/Gatk_Resource_Bundle_hg38/hg38_contigs_renamed/Homo_sapiens_assembly38.fasta \
     --sample_name Sample1 \
-    --sample_name Sample2 \
     --fastq data/BRCA1_R*.fastq.gz \
-    --fastq data/BRCA2_R*.fastq.gz) # We'll use the same files to keep it simple
+    --sample_name Sample2 \
+    --fastq data/BRCA1_R*.fastq.gz) # We'll use the same files to keep it simple
 ```
 
 Let's have a look at the watch screen:

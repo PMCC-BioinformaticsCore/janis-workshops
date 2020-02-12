@@ -53,10 +53,11 @@ template:
     container_dir: /config/binaries/singularity/containers_devel/janis/
     catch_slurm_errors: true
     send_job_emails: false
-    max_cores: 1 # 40
+    max_cores: 1 #40
     max_ram: 256
     max_workflow_time: 20100
-    queues: debug # prod_med,prod
+    queues: debug #prod_måed,prod
+    singularity_version: 3.4.0
 ```
 
 This configuration tells Janis (and Cromwell) how to interact with Slurm and Singularity.
