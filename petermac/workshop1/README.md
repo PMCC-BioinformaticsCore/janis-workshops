@@ -31,6 +31,7 @@ Authors:
 | Version 	|    Date    	|      Authors     	                | Description     	|
 |:---------	|:----------	|:--------------------------------	|:-----------------	|
 | v0.1.0  	| 2020-02-04 	| Michael Franklin, Richard Lupat 	| Initial version 	|
+| v0.1.1  	| 2020-02-13 	| Michael Franklin, Richard Lupat 	| Based on feedback from workshop 1 	|
 |         	|            	|                                 	|                 	|
 
 
