@@ -45,7 +45,7 @@ It's important to note that building workflows in Janis does NOT limit you to ru
 
 ## Running a test workflow
 
-To test that Janis is configured properly, We'll run a simple workflow called [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) [click the link to see the dcoumentation]. This workflow prints `"Hello, World"` by default to stdout, and this stdout is captured as an output. This will test that Janis can submit to the cluster correctly. We can override the default text to print by passing a value for the input `inp`. We can do this by appending `--inp "Hello $(whoami)"` AFTER the workflow name.
+To test that Janis is configured properly, We'll run a simple workflow called [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) [click the link to see the dcoumentation]. This workflow prints `"Hello, World"` by default to stdout, and this stdout is captured as an output. This will test that Janis can submit to the cluster correctly. 
 
 The Peter Mac configuration can submit to the janis partition on the cluster when the `--background` (`-B`) parameter is provided.
 
@@ -53,17 +53,13 @@ The Peter Mac configuration can submit to the janis partition on the cluster whe
 
 We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to create a subdirectory called `part1` within our `workshop1` directory.
 
-We'll also capture the workflow id so we can watch the progress, but wrapping the whole command with `wid=$(...)`.
-
 Summary:
 
 - Run in background with `-B`
 - Specify an output directory with `-o part1`
-- Override the input with ``--inp "Hello $(whoami)"`
-- Capture the workflow identifier with `wid=$(...)`
 
 ```bash
-wid=$(janis run -o part1 hello --inp "Hello $(whoami)")
+janis run -B -o part1 hello
 ```
 
 This command will:
@@ -85,7 +81,7 @@ You'll see logs from Cromwell in the terminal. There's a number of statements th
 We can track the progress of our workflow with:
 
 ```
-janis watch $wid
+janis watch part1/
 ```
 
 You will see a progress screen like the following 
@@ -134,7 +130,7 @@ The `janis` folder contains information about the execution, including logs, we'
 As Janis manages other software to run your workflow, it's important to not directly kill the Janis instance, but rather ask to safely abort.
 
 ```
-janis abort $wid
+janis abort part1/
 ```
 
 If this isn't completed:

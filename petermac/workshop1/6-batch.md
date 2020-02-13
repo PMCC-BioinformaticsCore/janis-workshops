@@ -36,7 +36,7 @@ The input `reference` is going to be the same for each of the alignments, where 
 Let's see this in action and we can investigate the output:
 
 ```bash
-wid=$(janis run \
+janis run \
     --background \
     -o part3 \
     --batchrun \
@@ -47,7 +47,7 @@ wid=$(janis run \
     --sample_name Sample1 \
     --fastq data/BRCA1_R*.fastq.gz \
     --sample_name Sample2 \
-    --fastq data/BRCA1_R*.fastq.gz) # We'll use the same files to keep it simple
+    --fastq data/BRCA1_R*.fastq.gz # We'll use the same files to keep it simple
 ```
 
 Let's have a look at the watch screen:
@@ -121,7 +121,7 @@ Run statement:
 > - specifying the reference in the CLI will override the two values inside the input yamls
 
 ```bash
-wid=$(janis run \
+janis run \
     --background \
     -o part3-inputfiles \
     --batchrun \
@@ -130,5 +130,5 @@ wid=$(janis run \
     --inputs inputs1.yml \
     --inputs inputs2.yml \
     BwaAligner \
-    --reference /bioinf_core/Proj/hg38_testing/Resources/Gatk_Resource_Bundle_hg38/hg38_contigs_renamed/Homo_sapiens_assembly38.fasta)
+    --reference /bioinf_core/Proj/hg38_testing/Resources/Gatk_Resource_Bundle_hg38/hg38_contigs_renamed/Homo_sapiens_assembly38.fasta
 ```

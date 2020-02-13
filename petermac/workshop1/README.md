@@ -36,7 +36,8 @@ Authors:
 
 ### Presentations
 
-| Date   	    |    Location    	|      Presenters     	            |
-|:-----------	|:----------:	    |:--------------------------------	|
-| _2020-02-12_ 	| Peter Mac 	    | Michael Franklin, Richard Lupat 	|
-|         	    |                  	|                  	                |
+| Date   	    |      Presenters     	            |  Feedback |
+|:-----------	|:--------------------------------	| :---- |
+| _2020-02-10_ 	| Michael Franklin, Richard Lupat 	| - The `hello` test should NOT run in the foreground, it breaks the cluster.<br />- In the template, set max_cores=1 + partition=debug (ensure unset in conclusion)<br />- Needs more details in the conclusion.|
+| _2020-02-12_ 	| Michael Franklin, Richard Lupat 	| - The `hello` example became too complicated straight out by capturing the WID and overriding an input. - Not enough information about _running_ exemplar pipelines. This would demonstrate how Janis can already be used. - Some templates should support submitting to the cluster by default. |
+|         	    |                  	                | |

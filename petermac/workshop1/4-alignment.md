@@ -28,13 +28,13 @@ janis run <run options> worklowname <workflow inputs>
 Let's run the workflow in the directory `part2`!
 
 ```
-wid=$(janis run \
+janis run \
     -B --keep-intermediate-files \
     -o part2 \
     BwaAligner \
     --sample_name NA12878 \
     --fastq data/BRCA1_R*.fastq.gz \
-    --reference /bioinf_core/Proj/hg38_testing/Resources/Gatk_Resource_Bundle_hg38/hg38_contigs_renamed/Homo_sapiens_assembly38.fasta)
+    --reference /bioinf_core/Proj/hg38_testing/Resources/Gatk_Resource_Bundle_hg38/hg38_contigs_renamed/Homo_sapiens_assembly38.fasta
 ```
 
 Once the workflow completes, you will receive something similar to the following progress screen from `janis watch $wid`:

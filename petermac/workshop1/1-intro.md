@@ -11,6 +11,7 @@ Important Links:
 - Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
 - Janis Documentation: https://janis.readthedocs.io/en/latest
 - This workshop: https://github.com/PMCC-BioinformaticsCore/janis-workshops/tree/master/petermac/workshop1
+- Presentation: https://docs.google.com/presentation/d/1_C1uoqZNWoteabA4r7h_bjck9FO8ygoFlNRFIcR-URk
 
 ## Learning outcomes
 
