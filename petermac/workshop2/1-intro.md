@@ -33,7 +33,7 @@ This workshops uses biological and bioinformatics examples to describe workflows
 Janis is available through the module system with:
 
 ```
-module load janis
+module load janis/dev
 ```
 
 > Alternatively, Janis can be installed in a virtual env, instructions are [available in the documentation](https://janis.readthedocs.io/en/latest/tutorials/tutorial0.html).
