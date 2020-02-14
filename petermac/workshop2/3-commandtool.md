@@ -68,10 +68,11 @@ ToolName = j.CommandToolBuilder(
 
 ### Tool information
 
-Let's start by creating a file with this template:
+Let's start by creating a file with this template inside a second output directory:
 
 ```bash
-vim samtoolsflagstat.py
+mkdir part2
+vim part2/samtoolsflagstat.py
 ```
 
 We can start by filling in the basic information:
@@ -160,7 +161,9 @@ Putting this all together, you should have the following tool definition:
 ```python
 from typing import List, Optional, Union
 import janis as j
-from janis.data_types import Bam
+
+from janis_unix.data_types import TextFile
+from janis_bioinformatics.data_types import Bam
 
 SamToolsFlagstat_1_9 = j.CommandToolBuilder(
     tool="samtoolsflagstat",
@@ -173,7 +176,7 @@ SamToolsFlagstat_1_9 = j.CommandToolBuilder(
         # 2. `threads` inputs
         j.ToolInput("threads", j.Int(optional=True), prefix="--threads"),
     ],
-    outputs=[j.ToolOutput("stats", j.Stdout)],
+    outputs=[j.ToolOutput("stats", Stdout(TextFile))],
 )
 ```
 
@@ -184,11 +187,12 @@ We can test the translation of this from the CLI:
 > If you have multiple command tools or workflows declared in the same file, you will need to provide the `--name` parameter with the name of your tool.
 
 ```bash
-janis translate samtoolsflagstat.py wdl # or cwl
+janis translate part2/samtoolsflagstat.py wdl # or cwl
 ```
 
 In the following translation, we can see the WDL representation of our tool. In particular, the `command` block gives us an indication of how the command line might look:
-```
+
+```wdl
 task samtoolsflagstat {
   input {
     Int? runtime_cpu
@@ -196,19 +200,19 @@ task samtoolsflagstat {
     File bam
     Int? threads
   }
-  command {
+  command <<<
     samtools flagstat \
-      ${"--threads " + threads} \
-      ${bam}
-  }
+      ~{"--threads " + threads} \
+      ~{bam}
+  >>>
   runtime {
     docker: "quay.io/biocontainers/samtools:1.9--h8571acd_11"
     cpu: if defined(runtime_cpu) then runtime_cpu else 1
-    memory: if defined(runtime_memory) then "${runtime_memory}G" else "4G"
+    memory: if defined(runtime_memory) then "~{runtime_memory}G" else "4G"
     preemptible: 2
   }
   output {
-    File out = stdout()
+    File stats = stdout()
   }
 }
 ```
@@ -220,7 +224,7 @@ task samtoolsflagstat {
 We can call the `janis run` functionality (default CWLTool), and use the output of our previous step to test this tool:
 
 ```bash
-janis run samtoolsflagstat.py --bam 1-align/out.bam
+janis run -o part2 part2/samtoolsflagstat.py --bam part1/out.bam
 ```
 
 OUTPUT:
@@ -230,8 +234,8 @@ EngId:      f9e89f
 Name:       samtoolsflagstatWf
 Engine:     cwltool
 
-Task Dir:   $HOME/janis/execution/samtoolsflagstatWf/20191114_155159_f9e89f/
-Exec Dir:   None
+Task Dir:   $HOME/part2/
+Exec Dir:   $HOME/part2/janis/execution/
 
 Status:     Completed
 Duration:   4s
@@ -243,7 +247,7 @@ Jobs:
     [✓] samtoolsflagstat (N/A)       
 
 Outputs:
-    - out: $HOME/janis/execution/samtoolsflagstatWf/20191114_155159_f9e89f/output/out
+    - stats: $HOME/part2/stats.txt
 2019-11-14T15:52:05 [INFO]: Exiting
 
 ```
@@ -251,7 +255,7 @@ Outputs:
 Janis (and CWLTool) said the tool executed correctly, let's check the output file: 
 
 ```bash
-cat $HOME/janis/execution/samtoolsflagstatWf/20191114_155159_f9e89f/output/out
+cat part2/stats.txt
 ```
 
 ```

@@ -115,8 +115,21 @@ The cross product is similar to the cartestian product of two arrays (from maths
 As this isn't the default behaviour, you'll have to perform two additional imports `ScatterDescription` and `ScatterMethods`.
 
 ```python
-from janis_core import WorkflowBuilder, String, Array, ScatterDescription, ScatterMethods
+from janis_core import WorkflowBuilder, String, Array, ScatterDescription, ScatterMethods, CommandToolBuilder, ToolInput, ToolOutput, Stdout
 
+PrintTwoInputsTool = CommandToolBuilder(
+    "Part3TestTool",
+    base_command=["echo"],
+    inputs=[
+        ToolInput("field1", String, position=1),
+        ToolInput("field2", String, position=2)
+    ],
+    outputs=[
+        ToolOutput("out", Stdout)
+    ],
+    container="ubuntu:latest",
+    version="v0.1.0"
+)
 
 w = WorkflowBuilder("multiple_align")
 w.input("field1", Array(String))
@@ -124,7 +137,7 @@ w.input("field2", Array(String))
 
 w.step(
     "cross_test",
-    MyTool(
+    PrintTwoInputsTool(
         input1=w.field1,
         input2=w.field2
     ),

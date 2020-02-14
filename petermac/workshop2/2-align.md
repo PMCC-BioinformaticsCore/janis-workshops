@@ -15,6 +15,14 @@ These tools already exist within the Janis Tool Registry, you can see their docu
 
 A Janis workflow file is a regular Python file, so we can start by creating a file called `alignment.py` and importing Janis.
 
+```bash
+mkdir part1
+# your choice of editor, vim, emacs, sublime, vscode
+vim part1/alignment.py
+```
+
+Then include the following python code to load Janis:
+
 ```python
 import janis
 ```
@@ -65,10 +73,10 @@ We instantiate our tool with the named parameters we want to provide and pass th
 
 ```python
 w.step(
-    "bwamem", 
-    BwaMemLatest( 
-        reads=w.fastq, 
-        readGroupHeaderLine=w.read_group, 
+    "bwamem",
+    BwaMemLatest(
+        reads=w.fastq,
+        readGroupHeaderLine=w.read_group,
         reference=w.reference
     )
 )
@@ -80,7 +88,7 @@ When creating the connection between `bwamem` and `samtoolsview`, we'll access t
 
 ```python
 w.step(
-    "samtoolsview", 
+    "samtoolsview",
     SamToolsView_1_9(
         sam=w.bwamem.out
     )
@@ -172,12 +180,10 @@ janis translate alignment.py wdl
 
 ## Running the alignment workflow
 
-_Something like_
-
 ```
-janis run -o 1-align alignment.py \
-    --fastq BRCA1-R*.fastq.gz \
-    --reference /data/reference.fasta \
-    --sample_name NA12878
-    --read_group NA12878
+janis run -o part1 part1/alignment.py \
+    --fastq data/BRCA1_R*.fastq.gz \
+    --reference reference/hg38-brca1.fasta \
+    --sample_name NA12878 \
+    --read_group "'@RG\tID:NA12878\tSM:NA12878\tLB:NA12878\tPL:ILLUMINA'"
 ```

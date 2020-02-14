@@ -37,3 +37,14 @@ module load janis/dev
 ```
 
 > Alternatively, Janis can be installed in a virtual env, instructions are [available in the documentation](https://janis.readthedocs.io/en/latest/tutorials/tutorial0.html).
+
+
+## Getting started
+
+Create a folder called `janis-workshop2` in a location where you have plenty of storage (we'd recommend your researcher folder).
+
+```
+mkdir janis-workshop2 && cd janis-workshop2
+cp -r /data/janis/workshops/2020/workshop2/* .
+```
+
