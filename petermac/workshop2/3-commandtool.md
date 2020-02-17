@@ -52,8 +52,6 @@ The following template is the minimum amount of information required to wrap a t
 
 ```python
 from typing import List, Optional, Union
-import janis as j
-
 import janis_core as j
 
 ToolName = j.CommandToolBuilder(
@@ -106,7 +104,8 @@ We'll use the [ToolInput](https://janis.readthedocs.io/en/latest/references/comm
 Our positional input is a Bam, so we'll import the Bam type from `janis` with the following line:
 
 ```python
-from janis.data_types import Bam
+from janis_unix.data_types import TextFile
+from janis_bioinformatics.data_types import TextFile, Bam
 ```
 
 Then we can declare our two inputs:
@@ -143,13 +142,13 @@ SamtoolsFlagstat = j.CommandToolBuilder(
 
 We'll use the [ToolOutput](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-output) class to collect and represent these outputs. A `ToolOutput` has a type, and if not using `stdout` we can provide a `glob` parameter.
 
-The only output of `samtools flagstat` is the statistics that are written to `stdout`. We give this the name `"stats"`, and collect this with the `j.Stdout` data type:
+The only output of `samtools flagstat` is the statistics that are written to `stdout`. We give this the name `"stats"`, and collect this with the `j.Stdout` data type. We can additionally tell Janis that the Stdout has type [`TextFile`](https://janis.readthedocs.io/en/latest/datatypes/textfile.html).
 
 ```python
 SamtoolsFlagstat = j.CommandToolBuilder(
     # ... tool information + inputs
     outputs=[
-        j.ToolOutput("stats", j.Stdout)
+        j.ToolOutput("stats", j.Stdout(TextFile))
     ]
 )
 ```
@@ -160,7 +159,7 @@ Putting this all together, you should have the following tool definition:
 
 ```python
 from typing import List, Optional, Union
-import janis as j
+import janis_core as j
 
 from janis_unix.data_types import TextFile
 from janis_bioinformatics.data_types import Bam
@@ -176,7 +175,7 @@ SamToolsFlagstat_1_9 = j.CommandToolBuilder(
         # 2. `threads` inputs
         j.ToolInput("threads", j.Int(optional=True), prefix="--threads"),
     ],
-    outputs=[j.ToolOutput("stats", Stdout(TextFile))],
+    outputs=[j.ToolOutput("stats", j.Stdout(TextFile))],
 )
 ```
 
@@ -248,8 +247,6 @@ Jobs:
 
 Outputs:
     - stats: $HOME/part2/stats.txt
-2019-11-14T15:52:05 [INFO]: Exiting
-
 ```
 
 Janis (and CWLTool) said the tool executed correctly, let's check the output file: 
@@ -274,13 +271,6 @@ cat part2/stats.txt
 691 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
 
-### Extension
+## Extension
 
 > Add the SamtoolsFlagstat tool onto the end of the Align workflow we built from the previous workflow.
-
-
-## Summary
-
-- Learn about the structure of a CommandTool,
-- Use an existing docker container,
-- Wrapped the inputs, outputs and tool information in a Janis CommandTool wrapper,

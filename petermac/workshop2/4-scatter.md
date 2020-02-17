@@ -98,8 +98,8 @@ w.step(
     "align",
     BwaAligner(
         sample_name=w.sample_names,
-        reference=w.reference,
         fastq=w.fastqs,
+        reference=w.reference,
     ),
     scatter=["sample_name", "fastq"]
 )
@@ -117,12 +117,13 @@ As this isn't the default behaviour, you'll have to perform two additional impor
 ```python
 from janis_core import WorkflowBuilder, String, Array, ScatterDescription, ScatterMethods, CommandToolBuilder, ToolInput, ToolOutput, Stdout
 
+# An example tool
 PrintTwoInputsTool = CommandToolBuilder(
     "Part3TestTool",
     base_command=["echo"],
     inputs=[
-        ToolInput("field1", String, position=1),
-        ToolInput("field2", String, position=2)
+        ToolInput("input1", String, position=1),
+        ToolInput("input2", String, position=2)
     ],
     outputs=[
         ToolOutput("out", Stdout)
@@ -142,11 +143,13 @@ w.step(
         input2=w.field2
     ),
     scatter=ScatterDescription(
-        ["sample_name", "fastq"],
+        ["input1", "input2"],
         ScatterMethods.cross
     )
 )
 
 # Array of IndexedBams
-w.output("out", source=w.align.out)
+w.output("out", source=w.cross_test.out)
 ```
+
+> To translate this file, you'll need to add `'--name w'`, as there are tools tools `PrintTwoInputsTool` and `w ('multiple_align')` to tell Janis which tool to translate (eg: `janis translate <file.py> --name w wdl`).

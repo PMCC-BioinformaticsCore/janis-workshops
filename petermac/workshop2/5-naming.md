@@ -58,14 +58,15 @@ w.output("out", source=w.sortsam.out)
 
 We want to name the output in the following way:
 
-- Grouped into the folder, `bams`
-- Named `sample_name`.
+- Grouped into the folder: `bams`,
+- Named: `sample_name` (Janis will automatically add the `.bam` extension).
 
 ```python
 w.output(
     "out", 
     source=w.sortsam.out,
-    output_name=w.sample_name
+    output_name=w.sample_name,
+    output_folder=["bams"]
 )
 ```
 
