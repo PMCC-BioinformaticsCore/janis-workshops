@@ -2,12 +2,21 @@
 
 ## Summary
 
-Thanks for taking part of the Janis Workshop 2!
+Thanks for taking part of the Janis Workshop 2! In this workshop we looked at:
+
+- How to build a simple workflow
+    - Using tools from the Janis registry
+- Built our tool 
+- Included this new tool inside our workflow
+- Name and organise our outputs
+- Looked at advanced scattering patterns
+    - And how we could run multiple samples across the same workflow
+- How the Janis registry works, and how we can add our own tools
 
 
 ## Advanced functionality
 
-Here's some additional functionality that Janis supports:
+Here's some additional functionality that Janis supports beyond this workshop:
 
 #### Python Tool for arbitrary code execution
 
