@@ -8,8 +8,10 @@ In this workshop, we'll learn:
 
 - How to build an alignment workflow,
 - Building a command tool (wrapper),
+    - And how to integrate this tool into our workflow,
+- Organise and rename our outputs
 - Scattering (loops)
-- Output naming
+- How to add tools to the registry
 
 
 ## Foundations
@@ -27,11 +29,6 @@ This workshops uses biological and bioinformatics examples to describe workflows
 Janis provides a registry of tools and data types for bioinformatics analysis, called `janis-bioinformatics`. These tools are installed on the cluster, and are available to import, or use directly on the command line. You can see a list of bioinformatics tools that Janis provides [on the documentation](https://janis.readthedocs.io/en/latest/tools/bioinformatics/index.html).
 
 
-## Getting started
-
-> Data is available at `<path to data>` for this workshop.
-
-
 ## Loading Janis
 
 Janis is available through the module system with:
@@ -44,10 +41,15 @@ module load janis/dev
 
 
 In addition, within our config, we'll set:
+
 - `max_cores` to `1`,
 - `queues` to `"debug"`.
 
 eg:
+
+```bash
+vim ~/.janis/janis.conf
+```
 
 ```yaml
 # ...other configuration options
