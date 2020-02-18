@@ -19,8 +19,8 @@ These tools already exist within the Janis Tool Registry, you can see their docu
 A Janis workflow is a Python scrit, so we can start by creating a file called `alignment.py` and importing Janis.
 
 ```bash
-mkdir part1
-vim part1/alignment.py # or vim, emacs, sublime, vscode
+mkdir part1 && mkdir tools
+vim tools/alignment.py # or vim, emacs, sublime, vscode
 ```
 
 From the `janis_core` library, we're going to import `WorkflowBuilder` and a `String`:
@@ -256,7 +256,7 @@ janis translate alignment.py wdl
 ## Running the alignment workflow
 
 ```
-janis run -o part1 part1/alignment.py \
+janis run -o part1 tools/alignment.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --sample_name NA12878 \
