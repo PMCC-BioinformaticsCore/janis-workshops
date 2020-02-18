@@ -50,16 +50,18 @@ There are multiple ways to specify output directories:
 
 ## Alignment workflow
 
-In our alignment example (`alignment.py`), we output the bam file with:
+In our alignment example (`alignment.py`), we have the following outputs:
 
 ```python
 w.output("out", source=w.sortsam.out)
+w.output("stats", source=w.flagstat.stats)
 ```
 
 We want to name the output in the following way:
 
-- Grouped into the folder: `bams`,
-- Named: `sample_name` (Janis will automatically add the `.bam` extension).
+- Grouped the bam `out` into the folder: `bams`,
+- Group the samtools summary into folder `statistics`
+- Both outputs named: `sample_name` (Janis will automatically add the `.bam` or `.txt` extension).
 
 ```python
 w.output(
@@ -68,6 +70,39 @@ w.output(
     output_name=w.sample_name,
     output_folder=["bams"]
 )
+w.output(
+    "stats", 
+    source=w.flagstat.stats,
+    output_name=w.sample_name,
+    output_folder=["statistics"]
+)
+```
+
+Run the workflow again and inspect the new results:
+
+```bash
+janis translate tools/alignment.py
+janis run -o part4 tools/alignment.py \
+    --fastq data/BRCA1_R*.fastq.gz \
+    --reference reference/hg38-brca1.fasta \
+    --sample_name NA12878 \
+    --read_group "@RG\tID:NA12878\tSM:NA12878\tLB:NA12878\tPL:ILLUMINA"
+```
+
+And then after the workflow has finished, we find the following output structure:
+
+```
+$ ls part4/*
+
+part4/bams:
+-rw-r--r--  PMCI\Bioinf-Cluster   2.7M NA12878.bam
+-rw-r--r--  PMCI\Bioinf-Cluster   296B NA12878.bam.bai
+
+part4/statistics:
+-rw-r--r--  PMCI\Bioinf-Cluster   408B NA12878.txt
+
+part4/janis:
+[...ommitted]
 ```
 
 
