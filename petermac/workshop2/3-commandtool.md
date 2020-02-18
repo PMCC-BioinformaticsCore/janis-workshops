@@ -270,7 +270,3 @@ cat part2/stats.txt
 860 + 0 with mate mapped to a different chr
 691 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
-
-## Extension
-
-> Add the SamtoolsFlagstat tool onto the end of the Align workflow we built from the previous workflow.

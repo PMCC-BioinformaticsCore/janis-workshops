@@ -20,8 +20,9 @@ The key to this process, is within the [`workflow.step` method](https://janis.re
 
 
 **singlescatter.py**
-```
-from janis import WorkflowBuilder, String, Array
+
+```python
+from janis_core import WorkflowBuilder, String, Array
 from janis_unix.tools.echo import Echo
 
 w = WorkflowBuilder("print_list_of_strings")
@@ -42,6 +43,7 @@ We can see what this might look like in WDL with the following:
 
 ```bash
 janis translate singlescatter.py wdl
+janis run singlescatter.py --list_of_strings String1 String2 String3
 ```
 
 ```wdl
@@ -83,8 +85,9 @@ The lengths of the lists must be all equal.
 
 This is the default behaviour when you specify an array of fields to scatter across:
 
+**dotscatter.py**
 ```python
-from janis import WorkflowBuilder, String, Array
+from janis_core import WorkflowBuilder, String, Array
 from janis_bioinformatics.tools.common.bwaaligner import BwaAligner
 from janis_bioinformatics.data_types import FastqGzPair, FastaWithDict
 
@@ -108,18 +111,29 @@ w.step(
 w.output("out", source=w.align.out)
 ```
 
+```bash
+janis translate dotscatter.py wdl
+janis run dotscatter.py \
+    --sample_names Sample1 \
+    --fastqs sample1-R*.fastq.gz \
+    --sample_names Sample2 \
+    --fastqs sample2-R*.fastq.gz \
+    --reference /path/to/ref.fasta 
+```
+
 ### Cross product
 
 The cross product is similar to the cartestian product of two arrays (from maths). For 3 lists `[1A, 1B, 1C]`, `[2A, 2B, 2C]`, the cross product would produce the following combinations: `[1A, 2A]`, `[1A, 2B]`, `[1A, 2C]`, `[1B, 2A]`, `[1B, 2B]`, `[1B, 2C]`, `[1C, 2A]`, `[1C, 2B]`, `[1C, 2C]`.
 
 As this isn't the default behaviour, you'll have to perform two additional imports `ScatterDescription` and `ScatterMethods`.
 
+**crosscatter.py**
 ```python
 from janis_core import WorkflowBuilder, String, Array, ScatterDescription, ScatterMethods, CommandToolBuilder, ToolInput, ToolOutput, Stdout
 
 # An example tool
 PrintTwoInputsTool = CommandToolBuilder(
-    "Part3TestTool",
+    "PrintTwoInputsTool",
     base_command=["echo"],
     inputs=[
         ToolInput("input1", String, position=1),
@@ -132,15 +146,15 @@ PrintTwoInputsTool = CommandToolBuilder(
     version="v0.1.0"
 )
 
-w = WorkflowBuilder("multiple_align")
-w.input("field1", Array(String))
-w.input("field2", Array(String))
+wf = WorkflowBuilder("multiple_align")
+wf.input("field1", Array(String))
+wf.input("field2", Array(String))
 
-w.step(
+wf.step(
     "cross_test",
     PrintTwoInputsTool(
-        input1=w.field1,
-        input2=w.field2
+        input1=wf.field1,
+        input2=wf.field2
     ),
     scatter=ScatterDescription(
         ["input1", "input2"],
@@ -149,7 +163,15 @@ w.step(
 )
 
 # Array of IndexedBams
-w.output("out", source=w.cross_test.out)
+wf.output("out", source=w.cross_test.out)
 ```
 
-> To translate this file, you'll need to add `'--name w'`, as there are tools tools `PrintTwoInputsTool` and `w ('multiple_align')` to tell Janis which tool to translate (eg: `janis translate <file.py> --name w wdl`).
+
+> To translate this file, you'll need to add `'--name wf'`, as there are tools tools `PrintTwoInputsTool` and `wf ('multiple_align')` to tell Janis which tool to translate.
+
+```bash
+janis translate --name wf crossscatter.py wdl
+janis run --name wf crossscatter.py \
+    --field1 1A 1B 1C \
+    --field2 2A 2B 2C
+```

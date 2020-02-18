@@ -48,7 +48,7 @@ There are multiple ways to specify output directories:
     - `output_folder=["variants", w.sample_name]`
     - `output_folder=[w.other_field, w.sample_name]`
 
-## Example applied
+## Alignment workflow
 
 In our alignment example (`alignment.py`), we output the bam file with:
 

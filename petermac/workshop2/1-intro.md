@@ -22,6 +22,10 @@ It's recommended that you've participated in Workshop 1 as it gives you the foun
 
 This workshops uses biological and bioinformatics examples to describe workflows. Although the steps are explained, knowledge of this process will be useful.
 
+### Bioinformatics in Janis
+
+Janis provides a registry of tools and data types for bioinformatics analysis, called `janis-bioinformatics`. These tools are installed on the cluster, and are available to import, or use directly on the command line. You can see a list of bioinformatics tools that Janis provides [on the documentation](https://janis.readthedocs.io/en/latest/tools/bioinformatics/index.html).
+
 
 ## Getting started
 
@@ -46,6 +50,7 @@ In addition, within our config, we'll set:
 eg:
 
 ```yaml
+# ...other configuration options
 template:
   id: pmac
   queues: debug # prod_med,prod
