@@ -10,8 +10,6 @@ The Janis documentation for the [CommandTool](https://janis.readthedocs.io/en/la
 
 > _Further information_: [Containerising your tools](https://janis.readthedocs.io/en/latest/tutorials/container.html)
 
-> Guide on using containers
-
 For portability, Janis requires that you specify an OCI compliant `container` (eg: Docker) for your tool. Often there will already be a container with some searching, however here's a guide on [preparing your tools in containers](https://janis.readthedocs.io/en/latest/tutorials/container.html) to ensure it works across all environments. 
 
 
@@ -46,19 +44,21 @@ Hence, we can isolate the following information:
 
 ### Command tool template
 
-The following template is the minimum amount of information required to wrap a tool. For more information, see the [CommandToolBuilder documentation](https://janis.readthedocs.io/en/latest/references/commandtool.html).
+The following template is the minimum amount of information required to wrap a tool. For more information, see the [CommandToolBuilder documentation](https://janis.readthedocs.io/en/latest/references/commandtool.html#janis.CommandToolBuilder).
 
-> We've removed the optional fields: tool_module, tool_provider, metadata, cpu, memory from the following template.
+> We've removed the optional fields: `tool_module`, `tool_provider`, `metadata`, `cpu`, `memory` from the following [template](https://janis.readthedocs.io/en/latest/references/commandtool.html#template).
+
+We're going to use `Bam` and `TextFile` data types, so let's import them as well.
 
 ```python
 from typing import List, Optional, Union
-import janis_core as j
+from janis_core import CommandToolBuilder, ToolInput, ToolOutput, Int, Stdout
 
-ToolName = j.CommandToolBuilder(
+ToolName = CommandToolBuilder(
     tool: str="toolname",
     base_command=["base", "command"],
-    inputs: List[j.ToolInput]=[],
-    outputs: List[j.ToolOutput]=[],
+    inputs: List[ToolInput]=[],
+    outputs: List[ToolOutput]=[],
     container="container/name:version",
     version="version"
 )
@@ -69,8 +69,7 @@ ToolName = j.CommandToolBuilder(
 Let's start by creating a file with this template inside a second output directory:
 
 ```bash
-mkdir part2
-vim part2/samtoolsflagstat.py
+vim tools/samtoolsflagstat.py
 ```
 
 We can start by filling in the basic information:
@@ -85,53 +84,68 @@ We can start by filling in the basic information:
 You'll have a class definition like the following
 
 ```python
-SamtoolsFlagstat = j.CommandToolBuilder(
+SamtoolsFlagstat = CommandToolBuilder(
     tool: str="samtoolsflagstat",
     base_command=["samtools", "flagstat"],
     container="quay.io/biocontainers/samtools:1.9--h8571acd_11",
     version="1.9.0",
     
-    inputs: List[j.ToolInput]=[],
-    outputs: List[j.ToolOutput]=[],
+    inputs: List[ToolInput]=[],
+    outputs: List[ToolOutput]=[],
 )
 ```
 
 ### Inputs
 
+> Further reading: [`ToolInput`](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-input)
 
-We'll use the [ToolInput](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-input) class to represent these inputs. A `ToolInput` provides a mechanism for binding this input onto the command line (eg: prefix, position, transformations). See the documentation for more ways to configure a ToolInput.
-
-Our positional input is a Bam, so we'll import the Bam type from `janis` with the following line:
+We'll use the [ToolInput](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-input) class to represent these inputs. A `ToolInput` provides a mechanism for binding this input onto the command line (eg: prefix, position, transformations). See the documentation for more ways to [configure a ToolInput](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-input).
 
 ```python
-from janis_unix.data_types import TextFile
-from janis_bioinformatics.data_types import TextFile, Bam
+janis.ToolInput(
+	tag: str,
+	input_type: DataType,
+	position: Optional[int] = None,
+	prefix: Optional[str] = None,
+    # more configuration options
+	separate_value_from_prefix: bool = None,
+	prefix_applies_to_all_elements: bool = None,
+	presents_as: str = None,
+	secondaries_present_as: Dict[str, str] = None,
+	separator: str = None,
+	shell_quote: bool = None,
+	localise_file: bool = None,
+	default: Any = None,
+	doc: Optional[str] = None
+)
 ```
 
-Then we can declare our two inputs:
+> Nb: A ToolInput must have a `position` OR `prefix` in order to be bound onto the command line. If the prefix is specified with no position, a `position=0` is automatically applied.
 
-1. Positional bam input
+Now we can declare our two inputs:
+
+1. Positional bam input 
 2. Threads configuration input with the prefix `--threads`
 
 We're going to give our inputs a name through which we can reference them by. This allows us to specify a value from the command line, or connect the result of a previous step [within a workflow](https://janis.readthedocs.io/en/latest/tutorials/tutorial1.html#bwa-mem).
 
 ```python
-SamtoolsFlagstat = j.CommandToolBuilder(
+SamtoolsFlagstat = CommandToolBuilder(
     # ... tool information
     inputs=[
         # 1. Positional bam input
-        j.ToolInput(
+        ToolInput(
             "bam",      # name of our input
             Bam, 
             position=1, 
             doc="Input bam to generate statistics for"
         ),
         # 2. `threads` inputs
-        j.ToolInput(
+        ToolInput(
             "threads",  # name of our input
-            j.Int(optional=True), 
+            Int(optional=True), 
             prefix="--threads", 
-            doc="(-@)  Number of additional threads to use [0] "
+            doc="(-@)  Number of additional threads to use [0]"
         )
     ],
     # outputs
@@ -140,15 +154,29 @@ SamtoolsFlagstat = j.CommandToolBuilder(
 
 ### Outputs
 
+> Further reading: [`ToolOutput`](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-output)
+
 We'll use the [ToolOutput](https://janis.readthedocs.io/en/latest/references/commandtool.html#tool-output) class to collect and represent these outputs. A `ToolOutput` has a type, and if not using `stdout` we can provide a `glob` parameter.
 
-The only output of `samtools flagstat` is the statistics that are written to `stdout`. We give this the name `"stats"`, and collect this with the `j.Stdout` data type. We can additionally tell Janis that the Stdout has type [`TextFile`](https://janis.readthedocs.io/en/latest/datatypes/textfile.html).
+```python
+janis.ToolOutput(
+    tag: str,
+    output_type: DataType,
+    glob: Union[janis_core.types.selectors.Selector, str, None] = None,
+    # more configuration options
+    presents_as: str = None,
+    secondaries_present_as: Dict[str, str] = None,
+    doc: Optional[str] = None
+)
+```
+
+The only output of `samtools flagstat` is the statistics that are written to `stdout`. We give this the name `"stats"`, and collect this with the `Stdout` data type. We can additionally tell Janis that the Stdout has type [`TextFile`](https://janis.readthedocs.io/en/latest/datatypes/textfile.html).
 
 ```python
-SamtoolsFlagstat = j.CommandToolBuilder(
+SamtoolsFlagstat = CommandToolBuilder(
     # ... tool information + inputs
     outputs=[
-        j.ToolOutput("stats", j.Stdout(TextFile))
+        ToolOutput("stats", Stdout(TextFile))
     ]
 )
 ```
@@ -159,23 +187,23 @@ Putting this all together, you should have the following tool definition:
 
 ```python
 from typing import List, Optional, Union
-import janis_core as j
+from janis_core import CommandToolBuilder, ToolInput, ToolOutput, Int, Stdout
 
 from janis_unix.data_types import TextFile
 from janis_bioinformatics.data_types import Bam
 
-SamToolsFlagstat_1_9 = j.CommandToolBuilder(
+SamtoolsFlagstat = CommandToolBuilder(
     tool="samtoolsflagstat",
     base_command=["samtools", "flagstat"],
     container="quay.io/biocontainers/samtools:1.9--h8571acd_11",
     version="v1.9.0",
     inputs=[
         # 1. Positional bam input
-        j.ToolInput("bam", Bam, position=1),
+        ToolInput("bam", Bam, position=1),
         # 2. `threads` inputs
-        j.ToolInput("threads", j.Int(optional=True), prefix="--threads"),
+        ToolInput("threads", Int(optional=True), prefix="--threads"),
     ],
-    outputs=[j.ToolOutput("stats", j.Stdout(TextFile))],
+    outputs=[ToolOutput("stats", Stdout(TextFile))],
 )
 ```
 
@@ -186,7 +214,7 @@ We can test the translation of this from the CLI:
 > If you have multiple command tools or workflows declared in the same file, you will need to provide the `--name` parameter with the name of your tool.
 
 ```bash
-janis translate part2/samtoolsflagstat.py wdl # or cwl
+janis translate tools/samtoolsflagstat.py wdl # or cwl
 ```
 
 In the following translation, we can see the WDL representation of our tool. In particular, the `command` block gives us an indication of how the command line might look:
@@ -223,7 +251,7 @@ task samtoolsflagstat {
 We can call the `janis run` functionality (default CWLTool), and use the output of our previous step to test this tool:
 
 ```bash
-janis run -o part2 part2/samtoolsflagstat.py --bam part1/out.bam
+janis run -o part2 tools/samtoolsflagstat.py --bam part1/out.bam
 ```
 
 OUTPUT:
