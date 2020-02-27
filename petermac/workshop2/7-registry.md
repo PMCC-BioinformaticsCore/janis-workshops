@@ -1,4 +1,4 @@
-# Workshop 2.7 - [Optiona] Extending an existing registry
+# Workshop 2.7 - [Optional] Extending an existing registry
 
 > This section is optional.
 
