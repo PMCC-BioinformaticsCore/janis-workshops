@@ -1,16 +1,14 @@
-# Introduction to Janis at Peter Mac
+# Introduction to Janis
 
 Janis is workflow framework that uses Python to construct a declarative workflow. It has a simple workflow API within Python that you use to build your workflow. Janis converts your pipeline to the Common Workflow Language (CWL) and Workflow Description Language (WDL) for execution, and it’s also great for publishing and archiving.
 
-Janis can run pipelines at Peter Mac, as it knows how to interact with Slurm.
-
-This tutorial has a bioinformatics focus, although Janis is generic as a workflow assistant and can be used outside of the computational genomics.
+This workshop has a bioinformatics focus, although Janis is generic as a workflow assistant and can be used outside of the computational genomics.
 
 Important Links:
 
 - Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
 - Janis Documentation: https://janis.readthedocs.io/en/latest
-- This workshop: https://github.com/PMCC-BioinformaticsCore/janis-workshops/tree/master/petermac/workshop1
+- This workshop: https://github.com/PMCC-BioinformaticsCore/janis-workshops/tree/master/workshop1
 - Presentation: https://docs.google.com/presentation/d/1_C1uoqZNWoteabA4r7h_bjck9FO8ygoFlNRFIcR-URk
 
 ## Requirements:
