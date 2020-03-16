@@ -16,7 +16,7 @@ These tools already exist within the Janis Tool Registry, you can see their docu
 
 ## Creating our file
 
-A Janis workflow is a Python scrit, so we can start by creating a file called `alignment.py` and importing Janis.
+A Janis workflow is a Python script, so we can start by creating a file called `alignment.py` and importing Janis.
 
 ```bash
 mkdir part1 && mkdir tools
