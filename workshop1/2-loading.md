@@ -56,12 +56,14 @@ If we're a local user, we don't need to configure Janis, it will automatically u
 
 We need to configure Janis to be aware of the Slurm Cluster. Janis has an inbuilt [template for Spartan](https://janis.readthedocs.io/en/latest/templates/spartan.html) called `spartan` which takes care of the heavy lifting.
 
-We need to provide a value for `container_dir`, a place where you can place Singularity containers. 
+You should refer to the [Spartan Documentation](https://dashboard.hpc.unimelb.edu.au/) for available configurations.
+
+We need to provide a value for `container_dir`, a fullly qualified location where you can place Singularity containers. 
 
 Running this command will create a config for Spartan at `~/.janis/janis.conf`
 
 ```
-janis init spartan --container_dir /path/to/containerdir
+janis init spartan --container_dir /path/to/containerdir --queues physical
 ```
 
 You can see and edit some of these details with `vim ~/.janis/janis.conf`:
