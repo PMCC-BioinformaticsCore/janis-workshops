@@ -1,4 +1,4 @@
-# Peter Mac - Workshop 1
+# Workshop 1
 
 _This README is a meta-commentary and not part of the workshop_
 
