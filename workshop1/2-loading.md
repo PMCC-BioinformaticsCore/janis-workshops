@@ -84,7 +84,7 @@ template:
     
   catch_slurm_errors: true
   container_dir: /path/to/containerdir
-  max_workflow_time: 20100
+  max_workflow_time: 20100 # Minutes
   queues: cloud
   send_job_emails: true
   submission_queue: cloud
