@@ -8,6 +8,7 @@ from janis_core import (
     String,
     Int,
     TOutput,
+    ToolMetadata,
 )
 from janis_bioinformatics.data_types import (
     FastaWithIndexes,
@@ -42,6 +43,9 @@ class Gatk4DataPreprocessing(Workflow):
 
     def version(self):
         return "v0.1.0"
+
+    def bind_metadata(self):
+        return ToolMetadata(contributors=["Michael Franklin"],)
 
     def constructor(self):
 
