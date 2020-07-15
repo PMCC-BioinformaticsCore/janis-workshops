@@ -113,7 +113,7 @@ vim ~/.janis/janis.conf
 The file should be:
 
 ```yaml
-engine: cromwell
+engine: cwltool
 notifications:
   email: null
 template:
