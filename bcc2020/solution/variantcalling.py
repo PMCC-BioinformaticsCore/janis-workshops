@@ -68,7 +68,7 @@ class Gatk4GermlineSnpsIndels(Workflow):
                 annotationGroup=[
                     "StandardAnnotation",
                     "StandardHCAnnotation",
-                    "AS_StandardAnnotation",
+                    # "AS_StandardAnnotation",
                 ],
             ),
             scatter="intervals",
