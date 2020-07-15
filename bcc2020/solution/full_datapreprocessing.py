@@ -95,7 +95,52 @@ class Gatk4DataPreprocessing(Workflow):
             ),
         )
 
-        self.output("analysis_ready_bam", source=self.sort.out)
+        self.step(
+            "fix_tags",
+            Gatk4SetNmMdAndUqTags_4_1_4(
+                bam=self.sort.out,
+                reference=self.ref_fasta,
+                compression_level=self.compression_level,
+            ),
+        )
+
+        self.step(
+            "create_sequence_groupings",
+            CreateSequenceGroupings(ref_fasta=self.ref_fasta),
+        )
+
+        self.step(
+            "base_recalibrator",
+            Gatk4BaseRecalibrator_4_1_4(
+                bam=self.fix_tags.out,
+                intervalStrings=self.create_sequence_groupings.sequence_groupings,
+                reference=self.ref_fasta,
+                knownSites=self.known_indels_sites,  # self.dbSNP],  #
+            ),
+            scatter="intervalStrings",
+        )
+
+        self.step(
+            "gather_bqsr_reports",
+            Gatk4GatherBQSRReports_4_1_4(reports=self.base_recalibrator.out),
+        )
+
+        self.step(
+            "bqsr",
+            Gatk4ApplyBqsr_4_1_4(
+                bam=self.fix_tags.out,
+                reference=self.ref_fasta,
+                recalFile=self.gather_bqsr_reports.out,
+                intervalStrings=self.create_sequence_groupings.sequence_groupings_with_unmapped,
+            ),
+            scatter="intervalStrings",
+        )
+
+        self.step("gather_bams", Gatk4GatherBamFiles_4_1_4(bams=self.bqsr.out))
+
+        self.output("duplication_metrics", source=self.mark_duplicates.metrics)
+        self.output("bqsr_report", source=self.gather_bqsr_reports.out)
+        self.output("analysis_ready_bam", source=self.gather_bams.out)
 
 
 class CreateSequenceGroupings(PythonTool):

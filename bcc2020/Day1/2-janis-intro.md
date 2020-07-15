@@ -67,14 +67,14 @@ A virtual environment is the best way to install Janis. It contains all the depe
 
 ```bash
     janis -v
-    # --------------------  ------
-    # janis-core            v0.9.4
-    # janis-assistant       v0.9.7
-    # janis-pipelines       v0.9.1
-    # janis-unix            v0.9.0
-    # janis-bioinformatics  v0.9.3
-    # janis-templates       v0.9.2
-    # --------------------  ------
+    # --------------------  -------
+    # janis-core            v0.9.22
+    # janis-assistant       v0.9.19
+    # janis-unix            v0.9.2
+    # janis-bioinformatics  v0.9.15
+    # janis-templates       v0.9.5
+    # janis-pipelines       v0.9.5
+    # --------------------  -------
 ```
 
 ### Fundamental features
@@ -102,22 +102,22 @@ Once installation is complete, we will start by initialising Janis environment. 
     janis init local 
 ```
 
-Running this command will create a file in `~/.janis/janis.conf` that should look like as follow:
+Running this command will a template file at `~/.janis/janis.conf`.
+
+We'll use `vim` to the first line in our template from `engine: cromwell` to `engine: cwltool`:
+
+```bash
+vim ~/.janis/janis.conf
+```
+
+The file should be:
 
 ```yaml
 engine: cromwell
 notifications:
-    email: null
+  email: null
 template:
-    id: pmac
-    container_dir: /config/binaries/singularity/containers_devel/janis/
-    catch_slurm_errors: true
-    send_job_emails: false
-    max_cores: 1 #40
-    max_ram: 256
-    max_workflow_time: 20100
-    queues: debug #prod_måed,prod
-    singularity_version: 3.4.0
+  id: local
 ```
 
 We will leave this config file as default for the purpose of this workshop. This config file will be useful for advanced configuration, especially when used in High Performance Computing (HPC) environment. 
@@ -156,9 +156,9 @@ This command will:
 You will see logs from cwltool in the terminal. There is a number of statements that are worth highlighting:
 
 ```
-[INFO]: Starting Janis in the background with: <sbatch command>
-[INFO]: Submitted batch job 4830620
-[INFO]: Exiting
+... [INFO]: Starting task with id = 'a6acf2'
+... [INFO]: CWLTool has started with pid=41562
+... [INFO]: View the task outputs: file:///<path>/part1/
 ```
 
 We can track the progress of our workflow with:
@@ -170,22 +170,20 @@ janis watch part1/
 You will see a progress screen like the following 
 
 ```
-WID:        d12763
-EngId:      291b6f91-6246-4ded-934b-98773e265ead
-Name:       hello
-Engine:     cromwell (localhost:53489) [PID=43580]
+SID:        a6acf2
+EngId:      a6acf2
+Engine:     cwltool
 
-Task Dir:   $HOME/janis-workshop1/part1
-Exec Dir:   $HOME/janis-workshop1/part1/janis/execution/hello/291b6f91-6246-4ded-934b-98773e265ead
+Task Dir:   /Users/franklinmichael/Desktop/tmp/janis/bcc/part1
 
-Status:     Completed
-Duration:   44s
-Start:      2020-01-31T02:49:35.968005+00:00
-Finish:     2020-01-31T02:50:20.305000+00:00
-Updated:    Just now (2020-01-31T02:50:28+00:00)
+Status:     completed
+Duration:   9s
+Start:      2020-07-15T08:14:01.408996+00:00
+Finish:     2020-07-15T08:14:09.941033+00:00
+Updated:    1m:05s ago (2020-07-15T08:14:09+00:00)
 
 Jobs: 
-    [✓] hello (11s)       
+        [✓] hello (7s)   
 
 Outputs:
     - out: $HOME/part1/out
@@ -202,10 +200,10 @@ The output to the task is called `out`, as this is the name of the output that t
 
 ```bash
 cat part1/out
-# Hello, mfranklin
+# Hello, world!
 ```
 
-The `janis` folder contains information about the execution, including logs, we'll see more about that in the next section.
+The `janis` folder contains information about the execution, including logs, we'll see more about that later
 
 ## Tools Registry 
 

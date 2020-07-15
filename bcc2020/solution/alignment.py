@@ -4,10 +4,7 @@ from janis_bioinformatics.data_types import FastqGzPair, FastaWithDict
 
 from janis_bioinformatics.tools.bwa import BwaMemLatest
 from janis_bioinformatics.tools.samtools import SamToolsView_1_9
-from janis_bioinformatics.tools.gatk4 import (
-    Gatk4SortSam_4_1_2,
-    Gatk4MarkDuplicates_4_1_4,
-)
+from janis_bioinformatics.tools.gatk4 import Gatk4SortSam_4_1_2
 
 w = WorkflowBuilder("alignmentWorkflow")
 
@@ -33,7 +30,5 @@ w.step(
     ),
 )
 
-w.step("markduplicates", Gatk4MarkDuplicates_4_1_4(bam=w.sortsam.out))
-
 # Outputs
-w.output("out", source=w.markduplicates.out)
+w.output("out", source=w.sortsam.out)
