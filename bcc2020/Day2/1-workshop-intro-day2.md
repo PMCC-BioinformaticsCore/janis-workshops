@@ -3,7 +3,7 @@
 
 Welcome to BCC2020 East Janis workshop (Day 2). This workshop is split into 2 parts where we will go through an example of using Janis to build a genomic variant-calling pipeline. 
 
-Workflows from this workshop is adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
+Workflows from this workshop are adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
 - https://github.com/gatk-workflows/gatk4-data-processing
 - https://github.com/gatk-workflows/gatk4-germline-snps-indels
 
@@ -27,6 +27,7 @@ The main goal of this workshop is to introduce Janis for building portable pipel
 - ~Q&A~
 
 ### Day 2
+
 - Recap of Day 1
 - Adding new tools definition in Janis (GATK HaplotypeCaller)
 - Exercise: Adding more tools (BQSR) to complete the germline variant calling pipeline
