@@ -25,8 +25,8 @@ Day 1 is primarily becoming familiar with Janis,
 |            	| Description                                                                                                                                                      	|
 |------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | 30 minutes 	| Introduction to Janis<br>- Installing and setting up Janis Environment<br>- _OR_ connecting to preconfigured environment<br>- Running a small workflow as a test 	|
-| 30 minutes 	| Building a workflow to align a set of fastqs<br>- Learn about preconfigured tools<br>- Using BWA mem + samtools view + GATK sort<br>- Running a small test       	|
-| 30 minutes 	| Exercise: Extend alignment to complete data processing<br>- Add MarkDuplicates<br>- Test the pipeline                                                            	|
+| 30 minutes 	| Building a workflow to align a set of fastqs<br>- Learn about preconfigured tools<br>- Using BWA mem + samtools view<br>- Running a small test       	|
+| 30 minutes 	| Exercise: Extend alignment to complete data processing<br>- Add Mark Duplicates + Sort Sam<br>- Test the pipeline                                                            	|
 | 30 minutes 	| Q&A                                |
 
 

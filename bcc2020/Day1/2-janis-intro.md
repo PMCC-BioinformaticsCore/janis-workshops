@@ -121,7 +121,10 @@ janis -v
 
 #### Download data
 
-We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `janis-bcc2020`.
+We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `janis-bcc2020`. In this workshop, we use:
+
+- NA12878 sample, cut down to a single gene
+- HG38 reference, cut down to the single gene of the sample.
 
 ```bash
 mkdir janis-bcc2020 && cd janis-bcc2020
