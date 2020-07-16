@@ -1,6 +1,9 @@
 # BCC2020 EAST - Janis Workshop (2.5)
 
-One of the main benefits of adding tools in Janis is the added features of generating other workflow specifications interchangeably. Janis currently only supports translation to CWL and WDL, but with future development, we will might be able to add support for other upcoming workflow languages, eliminating the need to re-engineer pipelines from scratch. 
+One of the main benefits of adding tools in Janis is the added features of generating other workflow specifications interchangeably. Janis currently only supports translation to CWL and WDL, but with future development, we'll be able to  support other upcoming workflow languages, eliminating the need to re-engineer pipelines from scratch. 
+
+
+We've already demonstrated this with our inspection of the WDL translation.
 
 [Diagram of Janis](graphics/janis_diagram.png)
 
