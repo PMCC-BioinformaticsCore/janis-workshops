@@ -1,32 +1,38 @@
 # BCC2020 EAST - Janis Workshop (1.1)
 ## Produce a portable germline variant-calling pipeline in CWL and WDL using Janis and GATK
 
-Welcome to BCC2020 East Janis workshop. This workshop is split into 2 parts where we will go through an example of using Janis to build a genomic variant-calling pipeline. 
+Welcome to BCC2020 East Janis workshop. This is a 2-part workshop where we'll use Janis to build a genomic variant-calling pipeline. 
 
-Workflows from this workshop is adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
+Workflows from this workshop are adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
+
 - https://github.com/gatk-workflows/gatk4-data-processing
 - https://github.com/gatk-workflows/gatk4-germline-snps-indels
 
-The main goal of this workshop is to introduce Janis for building portable pipeline. We will be using small test datasets for demonstrations. Please note that some of the bioinformatics details, such as tools' parameters, genome references and databases, might not be complete. Please consider reviewing the pipeline details at the end of this workshop if you are planning to use this on other samples.  
+The goal of this workshop is to introduce Janis for building portable pipelines. We build a toy variant-caller that works for small data sets, please note that the pipeline produced by this workshop should be used as a guide, and is NOT for production usage. Please consider reviewing the pipeline details such as tools' parameters, genome references and databases at the end of this workshop if you are intend to use this for other samples.  
 
 ## Important Links:
 
 - Janis Documentation: https://janis.readthedocs.io/en/latest
 - Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
-- This workshop GitHub: https://github.com/PMCC-BioinformaticsCore/janis-workshops
+- This workshop GitHub: https://github.com/PMCC-BioinformaticsCore/janis-workshops/bcc2020
 
 ## Workshop Outline
 
 ### Day 1
-- Introduction to Janis
-    - Installing and setting up Janis environment
-    - Running a simple test workflow 
-- Building a workflow to align sample to reference genome
-    - Understanding logs and troubleshooting for errors
-- Exercise: Extend alignment workflow to complete the data processing workflow
-- Q&A 
+
+Day 1 is primarily becoming familiar with Janis, 
+
+|            	| Description                                                                                                                                                      	|
+|------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| 30 minutes 	| Introduction to Janis<br>- Installing and setting up Janis Environment<br>- _OR_ connecting to preconfigured environment<br>- Running a small workflow as a test 	|
+| 30 minutes 	| Building a workflow to align a set of fastqs<br>- Learn about preconfigured tools<br>- Using BWA mem + samtools view + GATK sort<br>- Running a small test       	|
+| 30 minutes 	| Exercise: Extend alignment to complete data processing<br>- Add MarkDuplicates<br>- Test the pipeline                                                            	|
+| 30 minutes 	| Q&A                                |
+
+
 
 ### Day 2
+
 - Recap of Day 1
 - Adding new tools definition in Janis (GATK HaplotypeCaller)
 - Exercise: Adding more tools (BQSR) to complete the germline variant calling pipeline
@@ -34,21 +40,28 @@ The main goal of this workshop is to introduce Janis for building portable pipel
 - Q&A 
 
 
-## Requirements:
+## Workshop environment
 
+There are two ways to work through this workshop:
+
+1. (Preferred) Install Janis on your personal computer
+2. OR we can provide a Linux VM that you can SSH into as a backup.
+
+### Running your own version of Janis
+
+This is the preferred way of participating in the Janis workshop, however you must meet the following requirements (more information ):
+
+- A unix machine (MacOS / Ubuntu / RHEL / CentOS / etc)
 - Python 3.6+
 - Docker
-
-## Workshop environment:
-
-- Single instance setup (local compute / single cloud VM) 
+- Zip (archiver for zip files)
 
 
-## Getting started
+### SSH to Linux VM
 
-We will start with downloading all the test data required for this workshop. For consistency, we will use the same directory called `janis-bcc2020`.
+During BCC, we can supply a limited number of preconfigured instances. These are t2.large EC2 instances (2 cores + 8GB ram) with the appropraite software installed. To use these instances, you must have: 
 
-```
-mkdir janis-bcc2020 && cd janis-bcc2020
-wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/janis-data.tar" | tar -xz
-```
+- SSH client (for connecting to the instance):
+    - See [Connect to your Linux instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html) for more options,
+- Ability to connect an AWS EC2 instance (some institutes block this by default)
+
