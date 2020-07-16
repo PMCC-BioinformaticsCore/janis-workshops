@@ -10,19 +10,21 @@ Our workflow will consist of the following steps:
 2. Align these reads using `BWA MEM` into an uncompressed `SAM` file (the _de facto_ standard for short read alignments),
 3. Compress this into the binary equivalent `BAM` file using `samtools`, and finally
 4. Mark duplicates using `gatk4 MarkDuplicates`. 
+5. Calculate NM, MD and UQ tags
 
 These tools already exist within the Janis Tool Registry, you can see their documentation online:
 
 - [BWA MEM](https://janis.readthedocs.io/en/latest/tools/bioinformatics/bwa/bwamem.html) - Aligning our fastqs to the reference genome
 - [Samtols View](https://janis.readthedocs.io/en/latest/tools/bioinformatics/samtools/samtoolsview.html)
 - [GATK4 MarkDuplicates](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4markduplicates.html)
+- [GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html)
 
 ## Creating our file
 
 A Janis workflow is a Python script, so we can start by creating a file called `preprocessing.py` and importing Janis.
 
 ```bash
-vim part1/preprocessing.py # or vim, emacs, sublime, vscode
+vim day1/preprocessing.py # or vim, emacs, sublime, vscode
 ```
 
 You'll see there already a number of imports for you, Let's go through them:
@@ -39,6 +41,7 @@ from janis_bioinformatics.tools.samtools import SamToolsView_1_9
 from janis_bioinformatics.tools.gatk4 import (
     Gatk4MarkDuplicates_4_1_4,
     Gatk4SortSam_4_1_4,
+    Gatk4SetNmMdAndUqTags_4_1_4,
 )
 ```
 
@@ -49,6 +52,7 @@ from janis_bioinformatics.tools.gatk4 import (
     - `SamToolsView_1_9` from `samtools`
     - `Gatk4MarkDuplicates_4_1_4` from `gatk4`
     - `Gatk4SortSam_4_1_4` from `gatk4`
+    - `Gatk4SetNmMdAndUqTags_4_1_4` from `gatk4`
 
 ## Declaring our workflow
 
@@ -214,7 +218,7 @@ Although we're using CWL to run the tools, because we've written out analysis in
 
 ```bash
 # in bash now
-janis translate part2/preprocessing.py wdl
+janis translate day1/preprocessing.py wdl
 ```
 
 ```wdl
@@ -273,8 +277,8 @@ workflow preprocessingWorkflow {
 We're looking good! Now let's run the worfklow using Janis and CWLTool. We'll include the `--development` flag, as when we re-run the pipeline, it won't recompute steps we've already ran!
 
 ```bash
-janis run -o part2 --development \
-    part2/preprocessing.py \
+janis run -o day1 --development \
+    day1/preprocessing.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --sample_name NA12878 \
@@ -284,9 +288,9 @@ janis run -o part2 --development \
 Hopefully we got `Task has finished with status: Completed`. We can check out output directory:
 
 ```bash
-$ ls -lgh part2/
+$ ls -lgh day1/
 # drwxr-xr-x  288B Jul 16 16:50 janis
-# -rw-r--r--  1.4K Jul 16 16:49 preprocessing-solution.py
+# -rw-r--r--  1.4K Jul 16 16:49 preprocessing_solution.py
 # -rw-r--r--  411B Jul 16 13:15 preprocessing.py
 # -rw-r--r--  2.6M Jul 16 16:50 tmp_out_unsortedbam.bam
 ```

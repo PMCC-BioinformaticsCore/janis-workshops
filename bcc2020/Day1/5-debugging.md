@@ -1,7 +1,7 @@
 
 # Debugging a run
 
-Workflows do not always run smoothly, and for that it is useful to understand how workflows run, and how Janis can help you solve the problems. 
+Workflows do not always run smoothly, and for that it is useful to understand how workflows run, and how Janis can help you solve runtime problems. 
 
 The Janis documentation contains some answers for:
 
@@ -102,4 +102,4 @@ ERROR [job samtoolsview] Job error:
 ERROR [step samtoolsview] Output is missing expected field file:///Users/franklinmichael/source/janis-workshops/bcc2020/resources/part2/janis/workflow/preprocessingWorkflow.cwl#preprocessingWorkflow/samtoolsview/out
 ```
 
-This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stdout` / `stderr`. Have a look through the engine log for more information.
+This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stderr`. Have a look through the engine log for more information.

@@ -2,9 +2,12 @@
 
 ## Exercise: extend alignment workflow to complete the data processing workflow
 
-In this section, we will give you some hands-on time to play  with Janis workflow. The task in this exercise is to extend alignment workflow from the previous section where we will add `GATK4 SortSam` to the output of Mark Duplicates. 
+In this section, we will give you some hands-on time to play  with Janis workflow. The task in this exercise is to extend alignment workflow from the previous section where we will add
 
-We'll use the same file in `part2/processing.py` for our analysis. 
+- `GATK4 SortSam` to the output of Mark Duplicates. 
+- `Gatk4 SetNmMdAndUqTags` to the result from Sort Sam.
+
+We'll use the same file from the previous part (`day1/processing.py`) for our analysis. 
 
 ## Adding SortSam to workflow
 
@@ -15,6 +18,7 @@ The `Gatk4SortSam_4_1_4` has already been imported from the toolbox [Janis GATK4
 from janis_bioinformatics.tools.gatk4 import (
     Gatk4MarkDuplicates_4_1_4,
     Gatk4SortSam_4_1_4,
+    Gatk4SetNmMdAndUqTags_4_1_4,
 )
 ```
 
@@ -34,19 +38,47 @@ w.step(
 )
 ```
 
+### Adding SetNmMdAndUqTags
+
+This tool is going to calculate the following tags by comparing our BAM to the reference genome:
+
+- NM: Edit distance to the reference
+- MD: String encoding mismatched and deleted reference bases
+- UQ: Phred likelihood of the segment, conditional on the mapping being correct
+
+> These are predefined standard tags from the [SAM specification](https://samtools.github.io/hts-specs/SAMtags.pdf).
+
+Like SortSam, this tool has already been imported as `Gatk4SetNmMdAndUqTags_4_1_4`, and it requires two inputs:
+
+- `bam`: we'll use the output of `sortsam`,
+- `reference`: The reference genome
+
+Try to write the step definition _BEFORE_ checking the solution below:
+
+```python
+self.step(
+    "fix_tags",
+    Gatk4SetNmMdAndUqTags_4_1_4(
+        bam=self.sortsam.out,
+        reference=self.reference,
+    ),
+)
+```
+
+
 ### Collecting the output
 
 Now that we've finished our analysis, lets add one output from `sortsam`:
 
 ```python
-w.output("out_bam", source=w.sortsam.out)
+w.output("out_bam", source=w.fix_tags.out)
 ```
 
 ## Workflow + Translation
 
 Hopefully you have a workflow that looks like the following!
 
-> This workflow is also available in `part2/preprocesing-solution.py`.
+> The final workflow is also available in `day1/preprocesing_solution.py`.
 
 ```python
 from janis_core import WorkflowBuilder, String
@@ -106,7 +138,7 @@ w.output("out_bam", source=w.sortsam.out)
 We can again translate the following file into Workflow Description Language using janis from the terminal:
 
 ```bash
-janis translate part2/preprocessing.py wdl
+janis translate day1/preprocessing.py wdl
 ```
 
 
@@ -115,8 +147,8 @@ janis translate part2/preprocessing.py wdl
 Now that we have a complete pipeline again, let's re-run the same command we did before.
 
 ```
-janis run -o part2 --development \
-    part2/preprocessing-solution.py \
+janis run -o day1 --development \
+    day1/preprocessing.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --sample_name NA12878 \
@@ -133,10 +165,19 @@ This time we notice that CWLTool is using _cached output_ of the first two steps
 Inspecting out output directory, we two more entries: a bam and its index!
 
 ```bash
-$ ls -lgh part2/total 17992
+$ ls -lgh day1/total 17992
 # -rw-r--r--  3 1677682026   2.7M Jul 16 17:15 out_bam.bam
 # -rw-r--r--  3 1677682026   296B Jul 16 17:15 out_bam.bam.bai
 ```
+
+#### Optional
+
+Check to see if the `MD`, `NM` and `UQ` tags are in the output bam:
+
+> Hint: you can run `samtools view` in a the docker container with:
+> ```python
+> docker run -v $(pwd)/day1/:/data/ quay.io/biocontainers/samtools:1.9--h8571acd_11 samtools view /data/out_bam.bam | head
+> ```
 
 ## Great work!!
 
@@ -151,8 +192,5 @@ If you're looking for a bigger challenge, try the advanced task in the next sect
 
 For those we are familiar with this GATK workflow, you might have noticed that there are other steps that we've omitted from this example. If you have finished the exercise above, you can attempt to complete the remaining steps of this data processing workflow. We might look at some of these steps in tomorrow's workshop too.
 
-- Gatk4SetNmMdAndUqTags_4_1_4
 - Gatk4BaseRecalibrator_4_1_4
-- Gatk4GatherBQSRReports_4_1_4
 - Gatk4ApplyBqsr_4_1_4
-- Gatk4GatherBamFiles_4_1_4
