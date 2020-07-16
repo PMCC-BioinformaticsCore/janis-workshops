@@ -34,49 +34,6 @@ In fact, Janis is actually split into two components that addresses these questi
 - `janis-core` - Helps users **build** portable pipelines using existing workflow **specifications**.
 - `janis-assistant` - Helps users **run** pipelines using existing workflow **engines**.
 
-### Installations
-
-#### Installing Janis through PIP
-```bash
-    pip install janis-pipelines
-```
-
-
-#### Installing Janis into a virtual env
-
-A virtual environment is the best way to install Janis. It contains all the dependencies separately, and avoid polluting your local Python installation. It also preserves the version of Janis in a reproducible way.
-
-1. Create an activate a virtualenv:
-
-    ```bash
-    # create virtual env
-    virtualenv -p python3 janis/env
-
-    # source the virtual env
-    source janis/env/bin/activate
-    ```
-
-
-2. Install Janis through PIP:
-
-    ```bash
-    pip install janis-pipelines
-    ```
-
-#### Test that Janis (and associated modules) were installed
-
-```bash
-    janis -v
-    # --------------------  -------
-    # janis-core            v0.9.22
-    # janis-assistant       v0.9.19
-    # janis-unix            v0.9.2
-    # janis-bioinformatics  v0.9.15
-    # janis-templates       v0.9.5
-    # janis-pipelines       v0.9.5
-    # --------------------  -------
-```
-
 ### Fundamental features
 
 - Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to in other pipelineing systems.
@@ -94,21 +51,108 @@ A virtual environment is the best way to install Janis. It contains all the depe
 
 - In Janis, all tasks are executed inside a isolated virtual environment called a [_Container_](https://www.docker.com/resources/what-container). Docker and Singularity are two common container types. (Docker containers can be executed by Singularity.)
 
+### Setup
+
+Please follow the relevant instructions for the two methods of participating in this workshop (the requirements are on the previous page):
+
+1. (Preferred) Install Janis on your personal computer
+2. OR we can provide a Linux VM that you can SSH into as a backup.
+
+
+#### Installing Janis on your personal computer
+
+
+A virtual environment is the best way to install Janis. It contains all the dependencies separately, and avoid polluting your local Python installation. It also preserves the version of Janis in a reproducible way.
+
+1. Create an activate a virtualenv:
+
+    ```bash
+    # create virtual env at $(pwd)/janis/env
+    python3 -m venv janis/env
+
+    # source the virtual env
+    source janis/env/bin/activate
+    ```
+
+
+2. Install Janis through PIP:
+
+    ```bash
+    pip install janis-pipelines
+    ```
+
+3. Test that Janis (and associated modules) were installed:
+
+    ```bash
+    janis -v
+    # --------------------  -------
+    # janis-core            v0.9.22
+    # janis-assistant       v0.9.19
+    # janis-unix            v0.9.2
+    # janis-bioinformatics  v0.9.15
+    # janis-templates       v0.9.5
+    # janis-pipelines       v0.9.5
+    # --------------------  -------
+    ```
+
+#### Connecting to preconfigured EC2 instance
+
+You will receive:
+
+- A `janis-key.pem` file (this is your security key)
+- A URL to the instance (your user is `ec2-user`)
+
+You must ensure that your `janis-key.pem` has appropriate permissions for SSH, then you can simply SSH:
+
+```bash
+URL='ec2-13-236-147-245.ap-southeast-2.compute.amazonaws.com'
+# in the directory with the janis-key.pem
+chmod 400 janis-key.pem
+ssh -i "janis-key.pem" ec2-user@$URL
+```
+
+Janis should be already installed, you can confirm this by running:
+
+```bash
+janis -v
+# -------------------- ------ #
+# etc
+```
+
+#### Download data
+
+We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `janis-bcc2020`.
+
+```bash
+mkdir janis-bcc2020 && cd janis-bcc2020
+wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/janis-data.tar" | tar -xz
+```
+
+The download contains folders for data, references and the solutions. You can confirm this with:
+
+```bash
+ls -lGh
+# <TODO: Log here>
+```
+
 ### Setting up Janis 
 
-Once installation is complete, we will start by initialising Janis environment. This step is only required on the first time we setup Janis. 
+Next, let's initialise our Janis environment. This step is only required on the first time we setup Janis on a new environment.
 
 ```bash
     janis init local 
 ```
 
-Running this command will a template file at `~/.janis/janis.conf`.
+Running this command will create a configuration file at `~/.janis/janis.conf`.
 
 We'll use `vim` to the first line in our template from `engine: cromwell` to `engine: cwltool`:
+
 
 ```bash
 vim ~/.janis/janis.conf
 ```
+
+> You can save and [exit vim](https://stackoverflow.com/a/11828573/2860731) by hitting the `Esc` key, then typing `:x` to write and quit (or `:q!` to quit without saving).
 
 The file should be:
 
@@ -120,30 +164,30 @@ template:
   id: local
 ```
 
-We will leave this config file as default for the purpose of this workshop. This config file will be useful for advanced configuration, especially when used in High Performance Computing (HPC) environment. 
+Janis will automatically use the config for the rest of the workshop. Although we've used the `local` template, you could instead use `singularity` or use an advanced configuration (like `slurm_singularity` or `pbs_singularity`), important when used in High Performance Computing (HPC) environments. 
 
 ### How does Janis run a workflow?
 
-Janis leverages community driven engines to run workflows. For this workshop, we will use the [cwltool](https://github.com/common-workflow-language/cwltool) execution engine to run translated Janis workflow (in Common Workflow Language [CWL](https://www.commonwl.org/)) using Dockerised tools. 
+Janis leverages community driven engines to run workflows. For this workshop, we will use the [cwltool](https://github.com/common-workflow-language/cwltool) execution engine to run translated Janis workflow (in Common Workflow Language [CWL](https://www.commonwl.org/)) using Dockerised tools. CWLTool is automatically installed with the Janis assistant.
 
 For our tests, Janis will:
 
-- Convert the workflow to CWL
-- Run the CWL workflow with cwltool
-- Watch the progress of the workflow
-- Perform a number of tasks after the workflow is completed
+- Convert an example workflow to CWL,
+- Run the CWL workflow with cwltool,
+- Watch the progress of the workflow,
+- Copy the outputs, and remove the execution directory on success.
 
-It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow.
+It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow on your own platform.
 
 
 ### Running a simple test workflow 
 
-To test that Janis is configured properly, we will run a simple workflow called [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) [click the link to see the documentation]. This workflow prints `"Hello, World"` by default to stdout, and this stdout is captured as an output. This will test that Janis can run in your environment correctly. 
+To test that Janis is configured properly, we will run a simple workflow called [`Hello`](https://janis.readthedocs.io/en/latest/tools/unix/hello.html) (click the link to see the documentation). We'll supply an input called `inp`, with value `"Hello, World"`, this will get printed to stdout, and this stdout is captured as an output. This will test that Janis can run in your environment correctly. 
 
-We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to create a subdirectory called `part1`. 
+We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to output our results to a subdirectory called `part1`. 
 
 ```bash
-janis run -o part1 hello
+janis run -o part1 hello --inp "Hello, World"
 ```
 
 This command will:
@@ -158,6 +202,8 @@ You will see logs from cwltool in the terminal. There is a number of statements 
 ```
 ... [INFO]: Starting task with id = 'a6acf2'
 ... [INFO]: CWLTool has started with pid=41562
+... # Selected CWLTool logs
+... [INFO]: Task has finished with status: Completed
 ... [INFO]: View the task outputs: file:///<path>/part1/
 ```
 
@@ -192,8 +238,8 @@ Outputs:
 
 In our output folder, there are two items (`ls part1`):
 ```
-drwxr-sr-x 8 mfranklin punim0755 133K Jan 31 12:59 janis
--rw-r--r-- 1 mfranklin punim0755   14 Jan 31 12:58 out
+drwxr-sr-x 8 mfranklin 133K Jan 31 12:59 janis
+-rw-r--r-- 1 mfranklin   14 Jan 31 12:58 out
 ```
 
 The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies.
@@ -205,31 +251,18 @@ cat part1/out
 
 The `janis` folder contains information about the execution, including logs, we'll see more about that later
 
-## Tools Registry 
+## Toolbox of prebuild tools
 
-Janis contains a registry of prebuilt tools and workflows. This information is available in the documentation:
+We ran a workflow called `hello`, but where did this Workflow come from? Janis contains a toolbox of prebuilt tools and workflows. This information is available in the documentation:
 
 - Tools: https://janis.readthedocs.io/en/latest/tools/index.html
 - Pipelines: https://janis.readthedocs.io/en/latest/pipelines/index.html
 
-In fact, we have been using prebuilt tools to run our analysis, and these exist on the Registry.
+In fact, we use these prebuilt tools to run our internal analysis, and these exist on the Registry.
 
-These tools exist in separate modules to Janis, which means they can be updated independent of other janis functionality. It also means that you could create your own registry of tools independent of what Janis provides.
+These tools exist in separate modules to Janis, which means they can be updated independent of other janis functionality. It also means that you could create your own private registry of unpublished tools independent of what Janis provides.
 
-Let's look at the whole-genome variant calling pipeline that uses GATK to call variants: [`WGSGermlineGATK`](https://janis.readthedocs.io/en/latest/pipelines/wgsgermlinegatk.html).
-
-We see the following table from the documentation:
-
-|   |   |
-|-- |-- |
-|ID         | `WGSGermlineGATK` |
-|Python:	| `janis_pipelines.wgs_germline_gatk.wgsgermlinegatk import WGSGermlineGATK` |
-|Versions:	| 1.2.0 |
-|Authors:	| Michael Franklin |
-|Citations: | 	 |
-|Created:	| None |
-|Updated:	| 2019-10-16 |
-|Required inputs: | fastqs: Array<FastqGzPair> <br />reference: FastaWithDict <br />\<other inputs>: \<Type>|
+We'll have a look at the toolbox when we build our workflow.
 
 
 
