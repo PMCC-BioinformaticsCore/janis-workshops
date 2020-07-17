@@ -28,6 +28,10 @@ In addition to connecting the output of `markduplicates` to Gatk4 SortSam, we wa
 
 Instead of connecting an input or a step, we can just provide the literal value.
 
+ Try to write the step definition BEFORE checking the solution below: 
+<details>
+    <summary> Click to show solution </summary>
+        
 ```python
 w.step(
     "sortsam",
@@ -37,10 +41,11 @@ w.step(
     )
 )
 ```
+</details>
 
 ### Adding SetNmMdAndUqTags
 
-This tool is going to calculate the following tags by comparing our BAM to the reference genome:
+[GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html)is going to calculate the following tags by comparing our BAM to the reference genome:
 
 - NM: Edit distance to the reference
 - MD: String encoding mismatched and deleted reference bases
@@ -55,6 +60,9 @@ Like SortSam, this tool has already been imported as `Gatk4SetNmMdAndUqTags_4_1_
 
 Try to write the step definition _BEFORE_ checking the solution below:
 
+<details>
+    <summary> Click to show solution </summary>
+
 ```python
 self.step(
     "fix_tags",
@@ -65,6 +73,7 @@ self.step(
 )
 ```
 
+</details>
 
 ### Collecting the output
 
@@ -80,7 +89,12 @@ Hopefully you have a workflow that looks like the following!
 
 > The final workflow is also available in `day1/preprocesing_solution.py`.
 
+<details>
+    <summary> Click to show solution </summary>
+
+
 ```python
+    
 from janis_core import WorkflowBuilder, String
 
 # Import bioinformatics types
@@ -104,6 +118,7 @@ w.input("fastq", FastqGzPairedEnd)
 w.input("reference", FastaWithIndexes)
 
 # Use `bwa mem` to align our fastq paired ends to the reference genome
+    
 w.step(
     "bwamem",  # step identifier
     BwaMemLatest(
@@ -117,7 +132,8 @@ w.step(
 # Use `samtools view` to convert the aligned SAM to a BAM
 #   - Use the output `out` of the bwamem step
 w.step(
-    "samtoolsview", SamToolsView_1_9(sam=w.bwamem.out),
+    "samtoolsview",
+    SamToolsView_1_9(sam=w.bwamem.out),
 )
 
 # Use `gatk4 MarkDuplicates` on the output of samtoolsview
@@ -130,16 +146,24 @@ w.step(
     ),
 )
 
-w.step("sortsam", Gatk4SortSam_4_1_4(bam=w.markduplicates.out, sortOrder="coordinate",))
+w.step("sortsam",
+    Gatk4SortSam_4_1_4(
+        bam=w.markduplicates.out,
+        sortOrder="coordinate",))
 
 w.output("out_bam", source=w.sortsam.out)
+    
 ```
 
+</details>    
+<p>    
+    
 We can again translate the following file into Workflow Description Language using janis from the terminal:
 
 ```bash
 janis translate day1/preprocessing.py wdl
 ```
+
 
 
 ## Running the alignment workflow
@@ -181,7 +205,7 @@ Check to see if the `MD`, `NM` and `UQ` tags are in the output bam:
 
 ## Great work!!
 
-Great work! You've built a completely portable pipeline that uses containers to align a set of fastqs to our hg38 reference genome, marked duplicates in the aligned BAM and sorted the result. You can run this pipeline in your current envionrment (local), on HPCs using Slurm, or even using Amazon or Google cloud services. 
+Great work! You've built a completely portable pipeline that uses containers to align a set of fastqs to our a reference genome, marked duplicates in the aligned BAM and sorted the result. You can run this pipeline in your current envionrment (local), on HPCs using Slurm, or even using Amazon or Google cloud services. 
 
 > In fact, you might already be running this workflow on Amazon!
 

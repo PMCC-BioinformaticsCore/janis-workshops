@@ -10,14 +10,12 @@ Our workflow will consist of the following steps:
 2. Align these reads using `BWA MEM` into an uncompressed `SAM` file (the _de facto_ standard for short read alignments),
 3. Compress this into the binary equivalent `BAM` file using `samtools`, and finally
 4. Mark duplicates using `gatk4 MarkDuplicates`. 
-5. Calculate NM, MD and UQ tags
 
 These tools already exist within the Janis Tool Registry, you can see their documentation online:
 
 - [BWA MEM](https://janis.readthedocs.io/en/latest/tools/bioinformatics/bwa/bwamem.html) - Aligning our fastqs to the reference genome
 - [Samtols View](https://janis.readthedocs.io/en/latest/tools/bioinformatics/samtools/samtoolsview.html)
 - [GATK4 MarkDuplicates](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4markduplicates.html)
-- [GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html)
 
 ## Creating our file
 
@@ -297,7 +295,9 @@ $ ls -lgh day1/
 
 We see the `tmp_out_unsortedbam.bam` which is the BAM output of mark duplicates. 
 
-You can now remove the `tmp_out_unsortedbam` output we created in the last section.
+#### Preparing for next exercise
+
+Once you are happy with this task, you can now remove the `tmp_out_unsortedbam.bam` output we created in this section.
 
 
 

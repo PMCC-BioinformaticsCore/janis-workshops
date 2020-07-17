@@ -85,14 +85,14 @@ A virtual environment is the best way to install Janis. It contains all the depe
 
     ```bash
     janis -v
-    # --------------------  -------
-    # janis-core            v0.9.22
-    # janis-assistant       v0.9.19
-    # janis-unix            v0.9.2
-    # janis-bioinformatics  v0.9.15
-    # janis-templates       v0.9.5
-    # janis-pipelines       v0.9.5
-    # --------------------  -------
+    #--------------------  -------
+    #janis-core            v0.10.0
+    #janis-assistant       v0.10.0
+    #janis-templates       v0.10.0
+    #janis-unix            v0.10.0
+    #janis-bioinformatics  v0.10.0
+    #janis-pipelines       v0.10.0
+    #--------------------  -------
     ```
 
 #### Connecting to preconfigured EC2 instance
@@ -102,7 +102,7 @@ You will receive:
 - A URL to an instance,
 - A password
 
-You must ensure that your `janis-key.pem` has appropriate permissions for SSH, then you can simply SSH:
+To get to your instance, you can ssh in with the provided credentials. For example: 
 
 ```bash
 ssh ec2-13-236-147-245.ap-southeast-2.compute.amazonaws.com
@@ -133,7 +133,10 @@ We will start with downloading all the test data required for this workshop. For
 ```bash
 # You might see warnings when untarring this workshop data due
 # to a difference of tar versions when archiving on macOS.
+
+
 mkdir janis-bcc2020 && cd janis-bcc2020
+
 wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/bcc2020/resources/bcc-data.tar" | tar -xz
 ```
 
@@ -141,10 +144,10 @@ The download contains folders for data, references and the solutions. You can co
 
 ```bash
 ls -lGh
-# drwxr-xr-x   5 franklinmichael data
-# drwxr-xr-x   4 franklinmichael day1
-# drwxr-xr-x   7 franklinmichael day2
-# drwxr-xr-x  14 franklinmichael reference
+drwxr-xr-x 2 ec2-user  119 Jul 17 13:18 data
+drwxr-xr-x 2 ec2-user   63 Jul 17 13:18 day1
+drwxr-xr-x 2 ec2-user  104 Jul 17 13:18 day2
+drwxr-xr-x 2 ec2-user 4.0K Jul 17 03:36 reference
 ```
 
 ### Setting up Janis 
@@ -211,7 +214,7 @@ This command will:
 
 You will see logs from cwltool in the terminal. There is a number of statements that are worth highlighting:
 
-```
+```bash
 ... [INFO]: Starting task with id = 'a6acf2'
 ... [INFO]: CWLTool has started with pid=41562
 ... # Selected CWLTool logs
@@ -221,7 +224,7 @@ You will see logs from cwltool in the terminal. There is a number of statements 
 
 We can track the progress of our workflow with:
 
-```
+```bash
 janis watch part1/
 ```
 
