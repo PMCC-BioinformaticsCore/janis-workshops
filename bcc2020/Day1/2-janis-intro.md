@@ -99,16 +99,14 @@ A virtual environment is the best way to install Janis. It contains all the depe
 
 You will receive:
 
-- A `janis-key.pem` file (this is your security key)
-- A URL to the instance (your user is `ec2-user`)
+- A URL to an instance,
+- A password
 
 You must ensure that your `janis-key.pem` has appropriate permissions for SSH, then you can simply SSH:
 
 ```bash
-URL='ec2-13-236-147-245.ap-southeast-2.compute.amazonaws.com'
-# in the directory with the janis-key.pem
-chmod 400 janis-key.pem
-ssh -i "janis-key.pem" ec2-user@$URL
+ssh ec2-13-236-147-245.ap-southeast-2.compute.amazonaws.com
+# enter the password when prompted
 ```
 
 Janis should be already installed, you can confirm this by running:
@@ -116,12 +114,12 @@ Janis should be already installed, you can confirm this by running:
 ```bash
     janis -v
     # --------------------  -------
-    # janis-core            v0.9.22
-    # janis-assistant       v0.9.19
-    # janis-unix            v0.9.2
-    # janis-bioinformatics  v0.9.15
-    # janis-templates       v0.9.5
-    # janis-pipelines       v0.9.5
+    # janis-core            v0.10.0
+    # janis-assistant       v0.10.0
+    # janis-unix            v0.10.0
+    # janis-bioinformatics  v0.10.0
+    # janis-templates       v0.10.0
+    # janis-pipelines       v0.10.0
     # --------------------  -------
 ```
 
@@ -133,6 +131,8 @@ We will start with downloading all the test data required for this workshop. For
 - A test reference genome (and other resource bundle databases) derived from human HG38 reference provided by [GATK Resource Bundle]( https://console.cloud.google.com/storage/browser/genomics-public-data/references/hg38/v0/), cut down to a single gene region (chr17:43044045-43125733).
 
 ```bash
+# You might see warnings when untarring this workshop data due
+# to a difference of tar versions when archiving on macOS.
 mkdir janis-bcc2020 && cd janis-bcc2020
 wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/bcc2020/resources/bcc-data.tar" | tar -xz
 ```
@@ -141,7 +141,10 @@ The download contains folders for data, references and the solutions. You can co
 
 ```bash
 ls -lGh
-# <TODO: Log here>
+# drwxr-xr-x   5 franklinmichael data
+# drwxr-xr-x   4 franklinmichael day1
+# drwxr-xr-x   7 franklinmichael day2
+# drwxr-xr-x  14 franklinmichael reference
 ```
 
 ### Setting up Janis 
@@ -149,7 +152,7 @@ ls -lGh
 Next, let's initialise our Janis environment. This step is only required on the first time we setup Janis on a new environment.
 
 ```bash
-    janis init local 
+janis init local 
 ```
 
 Running this command will create a configuration file at `~/.janis/janis.conf`.

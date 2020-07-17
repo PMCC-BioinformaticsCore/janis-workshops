@@ -1,7 +1,7 @@
 # BCC2020 EAST - Janis Workshop (1.5)
 # Debugging a run
 
-Workflows do not always run smoothly, and for that it is useful to understand how workflows run, and how Janis can help you solve runtime problems. 
+Workflows don't always run smoothly, and for that it is useful to understand how workflows run, and how Janis can help you solve runtime problems. 
 
 The Janis documentation contains some answers for:
 
@@ -21,17 +21,16 @@ less part2/janis/logs/engine.log
 
 ## Looking inside Janis directory
 
-Our previous execution directory `part2` (`$HOME/janis-workshop1/part2`) contains a number of outputs, let's look at it using `ls`:
+Our previous execution directory `day1` contains a number of outputs, let's look at it using `ls`:
 
+```bash
+$ ls -lgh day1/
+# drwxr-xr-x  franklinmichael  320B  janis
+# -rw-r--r--  franklinmichael  2.7M  out_bam.bam
+# -rw-r--r--  franklinmichael  296B  out_bam.bam.bai
 ```
-$ ls part2
 
-drwxr-xr-x  franklinmichael  320B  janis
--rw-r--r--  franklinmichael  2.8M  out.bam
--rw-r--r--  franklinmichael  1.4M  out.bam.bai
-```
-
-We see our outputs `out.bam*`, let's look inside the `janis` directory:
+We see our outputs `out_bam.bam*`, let's look inside the `janis` directory:
 
 ```
 $ ls part2/janis/
@@ -47,9 +46,9 @@ drwxr-xr-x  franklinmichael   300B  workflow
 
 There are a couple we'll highlight:
 
-- `execution/`: Cromwell will place intermediate execution in this folder 
+- `execution/`: Cromwell / CWLTool will place intermediate execution in this folder 
 - `logs/`: Contains logs and stdout / stderr
-- `workflow/` Contains the WDL (/ CWL) translation of the workflow + tools and the inputs
+- `workflow/` Contains the WDL / CWL translation of the workflow + tools and the inputs
 - `task.db`: An SQLite database that Janis uses to store metadata about the workflow run.
 
 And a brief explanation fo the other folders

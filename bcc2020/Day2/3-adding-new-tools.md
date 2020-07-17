@@ -530,6 +530,10 @@ BaseRecalibrator requires an input for its known sites, let's mirror this input 
 w.input("known_sites", Array(VcfTabix))
 ```
 
+> We'll use the two files from the reference folder:
+> - `reference/brca1_hg38_dbsnp138.vcf.gz`
+> - `reference/brca1_hg38_known_indels.vcf.gz`
+
 We can then add two new steps for `baserecalibrator` and `applybqsr` to the bottom of the same file`:
 
 ```python
@@ -568,7 +572,8 @@ janis run -o day2 --development \
     day2/variantcaller_solution.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
-    --known_sites reference/knownsites.vcf.gz \
+    --known_sites reference/brca1_hg38_dbsnp138.vcf.gz \
+    --known_sites reference/brca1_hg38_known_indels.vcf.gz \
     --sample_name NA12878 \
     --read_group "@RG\tID:NA12878\tSM:NA12878\tLB:NA12878\tPL:ILLUMINA"
 ```
