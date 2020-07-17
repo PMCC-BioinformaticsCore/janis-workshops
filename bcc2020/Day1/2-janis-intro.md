@@ -134,7 +134,7 @@ We will start with downloading all the test data required for this workshop. For
 
 ```bash
 mkdir janis-bcc2020 && cd janis-bcc2020
-wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/bcc-2020/bcc2020/resources/bcc-data.tar" | tar -xz
+wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/bcc2020/resources/bcc-data.tar" | tar -xz
 ```
 
 The download contains folders for data, references and the solutions. You can confirm this with:

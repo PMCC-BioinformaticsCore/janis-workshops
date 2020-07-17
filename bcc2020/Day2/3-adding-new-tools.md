@@ -39,7 +39,7 @@ You've already downloaded everything you need yesterday, but just in case:
 
 ```bash
 mkdir janis-bcc2020 && cd janis-bcc2020
-wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/bcc-2020/bcc2020/resources/bcc-data.tar" | tar -xz
+wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/bcc2020/resources/bcc-data.tar" | tar -xz
 ```
 
 We'll work out of the `day2` folder.
