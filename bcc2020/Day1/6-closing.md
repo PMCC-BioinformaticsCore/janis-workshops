@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.5)
+# BCC2020 EAST - Janis Workshop (1.6)
 
 ## Summary
 
@@ -17,3 +17,6 @@ In the second part of this workshop tomorrow, we will cover:
 - How to add new tools (that are not in tools registry) 
 - Complete our simple germline variant calling pipeline
 - How we can use the translated CWL & WDL pipelines on other platform
+
+
+

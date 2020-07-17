@@ -1,4 +1,4 @@
-
+# BCC2020 EAST - Janis Workshop (1.5)
 # Debugging a run
 
 Workflows do not always run smoothly, and for that it is useful to understand how workflows run, and how Janis can help you solve runtime problems. 
@@ -103,3 +103,6 @@ ERROR [step samtoolsview] Output is missing expected field file:///Users/frankli
 ```
 
 This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stderr`. Have a look through the engine log for more information.
+
+
+

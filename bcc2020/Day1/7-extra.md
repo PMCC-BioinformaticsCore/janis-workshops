@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.5)
+# BCC2020 EAST - Janis Workshop (1.7)
 
 ## Config
 

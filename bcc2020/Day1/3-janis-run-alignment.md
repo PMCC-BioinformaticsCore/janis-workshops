@@ -298,3 +298,6 @@ $ ls -lgh day1/
 We see the `tmp_out_unsortedbam.bam` which is the BAM output of mark duplicates. 
 
 You can now remove the `tmp_out_unsortedbam` output we created in the last section.
+
+
+

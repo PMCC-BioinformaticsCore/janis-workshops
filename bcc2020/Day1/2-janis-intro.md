@@ -39,7 +39,7 @@ In fact, Janis is actually split into two components that addresses these questi
 - Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to in other pipelineing systems.
 
     - For a file or directory to be available to your tool, you need to EXPLICITLY include it. 
-        - This includes associated files, if you want an indexed bam, you must use the BamBai type.
+        - This includes associated files, if you want an indexed bam, you must use the BamBai type. 
 
     - Outputs of a _tool_ must be EXPLICITLY collected to be used by future steps, else they will be removed.
 
@@ -114,17 +114,23 @@ ssh -i "janis-key.pem" ec2-user@$URL
 Janis should be already installed, you can confirm this by running:
 
 ```bash
-janis -v
-# -------------------- ------ #
-# etc
+    janis -v
+    # --------------------  -------
+    # janis-core            v0.9.22
+    # janis-assistant       v0.9.19
+    # janis-unix            v0.9.2
+    # janis-bioinformatics  v0.9.15
+    # janis-templates       v0.9.5
+    # janis-pipelines       v0.9.5
+    # --------------------  -------
 ```
 
 #### Download data
 
 We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `janis-bcc2020`. In this workshop, we use:
 
-- NA12878 sample, cut down to a single gene
-- HG38 reference, cut down to the single gene of the sample.
+- A test sample based on [Genome-In-A-Bottle NA12878](https://github.com/genome-in-a-bottle/giab_data_indexes), with reads being cut down to a single gene region (chr17:43044045-43125733)
+- A test reference genome (and other resource bundle databases) derived from human HG38 reference provided by [GATK Resource Bundle]( https://console.cloud.google.com/storage/browser/genomics-public-data/references/hg38/v0/), cut down to a single gene region (chr17:43044045-43125733).
 
 ```bash
 mkdir janis-bcc2020 && cd janis-bcc2020

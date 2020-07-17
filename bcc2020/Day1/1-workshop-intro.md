@@ -1,14 +1,14 @@
 # BCC2020 EAST - Janis Workshop (1.1)
 ## Produce a portable germline variant-calling pipeline in CWL and WDL using Janis and GATK
 
-Welcome to BCC2020 East Janis workshop. This is a 2-part workshop where we'll use Janis to build a genomic variant-calling pipeline. 
+Welcome to BCC2020 East Janis workshop. This is a 2-part workshop where we will use Janis to build a genomic variant-calling pipeline. 
 
 Workflows from this workshop are adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
 
 - https://github.com/gatk-workflows/gatk4-data-processing
 - https://github.com/gatk-workflows/gatk4-germline-snps-indels
 
-The goal of this workshop is to introduce Janis for building portable pipelines. We build a toy variant-caller that works for small data sets, please note that the pipeline produced by this workshop should be used as a guide, and is NOT for production usage. Please consider reviewing the pipeline details such as tools' parameters, genome references and databases at the end of this workshop if you are intend to use this for other samples.  
+The goal of this workshop is to introduce Janis for building portable pipelines. We build a toy variant-caller that works for small data sets. **Please note that the pipeline produced by this workshop should only be used as a guide, and is NOT for production usage**. Please consider reviewing the pipeline details such as tools' parameters, genome references and databases at the end of this workshop if you are intend to use this for other samples.  
 
 ## Important Links:
 
@@ -20,24 +20,27 @@ The goal of this workshop is to introduce Janis for building portable pipelines.
 
 ### Day 1
 
-Day 1 is primarily becoming familiar with Janis, 
+For the first session, we will get ourselves familiar with Janis.  
 
 |            	| Description                                                                                                                                                      	|
 |------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | 30 minutes 	| Introduction to Janis<br>- Installing and setting up Janis Environment<br>- _OR_ connecting to preconfigured environment<br>- Running a small workflow as a test 	|
 | 30 minutes 	| Building a workflow to align a set of fastqs<br>- Learn about preconfigured tools<br>- Using BWA mem + samtools view<br>- Running a small test       	|
 | 30 minutes 	| Exercise: Extend alignment to complete data processing<br>- Add Mark Duplicates + Sort Sam<br>- Test the pipeline                                                            	|
-| 30 minutes 	| Q&A                                |
+| 30 minutes 	| Wrap-up <br> - Going through exercise' solutions <br>- Q&A|
 
 
 
 ### Day 2
 
-- Recap of Day 1
-- Adding new tools definition in Janis (GATK HaplotypeCaller)
-- Exercise: Adding more tools (BQSR) to complete the germline variant calling pipeline
-- Using translated CWL & WDL pipelines on other platform 
-- Q&A 
+For the second session, we will complete our portable germline variant-calling pipeline
+
+|            	| Description                                                                                                                                                      	|
+|------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| 30 minutes 	| Recap of Day 1 |
+| 30 minutes 	| Adding new tools definition in Janis <br> - Create Janis' GATK ApplyBQSR + GATK BaseRecalibrator <br> - Add new tools to workflow <br> - Test updated pipeline |
+| 30 minutes 	| Exercise: Adding more tools to complete germline pipeline <br>- Add GATK HaplotypeCaller  <br> -  Add new tool to workflow <br> - Test updated pipeline 	|
+| 30 minutes 	| Wrap-up <br> - Going through exercise' solutions <br>- Q&A|
 
 
 ## Workshop environment
@@ -59,7 +62,7 @@ This is the preferred way of participating in the Janis workshop, however you mu
 
 ### SSH to Linux VM
 
-During BCC, we can supply a limited number of preconfigured instances. These are t2.large EC2 instances (2 cores + 8GB ram) with the appropraite software installed. To use these instances, you must have: 
+During BCC, we can supply a limited number of preconfigured instances. These are t2.large EC2 instances (2 cores + 8GB ram) with the appropriate software installed. To use these instances, you must have: 
 
 - SSH client (for connecting to the instance):
     - See [Connect to your Linux instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html) for more options,
