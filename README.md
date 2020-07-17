@@ -28,7 +28,7 @@ Every piece of data should be referenced, please [raise an issue](https://github
 The BRCA1 samples are sourced from the [SAMN03492678 study](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SAMN03492678) of [NA12878](ftp://ftp-trace.ncbi.nih.gov/giab/ftp/data/NA12878/NIST_NA12878_HG001_HiSeq_300x/140407_D00360_0017_BH947YADXX/Project_RM8398/) of the Genome in a Bottle project:
 
 > - BRCA1_30X: gene BRCA1 from the WGS_30X:
-> - Calcualted coverage: 33.6X
+> - Calculated coverage: 33.6X
 > - Location: 17:43044295-43125483 (from NCBI)
 > - Extract reads in 17:43044045-43125733 (+- 250bp)
 

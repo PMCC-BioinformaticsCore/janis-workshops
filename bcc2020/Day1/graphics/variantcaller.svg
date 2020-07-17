@@ -1,0 +1,380 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cwl-workflow nMiNec __plugin-port-drag __plugin-validate __plugin-selection __plugin-update" ct-click="" tabindex="-1" ct-drop-enabled="" ct-drop-zones="graph-editor">
+            <rect x="0" y="0" width="100%" height="100%" class="pan-handle" transform="matrix(1,0,0,1,0,0)" style="fill:rgb(48, 48, 48); stroke:none; stroke-width:1px; "/>
+            <g class="workflow" transform="matrix(1.23832 0 0 1.23832 192.428 289.748)">
+            <g tabindex="-1" class="edge __validate-invalid" data-source-port="out" data-destination-port="sam" data-source-node="bwamem" data-source-connection="out/bwamem/out" data-destination-connection="in/samtoolsview/sam" data-destination-node="samtoolsview">
+                <path class="sub-edge outer" d="M 44 74.5 C 88.53668212890625 74.5 88.53668212890625 81.5 133.0733642578125 81.5" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 44 74.5 C 88.53668212890625 74.5 88.53668212890625 81.5 133.0733642578125 81.5" style="fill:none; stroke:rgb(248, 148, 6); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out" data-destination-port="bam" data-source-node="samtoolsview" data-source-connection="out/samtoolsview/out" data-destination-connection="in/markduplicates/bam" data-destination-node="markduplicates">
+                <path class="sub-edge outer" d="M 207.0733642578125 81.5 C 232.7452392578125 81.5 232.7452392578125 74.5 258.4171142578125 74.5" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 207.0733642578125 81.5 C 232.7452392578125 81.5 232.7452392578125 74.5 258.4171142578125 74.5" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out" data-destination-port="bam" data-source-node="markduplicates" data-source-connection="out/markduplicates/out" data-destination-connection="in/sortsam/bam" data-destination-node="sortsam">
+                <path class="sub-edge outer" d="M 342.8186225891113 57.07249069213867 C 386.53736305236816 57.07249069213867 386.53736305236816 81.5 430.256103515625 81.5" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 342.8186225891113 57.07249069213867 C 386.53736305236816 57.07249069213867 386.53736305236816 81.5 430.256103515625 81.5" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out" data-destination-port="bam" data-source-node="sortsam" data-source-connection="out/sortsam/out" data-destination-connection="in/fix_tags/bam" data-destination-node="fix_tags">
+                <path class="sub-edge outer" d="M 504.256103515625 81.5 C 532.055347442627 81.5 532.055347442627 91.92750549316406 559.8545913696289 91.92750549316406" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 504.256103515625 81.5 C 532.055347442627 81.5 532.055347442627 91.92750549316406 559.8545913696289 91.92750549316406" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out" data-destination-port="bam" data-source-node="fix_tags" data-source-connection="out/fix_tags/out" data-destination-connection="in/baserecalibration/bam" data-destination-node="baserecalibration">
+                <path class="sub-edge outer" d="M 644.256103515625 74.5 C 689.7481594085693 74.5 689.7481594085693 33.252397537231445 735.2402153015137 33.252397537231445" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 644.256103515625 74.5 C 689.7481594085693 74.5 689.7481594085693 33.252397537231445 735.2402153015137 33.252397537231445" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out" data-destination-port="bam" data-source-node="fix_tags" data-source-connection="out/fix_tags/out" data-destination-connection="in/applybqsr/bam" data-destination-node="applybqsr">
+                <path class="sub-edge outer" d="M 644.256103515625 74.5 C 767.2481594085693 74.5 767.2481594085693 135.25239753723145 890.2402153015137 135.25239753723145" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 644.256103515625 74.5 C 767.2481594085693 74.5 767.2481594085693 135.25239753723145 890.2402153015137 135.25239753723145" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out_recalibration_report" data-destination-port="recalFile" data-source-node="baserecalibration" data-source-connection="out/baserecalibration/out_recalibration_report" data-destination-connection="in/applybqsr/recalFile" data-destination-node="applybqsr">
+                <path class="sub-edge outer" d="M 828.0169677734375 4 C 854.5169677734375 4 854.5169677734375 106 881.0169677734375 106" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 828.0169677734375 4 C 854.5169677734375 4 854.5169677734375 106 881.0169677734375 106" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            <g tabindex="-1" class="edge " data-source-port="out_bam" data-destination-port="bam" data-source-node="applybqsr" data-source-connection="out/applybqsr/out_bam" data-destination-connection="in/haplotypecaller/bam" data-destination-node="haplotypecaller">
+                <path class="sub-edge outer" d="M 983.0169677734375 106 C 1019.0115242004395 106 1019.0115242004395 85.92750549316406 1055.0060806274414 85.92750549316406" style="fill:none; stroke:rgb(48, 48, 48); stroke-width:7px; "/>
+                <path class="sub-edge inner" d="M 983.0169677734375 106 C 1019.0115242004395 106 1019.0115242004395 85.92750549316406 1055.0060806274414 85.92750549316406" style="fill:none; stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+            </g>
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        <g tabindex="-1" class="node step  " data-connection-id="bwamem" transform="matrix(1, 0, 0, 1, 0, 74.5)" data-id="bwamem">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="44" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="33" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 74)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">BWA-MEM</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -40.401510249807416, -17.427506119198636)" data-connection-id="in/bwamem/reference" data-port-id="reference">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1.0000000000000002, 0, 0, 1.0000000000000002, -40.401510249807416, 17.427506119198647)" data-connection-id="in/bwamem/reads" data-port-id="reads">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 44, 0)" data-connection-id="out/bwamem/out" data-port-id="out">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="samtoolsview" transform="matrix(1, 0, 0, 1, 170.0733642578125, 81.5)" data-id="samtoolsview">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="37" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="27.75" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 67)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">SamTools: View</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -37, 4.531193156845207e-15)" data-connection-id="in/samtoolsview/sam" data-port-id="sam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 37, 0)" data-connection-id="out/samtoolsview/out" data-port-id="out">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="markduplicates" transform="matrix(1, 0, 0, 1, 302.4171142578125, 74.5)" data-id="markduplicates">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="44" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="33" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 74)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">GATK4: Mark Duplicates</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -44, 5.3884459162483544e-15)" data-connection-id="in/markduplicates/bam" data-port-id="bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 40.401508509347615, -17.427510154038423)" data-connection-id="out/markduplicates/out" data-port-id="out">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 40.401508509347615, 17.427510154038423)" data-connection-id="out/markduplicates/metrics" data-port-id="metrics">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="sortsam" transform="matrix(1, 0, 0, 1, 467.256103515625, 81.5)" data-id="sortsam">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="37" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="27.75" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 67)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">GATK4: SortSAM</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -37, 4.531193156845207e-15)" data-connection-id="in/sortsam/bam" data-port-id="bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 37, 0)" data-connection-id="out/sortsam/out" data-port-id="out">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="baserecalibration" transform="translate(777.017 4)" data-id="baserecalibration">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="51" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="38.25" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 81)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">Gatk4BaseRecalibrator</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -41.77675425873859, -29.252398253903337)" data-connection-id="in/baserecalibration/reference" data-port-id="reference">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -51, 6.245698675651501e-15)" data-connection-id="in/baserecalibration/knownSites" data-port-id="knownSites">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1.0000000000000002, 0, 0, 1.0000000000000002, -41.77675425873858, 29.252398253903365)" data-connection-id="in/baserecalibration/bam" data-port-id="bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 51, 0)" data-connection-id="out/baserecalibration/out_recalibration_report" data-port-id="out_recalibration_report">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="haplotypecaller" transform="translate(1095.41 68.5)" data-id="haplotypecaller">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="44" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="33" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 74)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">Gatk4HaplotypeCaller</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -40.401510249807416, -17.427506119198636)" data-connection-id="in/haplotypecaller/reference" data-port-id="reference">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1.0000000000000002, 0, 0, 1.0000000000000002, -40.401510249807416, 17.427506119198647)" data-connection-id="in/haplotypecaller/bam" data-port-id="bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 40.401508509347615, -17.427510154038423)" data-connection-id="out/haplotypecaller/out_vcf" data-port-id="out_vcf">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 40.401508509347615, 17.427510154038423)" data-connection-id="out/haplotypecaller/out_bam" data-port-id="out_bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="applybqsr" transform="translate(932.017 106)" data-id="applybqsr">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="51" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="38.25" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 81)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">Gatk4ApplyBqsr</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -41.77675425873859, -29.252398253903337)" data-connection-id="in/applybqsr/reference" data-port-id="reference">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -51, 6.245698675651501e-15)" data-connection-id="in/applybqsr/recalFile" data-port-id="recalFile">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1.0000000000000002, 0, 0, 1.0000000000000002, -41.77675425873858, 29.252398253903365)" data-connection-id="in/applybqsr/bam" data-port-id="bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 51, 0)" data-connection-id="out/applybqsr/out_bam" data-port-id="out_bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g><g tabindex="-1" class="node step  " data-connection-id="fix_tags" transform="matrix(1, 0, 0, 1, 600.256103515625, 74.5)" data-id="fix_tags">
+               
+                <g class="core" transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <circle cx="0" cy="0" r="44" class="outer" style="fill:rgb(48, 48, 48); stroke:rgb(154, 154, 154); stroke-width:2px; "/>
+                    <circle cx="0" cy="0" r="33" class="inner" style="fill:rgb(17, 167, 167); stroke:none; stroke-width:1px; "/>
+                    
+                    <svg class="node-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 397.78" x="-10" y="-8" width="20" height="15"><title>tool2</title><polygon points="38.77 397.57 0 366 136.15 198.78 0 31.57 38.77 0 200.63 198.78 38.77 397.57" style="stroke:rgb(48, 48, 48); fill:rgb(48, 48, 48); "/><rect x="198.39" y="347.78" width="200" height="50" style="fill:rgb(48, 48, 48); stroke:rgb(48, 48, 48); stroke-width:3px; "/></svg>
+                </g>
+                
+                <text transform="matrix(0.903774 0 0 0.903774 0 74)" class="title label" style="fill:rgb(255, 255, 255); font-size:13px; text-anchor:middle; font-family:sans-serif; ">GATK4: SetNmMdAndUqTags</text>
+                
+                
+            <g class="port input-port" transform="matrix(1, 0, 0, 1, -40.401510249807416, -17.427506119198636)" data-connection-id="in/fix_tags/reference" data-port-id="reference">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            <g class="port input-port" transform="matrix(1.0000000000000002, 0, 0, 1.0000000000000002, -40.401510249807416, 17.427506119198647)" data-connection-id="in/fix_tags/bam" data-port-id="bam">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+                
+            <g class="port output-port" transform="matrix(1, 0, 0, 1, 44, 0)" data-connection-id="out/fix_tags/out" data-port-id="out">
+                <g class="io-port">
+                    <circle cx="0" cy="0" r="7" class="port-handle" style="fill:rgb(195, 195, 195); stroke:none; stroke-width:1px; "/>
+                </g>
+                
+            </g>
+            
+        
+            </g></g>
+        </svg>
