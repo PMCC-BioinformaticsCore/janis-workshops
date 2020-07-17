@@ -79,7 +79,7 @@ class Gatk4DataPreprocessing(Workflow):
             Gatk4MarkDuplicates_4_1_4(
                 bam=self.align.out,
                 validationStringency="SILENT",
-                opticalDuplicatePixelDistance=2500,
+                # opticalDuplicatePixelDistance=2500,
                 # createMd5File=True,
                 assumeSortOrder="queryname",
             ),
@@ -204,4 +204,7 @@ class CreateSequenceGroupings(PythonTool):
 
 
 if __name__ == "__main__":
-    Gatk4DataPreprocessing().translate("cwl")
+    Gatk4DataPreprocessing().translate(
+        "cwl", export_path="~/Desktop/tmp/janis/bccworkshop/", to_disk=True
+    )
+
