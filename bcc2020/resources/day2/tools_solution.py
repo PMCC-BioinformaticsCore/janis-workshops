@@ -43,7 +43,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
     tool="Gatk4ApplyBqsr",
     container="broadinstitute/gatk:4.1.4.0",
     version="v4.1.4.0",
-    base_command=["gatk", "ApplyBqsr"],
+    base_command=["gatk", "ApplyBQSR"],
     inputs=[
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
@@ -53,6 +53,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
             Filename(
                 prefix=InputSelector("bam"), suffix=".recalibrated", extension=".bam"
             ),
+            prefix="--output",
         ),
         ToolInput(
             "createBamIndex",

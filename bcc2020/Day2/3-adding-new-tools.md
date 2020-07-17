@@ -394,7 +394,7 @@ command <<<
 
 ```
 
-## GATK ApplyBqsr
+## GATK ApplyBQSR
 
 We'll apply a similar treatment for ApplyBQSR:
 
@@ -458,10 +458,10 @@ This should leave you the final tool:
 
 ```python
 Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
-    tool="Gatk4ApplyBqsr",
+    tool="Gatk4ApplyBQSR",
     container="broadinstitute/gatk:4.1.4.0",
     version="v4.1.4.0",
-    base_command=["gatk", "ApplyBqsr"],
+    base_command=["gatk", "ApplyBQSR"],
     inputs=[
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
@@ -499,7 +499,7 @@ janis translate day2/tools.py --name Gatk4ApplyBQSR_4_1_4 wdl
 Command:
 ```
 command <<<
-    gatk ApplyBqsr \
+    gatk ApplyBQSR \
         --input '~{bam}' \
         --reference '~{reference}' \
         --bqsr-recal-file '~{recalFile}' \
