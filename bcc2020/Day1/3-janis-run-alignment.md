@@ -206,7 +206,7 @@ Often, we don't want to specify the output data type, because we can let Janis d
 We'll add an output called `tmp_bamoutput`, and use `markduplicates.out` as the source: 
 
 ```python
-w.output("tmp_out_unsortedbam", source=w.markduplicates.out)
+w.output("tmp_out_unsortedbam", Bam, source=w.markduplicates.out)
 ```
 
 You can save and close your vim session now (`Esc` and then type `:x` + enter) for the next session.
