@@ -96,7 +96,7 @@ Hopefully you have a workflow that looks like the following!
 ```python
     
 from janis_core import WorkflowBuilder, String
-
+  
 # Import bioinformatics types
 from janis_bioinformatics.data_types import FastqGzPairedEnd, FastaWithIndexes
 
@@ -106,6 +106,7 @@ from janis_bioinformatics.tools.samtools import SamToolsView_1_9
 from janis_bioinformatics.tools.gatk4 import (
     Gatk4MarkDuplicates_4_1_4,
     Gatk4SortSam_4_1_4,
+    Gatk4SetNmMdAndUqTags_4_1_4,
 )
 
 # Construct the workflow here
@@ -118,7 +119,7 @@ w.input("fastq", FastqGzPairedEnd)
 w.input("reference", FastaWithIndexes)
 
 # Use `bwa mem` to align our fastq paired ends to the reference genome
-    
+
 w.step(
     "bwamem",  # step identifier
     BwaMemLatest(
@@ -141,7 +142,7 @@ w.step(
 w.step(
     "markduplicates",
     Gatk4MarkDuplicates_4_1_4(
-        bam=w.samtoolsview.out, 
+        bam=w.samtoolsview.out,
         assumeSortOrder="queryname"
     ),
 )
@@ -197,7 +198,8 @@ This time we notice that CWLTool is using _cached output_ of the first two steps
 Inspecting out output directory, we two more entries: a bam and its index!
 
 ```bash
-$ ls -lgh day1/total 17992
+$ ls -lgh day1/
+
 # -rw-r--r--  3 1677682026   2.7M Jul 16 17:15 out_bam.bam
 # -rw-r--r--  3 1677682026   296B Jul 16 17:15 out_bam.bam.bai
 ```
