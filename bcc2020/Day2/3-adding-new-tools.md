@@ -428,6 +428,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
             Filename(
                 prefix=InputSelector("bam"), suffix=".recalibrated", extension=".bam"
             ),
+	    prefix="--output",
         ),
         ToolInput(
             "createBamIndex",
@@ -471,6 +472,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
             Filename(
                 prefix=InputSelector("bam"), suffix=".recalibrated", extension=".bam"
             ),
+	    prefix="--output",
         ),
         ToolInput(
             "createBamIndex",
