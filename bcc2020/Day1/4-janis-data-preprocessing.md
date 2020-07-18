@@ -64,7 +64,7 @@ Try to write the step definition _BEFORE_ checking the solution below:
     <summary> Click to show solution </summary>
 
 ```python
-self.step(
+w.step(
     "fix_tags",
     Gatk4SetNmMdAndUqTags_4_1_4(
         bam=w.sortsam.out,
@@ -151,7 +151,15 @@ w.step("sortsam",
         bam=w.markduplicates.out,
         sortOrder="coordinate",))
 
-w.output("out_bam", source=w.sortsam.out)
+w.step(
+    "fix_tags",
+    Gatk4SetNmMdAndUqTags_4_1_4(
+        bam=w.sortsam.out,
+        reference=w.reference,
+    ),
+)
+
+w.output("out_bam", source=w.fix_tags.out)
     
 ```
 
