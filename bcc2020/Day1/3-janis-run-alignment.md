@@ -57,6 +57,14 @@ from janis_bioinformatics.tools.gatk4 import (
     - `Gatk4SortSam_4_1_4` from `gatk4`
     - `Gatk4SetNmMdAndUqTags_4_1_4` from `gatk4`
 
+## Importing additional data_type
+
+We'll import additional data_type to handle our Bam output. 
+
+```python
+from janis_bioinformatics.data_types import Bam
+```
+
 ## Declaring our workflow
 
 We'll create an instance of the [`WorkflowBuilder`](https://janis.readthedocs.io/en/latest/references/workflow.html#janis.Workflow) class, this just requires a name for your workflow (can contain alphanumeric characters and underscores).
