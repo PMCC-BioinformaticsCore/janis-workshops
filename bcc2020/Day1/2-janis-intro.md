@@ -47,7 +47,7 @@ In fact, Janis is actually split into two components that addresses these questi
 
     - A step's requirements (its inputs) can be an input to a workflow, or the output of a previous step (hence creating a dependency).
 
-        ![Diagram of alignment workflow showing connections](graphics/align-light.png)
+        ![Diagram of variant-calling workflow showing connections](graphics/variantcaller.png)
 
 - In Janis, all tasks are executed inside a isolated virtual environment called a [_Container_](https://www.docker.com/resources/what-container). Docker and Singularity are two common container types. (Docker containers can be executed by Singularity.)
 

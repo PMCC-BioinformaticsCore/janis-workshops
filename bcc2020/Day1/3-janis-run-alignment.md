@@ -4,6 +4,11 @@
 
 In this stage, we are going to build a simple workflow to align short reads of DNA. This section is specifically modelled from the [GATK4 data processing for variant discovery WDL workflow](https://github.com/gatk-workflows/gatk4-data-processing/blob/master/processing-for-variant-discovery-gatk4.wdl). As discussed before, we've made modifications to simplify the workflow creation, and start with unaligned Fastqs rather than uBAMs. 
 
+This is the full workflow we'll build:
+
+
+![Diagram of variant-calling workflow showing connections](graphics/variantcaller.png)
+
 Our workflow will consist of the following steps:
 
 1. Start with a pair of compressed `FASTQ` files,
