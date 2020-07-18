@@ -67,8 +67,8 @@ Try to write the step definition _BEFORE_ checking the solution below:
 self.step(
     "fix_tags",
     Gatk4SetNmMdAndUqTags_4_1_4(
-        bam=self.sortsam.out,
-        reference=self.reference,
+        bam=w.sortsam.out,
+        reference=w.reference,
     ),
 )
 ```
