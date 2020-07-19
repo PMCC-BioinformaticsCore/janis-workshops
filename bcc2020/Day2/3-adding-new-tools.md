@@ -111,7 +111,7 @@ janis.ToolInput(
 
 We’ll use a `janis.ToolOutput` to collect and represent outputs. A ToolOutput has a type, and we can use a `selector` to get an output.
 
-```
+```python
 janis.ToolOutput(
     tag: str,
     output_type: DataType,
