@@ -207,8 +207,8 @@ Alright, let's decode the different inputs we see to a corresponding ToolInput:
     ```python
     ToolInput(
         "outputFilename", 
-	Filename(extension=".table"), 
-	prefix="--output"
+        Filename(extension=".table"), 
+        prefix="--output"
     ),
     ```
 
@@ -218,9 +218,9 @@ Alright, let's decode the different inputs we see to a corresponding ToolInput:
     ```python
     ToolInput(
         "knownSites", 
-	Array(VcfTabix), 
-	prefix="--known-sites", 
-	prefix_applies_to_all_elements=True
+        Array(VcfTabix), 
+        prefix="--known-sites", 
+        prefix_applies_to_all_elements=True
     ),
     ```
 
