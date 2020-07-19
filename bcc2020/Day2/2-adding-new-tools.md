@@ -205,14 +205,23 @@ Alright, let's decode the different inputs we see to a corresponding ToolInput:
 - `--output` - The filename of the output recalibration table. This is not an input file, but a generated filename. For this reason, we'll use the `janis.Filename` class to generate a filename:
 
     ```python
-    ToolInput("outputFilename", Filename(extension=".table"), prefix="--output"),
+    ToolInput(
+        "outputFilename", 
+	Filename(extension=".table"), 
+	prefix="--output"
+    ),
     ```
 
 
 - `--known-sites` - An array of known sites (gzipped compressed and tabix indexed VCF: `VcfTabix`). Note that the prefix applies to each element in the array: 
 
     ```python
-    ToolInput("knownSites", Array(VcfTabix), prefix="--known-sites", prefix_applies_to_all_elements=True),
+    ToolInput(
+        "knownSites", 
+	Array(VcfTabix), 
+	prefix="--known-sites", 
+	prefix_applies_to_all_elements=True
+    ),
     ```
 
 This gives definition as:
@@ -227,8 +236,17 @@ Gatk4BaseRecalibrator_4_1_4 = CommandToolBuilder(
     inputs=[
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
-        ToolInput("outputFilename", Filename(extension=".table"), prefix="--output"),
-        ToolInput("knownSites", Array(VcfTabix), prefix="--known-sites", prefix_applies_to_all_elements=True),
+        ToolInput(
+	    "outputFilename", 
+	    Filename(extension=".table"), 
+	    prefix="--output"
+	),
+        ToolInput(
+	    "knownSites", 
+	    Array(VcfTabix), 
+	    prefix="--known-sites", 
+	    prefix_applies_to_all_elements=True
+	),
     ],
     outputs=[],  # List[ToolOutput]
 )
