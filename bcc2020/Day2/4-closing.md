@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (2.6)
+# BCC2020 EAST - Janis Workshop (2.4)
 
 ## Summary
 

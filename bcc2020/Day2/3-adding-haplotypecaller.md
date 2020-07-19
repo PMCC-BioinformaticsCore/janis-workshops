@@ -1,9 +1,11 @@
-# BCC2020 EAST - Janis Workshop (2.4)
+# BCC2020 EAST - Janis Workshop (2.3)
 
 ## Exercise: add a variant-caller (GATK Haplotypecaller) to complete the germline variant-caller for this workshop
 
 In this section, we will give you some hands-on time to add new tool (not previously in the registry) to a workflow. The task in this exercise is to create a CommandTool for `GATK HaplotypeCaller` using a `janis.CommandToolBuilder` (in our `day2/tools.py` file). After we create this tool, we'll add it to our `day2/variantcaller.py` workflow.
 
+
+3. [HaplotypeCaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) - Our variant caller! Call germline SNPs and indels via local re-assembly of haplotypes.
 
 ## Creating GATK HaplotypeCaller tool class
 

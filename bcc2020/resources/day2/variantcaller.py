@@ -1,4 +1,4 @@
-from janis_core import WorkflowBuilder, String
+from janis_core import WorkflowBuilder, String, Array
 
 # Import bioinformatics types
 from janis_bioinformatics.data_types import (

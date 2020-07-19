@@ -97,14 +97,3 @@ w.output("out_bam", source=w.applybqsr.out_bam)
 w.output("out_assembledbam", source=w.haplotypecaller.out_bam)
 w.output("out_variants", source=w.haplotypecaller.out_vcf)
 
-
-if __name__ == "__main__":
-
-    import json
-    from janis_core.translations.cwl import CwlTranslator
-
-    out = CwlTranslator.translate_workflow_to_all_in_one(w).save()
-    with open("/Users/franklinmichael/Desktop/tmp/janis/bcc/vc.json", "w+") as f:
-        json.dump(out, f)
-
-    # w.translate("cwl", export_path="~/Desktop/tmp/janis/bcc/", to_disk=True)

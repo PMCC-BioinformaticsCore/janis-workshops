@@ -18,24 +18,15 @@ Gatk4BaseRecalibrator_4_1_4 = CommandToolBuilder(
     container="broadinstitute/gatk:4.1.4.0",
     version="v4.1.4.0",
     base_command=["gatk", "BaseRecalibrator"],
-    # we'll look at these next
+    
     inputs=[
-        ToolInput(
-            "bam", BamBai, prefix="--input", secondaries_present_as={".bai": "^.bai"}
-        ),
+        ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
         ToolInput("outputFilename", Filename(extension=".table"), prefix="--output"),
-        ToolInput(
-            "knownSites",
-            Array(VcfTabix),
-            prefix="--known-sites",
-            prefix_applies_to_all_elements=True,
-        ),
+        ToolInput("knownSites", Array(VcfTabix), prefix="--known-sites", prefix_applies_to_all_elements=True),
     ],
     outputs=[
-        ToolOutput(
-            "out_recalibration_report", File, selector=InputSelector("outputFilename")
-        )
+        ToolOutput("out_recalibration_report", File, selector=InputSelector("outputFilename"))
     ],
 )
 
@@ -48,27 +39,11 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
         ToolInput("recalFile", File, prefix="--bqsr-recal-file"),
-        ToolInput(
-            "outputFilename",
-            Filename(
-                prefix=InputSelector("bam"), suffix=".recalibrated", extension=".bam"
-            ),
-            prefix="--output",
-        ),
-        ToolInput(
-            "createBamIndex",
-            Boolean(optional=True),
-            prefix="--create-output-bam-index",
-            default=True,
-        ),
+        ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), suffix=".recal", extension=".bam"), prefix="--output"),
+        ToolInput("createBamIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
     ],
     outputs=[
-        ToolOutput(
-            "out_bam",
-            BamBai,
-            selector=InputSelector("outputFilename"),
-            secondaries_present_as={".bai": "^.bai"},
-        )
+        ToolOutput("out_bam", BamBai, selector=InputSelector("outputFilename"),secondaries_present_as={".bai": "^.bai"},)
     ],
 )
 
@@ -78,36 +53,14 @@ Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
     version="v4.1.4.0",
     base_command=["gatk", "HaplotypeCaller"],
     inputs=[
-        ToolInput(
-            "bam", BamBai, prefix="--input", secondaries_present_as={".bai": "^.bai"}
-        ),
+        ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
-        ToolInput(
-            "outputFilename",
-            Filename(prefix=InputSelector("bam"), extension=".vcf.gz"),
-            prefix="--output",
-        ),
-        ToolInput(
-            "bamOutputFilename",
-            Filename(
-                prefix=InputSelector("bam"), suffix=".assembled", extension=".bam"
-            ),
-            prefix="--bam-output",
-        ),
-        ToolInput(
-            "createBamOutputIndex",
-            Boolean(optional=True),
-            prefix="--create-output-bam-index",
-            default=True,
-        ),
+        ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), extension=".vcf.gz"), prefix="--output"),
+        ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam"), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
+        ToolInput("createBamOutputIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
     ],
     outputs=[
         ToolOutput("out_vcf", VcfTabix, selector=InputSelector("outputFilename")),
-        ToolOutput(
-            "out_bam",
-            BamBai,
-            selector=InputSelector("bamOutputFilename"),
-            secondaries_present_as={".bai": "^.bai"},
-        ),
+        ToolOutput("out_bam", BamBai, selector=InputSelector("bamOutputFilename"), secondaries_present_as={".bai": "^.bai"}),
     ],
 )
