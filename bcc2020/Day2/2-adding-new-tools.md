@@ -521,7 +521,7 @@ w.step(
 
 ### Add output to our new workflow
 
-Add a few outputs to our workflow to check that our workflow:
+Add a few outputs to collect the result of our workflow:
 
 ```python
 w.output("out_recalibration_table", source=w.baserecalibration.out_recalibration_report)
@@ -530,7 +530,7 @@ w.output("out_bam", source=w.applybqsr.out_bam)
 
 ### Final workflow definition
 
-Your final workflow definitionm should look like the following:
+Your final workflow definition should look like the following:
 
 ```python
 from janis_core import WorkflowBuilder, Array, String

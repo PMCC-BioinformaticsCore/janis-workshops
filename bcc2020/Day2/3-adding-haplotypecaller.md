@@ -5,8 +5,6 @@
 In this section, we will give you some hands-on time to add new tool (not previously in the registry) to a workflow. The task in this exercise is to create a CommandTool for `GATK HaplotypeCaller` using a `janis.CommandToolBuilder` (in our `day2/tools.py` file). After we create this tool, we'll add it to our `day2/variantcaller.py` workflow.
 
 
-3. [HaplotypeCaller](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) - Our variant caller! Call germline SNPs and indels via local re-assembly of haplotypes.
-
 ## Creating GATK HaplotypeCaller tool class
 
 The commandline equivalent command that we are trying to add into our workflow is 
@@ -22,6 +20,9 @@ gatk HaplotypeCaller  \
 
 Like all of previous steps, let's start with our template:
 
+<details>
+    <summary> Click to show solution </summary>
+
 ```python
 Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
     tool="Gatk4HaplotypeCaller",
@@ -33,173 +34,110 @@ Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
 )
 ```
 
-Let's wrap our individual inputs:
+    
+</details>
+
+
+<br> Let's wrap our individual inputs:
 
 - `bam`: will be an indexed bam (remember to rewrite the secondary files):
 
-    ```python
-    ToolInput(
-        "bam", BamBai, prefix="--input", secondaries_present_as={".bai": "^.bai"}
-    )
-    ```
-
 - `reference`: Reference sequence file
-
-    ```python
-    ToolInput("reference", FastaWithIndexes, prefix="--reference")
-    ```
 
 - `outputFilename`: Where to write the indexed output VCF.gz. Note, HaplotypeCaller will output a GZIP compressed VCF with it's tabix index (.vcf.gz.tbi), the Janis type `VcfTabix` can represent this on the output:
 
-    ```python
-    ToolInput(
-        "outputFilename",
-        Filename(prefix=InputSelector("bam"), extension=".vcf.gz"),
-        prefix="--output",
-    ),
-    ```
-
 - `bamOutputFilename`: File to which assembled haplotypes should be written
 
-    ```python
-    ToolInput(
-        "bamOutputFilename",
-        Filename(
-            prefix=InputSelector("bam"), suffix=".assembled", extension=".bam"
-        ),
-        prefix="--bam-output",
-    )
-    ```
-
 - `createBamOutputIndex`: We _want_ to create the index for the BAM.
+    
+<details>
+    <summary> Click to show solution </summary>
+    
+```python
+    ToolInput("bam", BamBai, prefix="--input"),
 
-    ```python
-    ToolInput(
-        "createBamOutputIndex",
-        Boolean(optional=True),
-        prefix="--create-output-bam-index",
-        default=True,
-    ),
-    ```
+    ToolInput("reference", FastaWithIndexes, prefix="--reference"),
+
+     ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), extension=".vcf.gz"), prefix="--output"),
+
+    ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam"), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
+
+    ToolInput("createBamOutputIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),   
+```
+    
+</details>      
 
 ### Outputs
 
-We have two outputs for this tool:
+We have two outputs for this tool `out_vcf` and `out_bam`: 
 
-- `out_vcf`: 
+<details>
+    <summary> Click to show solution </summary>
+    
+```python
+    ToolOutput("out_vcf", VcfTabix, selector=InputSelector("outputFilename")),
 
-    ```python
-    ToolOutput("out_vcf", VcfTabix, selector=InputSelector("outputFilename"))
-    ```
+    ToolOutput("out_bam", BamBai, selector=InputSelector("bamOutputFilename"), secondaries_present_as={".bai": "^.bai"}),
+```
+    
+</details>    
 
-- `out_bam`: 
-
-    ```python
-    ToolOutput(
-        "out_bam",
-        BamBai,
-        selector=InputSelector("bamOutputFilename"),
-        secondaries_present_as={".bai": "^.bai"},
-    )
-    ```
 
 ### Final HaplotypeCaller tool
 
+You should have your final haplotypecaller tool that looks like the following: 
+<details>
+    <summary> Click to show solution </summary>
+    
 ```python
-Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
+   Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
     tool="Gatk4HaplotypeCaller",
     container="broadinstitute/gatk:4.1.4.0",
     version="v4.1.4.0",
     base_command=["gatk", "HaplotypeCaller"],
     inputs=[
-        ToolInput(
-            "bam", BamBai, prefix="--input", secondaries_present_as={".bai": "^.bai"}
-        ),
+        ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
-        ToolInput(
-            "outputFilename",
-            Filename(prefix=InputSelector("bam"), extension=".vcf.gz"),
-            prefix="--output",
-        ),
-        ToolInput(
-            "bamOutputFilename",
-            Filename(
-                prefix=InputSelector("bam"), suffix=".assembled", extension=".bam"
-            ),
-            prefix="--bam-output",
-        ),
-        ToolInput(
-            "createBamOutputIndex",
-            Boolean(optional=True),
-            prefix="--create-output-bam-index",
-            default=True,
-        ),
+        ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), extension=".vcf.gz"), prefix="--output"),
+        ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam"), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
+        ToolInput("createBamOutputIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
     ],
     outputs=[
         ToolOutput("out_vcf", VcfTabix, selector=InputSelector("outputFilename")),
-        ToolOutput(
-            "out_bam",
-            BamBai,
-            selector=InputSelector("bamOutputFilename"),
-            secondaries_present_as={".bai": "^.bai"},
-        ),
+        ToolOutput("out_bam", BamBai, selector=InputSelector("bamOutputFilename"), secondaries_present_as={".bai": "^.bai"}),
     ],
 )
+    
 ```
+    
+</details>    
+    
+    
+    
+
+<br>
 Let's check the WDL conversion of the full tool:
 
 ```bash
-    janis translate day2/tools_solution.py --name Gatk4HaplotypeCaller_4_1_4 wdl
+    janis translate day2/tools.py --name Gatk4HaplotypeCaller_4_1_4 wdl
 ```
 
-```wdl
-version development
+The command part of this WDL file should look quite similar to the command that we are targetting. 
 
-task Gatk4HaplotypeCaller {
-  input {
-    Int? runtime_cpu
-    Int? runtime_memory
-    Int? runtime_seconds
-    Int? runtime_disks
-    File bam
-    File bam_bai
-    File reference
-    File reference_fai
-    File reference_amb
-    File reference_ann
-    File reference_bwt
-    File reference_pac
-    File reference_sa
-    File reference_dict
-    String? outputFilename
-    String? bamOutputFilename
-    Boolean? createBamOutputIndex
-  }
-  command <<<
+```wdl
+command <<<
     gatk HaplotypeCaller \
       --input '~{bam}' \
       --reference '~{reference}' \
       --output '~{select_first([outputFilename, "~{basename(bam, ".bam")}.vcf.gz"])}' \
-      --bam-output '~{select_first([bamOutputFilename, "~{basename(bam, ".bam")}.assembled.bam"])}' \
+      --bam-output '~{select_first([bamOutputFilename, "~{basename(bam, ".bam")}.HAP.bam"])}' \
       ~{if defined(select_first([createBamOutputIndex, true])) then "--create-output-bam-index" else ""}
-    if [ -f $(echo '~{select_first([bamOutputFilename, "~{basename(bam, ".bam")}.assembled.bam"])}' | sed 's/\.[^.]*$//').bai ]; then ln -f $(echo '~{select_first([bamOutputFilename, "~{basename(bam, ".bam")}.assembled.bam"])}' | sed 's/\.[^.]*$//').bai $(echo '~{select_first([bamOutputFilename, "~{basename(bam, ".bam")}.assembled.bam"])}' ).bai; fi
-  >>>
-  runtime {
-    cpu: select_first([runtime_cpu, 1])
-    disks: "local-disk ~{select_first([runtime_disks, 20])} SSD"
-    docker: "broadinstitute/gatk@sha256:cec850f20311f0686fcf88510bc44e529590d78bec7076a603132115943c09e6"
-    duration: select_first([runtime_seconds, 86400])
-    memory: "~{select_first([runtime_memory, 4])}G"
-    preemptible: 2
-  }
-  output {
-    File out_vcf = select_first([outputFilename, "~{basename(bam, ".bam")}.vcf.gz"])
-    File out_vcf_tbi = select_first([outputFilename, "~{basename(bam, ".bam")}.vcf.gz"]) + ".tbi"
-    File out_bam = select_first([bamOutputFilename, "~{basename(bam, ".bam")}.assembled.bam"])
-    File out_bam_bai = select_first([bamOutputFilename, "~{basename(bam, ".bam")}.assembled.bam"]) + ".bai"
   }
 }
 ```
+
+
+## Adding variant-caller to workflow
 
 This looks good! Let's jump over to our `day2/variantcaller.py` and add this as our final piece.
 
@@ -243,7 +181,7 @@ Now that the final workflow is complete, you can run the final workflow with:
 
 ```bash
 janis run -o day2 --development \
-    day2/variantcaller_solution.py \
+    day2/variantcaller.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --known_sites reference/brca1_hg38_dbsnp138.vcf.gz \
@@ -256,24 +194,11 @@ Let's inspect the final output directory:
 
 ```bash
 $ ls -lGh day2
-# TODO: add output here
-```
-
-
-## Advanced task
-
-If you are familiar with how python object oriented works, this tool definition can be created as a separate class. This can then be used via python import similar to how we setup our janis-bioinformatics toolbox in our previous examples on Day 1. 
-
-You can take a look at our GATK HaplotypeCaller implementation in our tool registry: 
-
-[Link](link)
-
-If you wish, you can attempt to modify your implementation this way. You will be able to use this definition as an independent workflow. For example, if you already have a bam file and wish to only run a variant-caller on your sample. 
-
-Step:
-- As above, but in a separate class
-
-Run as workflow:
-```bash
-    janis run GATK_Haplotypecaller <input>
+-rw-r--r-- 2 ec2-user 541K Jul 19 03:32 out_assembledbam.bam
+-rw-r--r-- 2 ec2-user  224 Jul 19 03:32 out_assembledbam.bam.bai
+-rw-r--r-- 2 ec2-user 2.6M Jul 19 03:23 out_bam.bam
+-rw-r--r-- 2 ec2-user  296 Jul 19 03:23 out_bam.bam.bai
+-rw-r--r-- 2 ec2-user 1.1M Jul 19 03:23 out_recalibration_table.table
+-rw-r--r-- 2 ec2-user  12K Jul 19 03:32 out_variants.vcf.gz
+-rw-r--r-- 2 ec2-user  170 Jul 19 03:32 out_variants.vcf.gz.tbi
 ```
