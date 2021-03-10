@@ -215,7 +215,7 @@ Check to see if the `MD`, `NM` and `UQ` tags are in the output bam:
 
 ## Great work!!
 
-Great work! You've built a completely portable pipeline that uses containers to align a set of fastqs to our a reference genome, marked duplicates in the aligned BAM and sorted the result. You can run this pipeline in your current envionrment (local), on HPCs using Slurm, or even using Amazon or Google cloud services. 
+Great work! You've built a completely portable pipeline that uses containers to align a set of fastqs to a reference genome, marked duplicates in the aligned BAM and sorted the result. You can run this pipeline in your current envionrment (local), on HPCs using Slurm, or even using Amazon or Google cloud services. 
 
 > In fact, you might already be running this workflow on Amazon!
 

@@ -15,7 +15,7 @@ In this section, we are going to investigate inside the `janis` folder, as this 
 Logs are stored in `<output-dir>/janis/logs`. In particular, it's worth checking out the `engine.log`:
 
 ```
-less part2/janis/logs/engine.log
+less part1/janis/logs/engine.log
 ```
 
 
@@ -33,7 +33,7 @@ $ ls -lgh day1/
 We see our outputs `out_bam.bam*`, let's look inside the `janis` directory:
 
 ```
-$ ls part2/janis/
+$ ls part1/janis/
 total 136
 drwxr-xr-x  franklinmichael    96B  configuration
 drwxr-xr-x  franklinmichael    64B  database

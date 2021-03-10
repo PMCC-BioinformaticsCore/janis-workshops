@@ -11,7 +11,7 @@ This workshop uses a bioinformatics focus example, but Janis is a generic workfl
 
 ## Foundations
 
-- A workflow is a collection of tools are run in an organised manner.
+- A workflow is a collection of tools that are run in an organised manner.
 
 - A workflow specification is a format that exactly describes the relationship between your tools. Popular workflow specification types include:
 

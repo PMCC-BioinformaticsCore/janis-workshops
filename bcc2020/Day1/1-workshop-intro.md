@@ -58,6 +58,7 @@ This is the preferred way of participating in the Janis workshop, however you mu
 - Python 3.6+
 - Docker
 - Zip (archiver for zip files)
+- Node.js
 
 
 ### SSH to Linux VM
