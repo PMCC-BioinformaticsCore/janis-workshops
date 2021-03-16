@@ -362,7 +362,7 @@ ToolInput("reference", FastaWithIndexes, prefix="--reference"),
 
 ToolInput("recalFile", File, prefix="--bqsr-recal-file"),
 
-ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), suffix=".recal", extension=".bam"), prefix="--output"),
+ToolInput("outputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), suffix=".recal", extension=".bam"), prefix="--output"),
 
 ToolInput("createBamIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
 
@@ -390,7 +390,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
         ToolInput("recalFile", File, prefix="--bqsr-recal-file"),
-        ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), suffix=".recal", extension=".bam"), prefix="--output"),
+        ToolInput("outputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), suffix=".recal", extension=".bam"), prefix="--output"),
         ToolInput("createBamIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
     ],
     outputs=[
