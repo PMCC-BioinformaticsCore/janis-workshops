@@ -1,8 +1,6 @@
-# BCC 2020 Workshop material
+# Janis Workshop material
 
-> IN PROGRESS: This document is currently work-in-progress.
-
-This guide contains the workshop material for BCC2020.
+This guide contains the workshop material for Janis Portable Pipeline.
 
 This workshop has 2 x 2 hour parts.
 

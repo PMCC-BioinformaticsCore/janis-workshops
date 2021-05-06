@@ -1,7 +1,7 @@
-# BCC2020 EAST - Janis Workshop (2.1)
+# Janis Workshop (2.1)
 ## Produce a portable germline variant-calling pipeline in CWL and WDL using Janis and GATK
 
-Welcome to BCC2020 East Janis workshop (Day 2). This workshop is split into 2 parts where we will go through an example of using Janis to build a genomic variant-calling pipeline. 
+Welcome to Janis workshop (Day 2). This workshop is split into 2 parts where we will go through an example of using Janis to build a genomic variant-calling pipeline. 
 
 Workflows from this workshop are adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
 - https://github.com/gatk-workflows/gatk4-data-processing
@@ -47,7 +47,3 @@ For the second session, we will complete our portable germline variant-calling p
 
 - Python 3.6+
 - Docker
-
-## Workshop environment:
-
-- AWS VM (Pre-installed with solutions from Day1)

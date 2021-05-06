@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.2)
+# Janis Workshop (1.2)
 
 ## Introduction to Janis
 
@@ -53,15 +53,6 @@ In fact, Janis is actually split into two components that addresses these questi
 
 ### Setup
 
-Please follow the relevant instructions for the two methods of participating in this workshop (the requirements are on the previous page):
-
-1. (Preferred) Install Janis on your personal computer
-2. OR we can provide a Linux VM that you can SSH into as a backup.
-
-
-#### Installing Janis on your personal computer
-
-
 A virtual environment is the best way to install Janis. It contains all the dependencies separately, and avoid polluting your local Python installation. It also preserves the version of Janis in a reproducible way.
 
 1. Create an activate a virtualenv:
@@ -86,46 +77,18 @@ A virtual environment is the best way to install Janis. It contains all the depe
     ```bash
     janis -v
     #--------------------  -------
-    #janis-core            v0.10.0
-    #janis-assistant       v0.10.0
-    #janis-templates       v0.10.0
-    #janis-unix            v0.10.0
-    #janis-bioinformatics  v0.10.0
-    #janis-pipelines       v0.10.0
+    #janis-core            v0.11.x
+    #janis-assistant       v0.11.x
+    #janis-templates       v0.11.x
+    #janis-unix            v0.11.x
+    #janis-bioinformatics  v0.11.x
+    #janis-pipelines       v0.11.x
     #--------------------  -------
     ```
 
-#### Connecting to preconfigured EC2 instance
-
-You will receive:
-
-- A URL to an instance,
-- A password
-
-To get to your instance, you can ssh in with the provided credentials. For example: 
-
-```bash
-ssh ec2-13-236-147-245.ap-southeast-2.compute.amazonaws.com
-# enter the password when prompted
-```
-
-Janis should be already installed, you can confirm this by running:
-
-```bash
-    janis -v
-    # --------------------  -------
-    # janis-core            v0.10.0
-    # janis-assistant       v0.10.0
-    # janis-unix            v0.10.0
-    # janis-bioinformatics  v0.10.0
-    # janis-templates       v0.10.0
-    # janis-pipelines       v0.10.0
-    # --------------------  -------
-```
-
 #### Download data
 
-We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `janis-bcc2020`. In this workshop, we use:
+We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `portable-pipeline`. In this workshop, we use:
 
 - A test sample based on [Genome-In-A-Bottle NA12878](https://github.com/genome-in-a-bottle/giab_data_indexes), with reads being cut down to a single gene region (chr17:43044045-43125733)
 - A test reference genome (and other resource bundle databases) derived from human HG38 reference provided by [GATK Resource Bundle]( https://console.cloud.google.com/storage/browser/genomics-public-data/references/hg38/v0/), cut down to a single gene region (chr17:43044045-43125733).
@@ -135,9 +98,9 @@ We will start with downloading all the test data required for this workshop. For
 # to a difference of tar versions when archiving on macOS.
 
 
-mkdir janis-bcc2020 && cd janis-bcc2020
+mkdir portable-pipeline && cd portable-pipeline
 
-wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/bcc2020/resources/bcc-data.tar" \
+wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/portable-pipeline/resources/data.tar" \
     | tar -xz
 ```
 
@@ -161,14 +124,12 @@ janis init local
 
 Running this command will create a configuration file at `~/.janis/janis.conf`.
 
-We'll use `vim` to the first line in our template from `engine: cromwell` to `engine: cwltool`:
+We'll use a text editor to the first line in our template from `engine: cromwell` to `engine: cwltool`:
 
 
 ```bash
 vim ~/.janis/janis.conf
 ```
-
-> You can save and [exit vim](https://stackoverflow.com/a/11828573/2860731) by hitting the `Esc` key, then typing `:x` to write and quit (or `:q!` to quit without saving).
 
 The file should be:
 
@@ -236,7 +197,7 @@ SID:        a6acf2
 EngId:      a6acf2
 Engine:     cwltool
 
-Task Dir:   /Users/franklinmichael/Desktop/tmp/janis/bcc/part1
+Task Dir:   /Users/franklinmichael/Desktop/tmp/janis/part1
 
 Status:     completed
 Duration:   9s

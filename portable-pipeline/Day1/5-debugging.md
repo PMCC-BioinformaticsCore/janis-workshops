@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.5)
+# Janis Workshop (1.5)
 # Debugging a run
 
 Workflows don't always run smoothly, and for that it is useful to understand how workflows run, and how Janis can help you solve runtime problems. 
@@ -58,7 +58,7 @@ And a brief explanation fo the other folders
 
 ### Execution folder notes
 
-Usually when a workflow is a success, Janis automatically removes the intermediate input files. In the previous section, we ran our preprocessing  workflow with `--development`, which means these files will persist even when the workflow succeededs.
+Usually when a workflow is a success, Janis automatically removes the intermediate input files. In the previous section, we ran our preprocessing  workflow with `--keep-intermediate-files`, which means these files will persist even when the workflow succeeded.
 
 By default, the execution directory is under `$outputdir/janis/execution/`. CWLTool and Cromwell have their own format for how this directory is structured.
 
@@ -81,7 +81,7 @@ SID:        d92536
 EngId:      d92536
 Engine:     cwltool
 
-Task Dir:   /Users/franklinmichael/source/janis-workshops/bcc2020/resources/part2
+Task Dir:   /Users/franklinmichael/source/janis-workshops/portable-pipeline/resources/part2
 
 Status:     failed
 Duration:   7s
@@ -92,13 +92,13 @@ Updated:    3s ago (2020-07-16T07:24:11+00:00)
 Jobs: 
         [✓] bwamem (0s)
         [!] samtoolsview (8s)
-            stderr: /Users/franklinmichael/source/janis-workshops/bcc2020/resources/part2/janis/logs/engine.log       
+            stderr: /Users/franklinmichael/source/janis-workshops/portable-pipeline/resources/part2/janis/logs/engine.log       
 
 
 Error: 
 ERROR [job samtoolsview] Job error:
 ("Error collecting output for parameter 'out':\n../workflow/tools/SamToolsView_1_9_0.cwl:286:5: Did not find output file with glob pattern: '['generated.bam']'", {})
-ERROR [step samtoolsview] Output is missing expected field file:///Users/franklinmichael/source/janis-workshops/bcc2020/resources/part2/janis/workflow/preprocessingWorkflow.cwl#preprocessingWorkflow/samtoolsview/out
+ERROR [step samtoolsview] Output is missing expected field file:///Users/franklinmichael/source/janis-workshops/portable-pipeline/resources/part2/janis/workflow/preprocessingWorkflow.cwl#preprocessingWorkflow/samtoolsview/out
 ```
 
 This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stderr`. Have a look through the engine log for more information.

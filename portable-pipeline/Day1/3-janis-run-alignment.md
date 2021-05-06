@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.3)
+# Janis Workshop (1.3)
 
 ## Building alignment workflow 
 
@@ -26,9 +26,7 @@ These tools already exist within the Janis Tool Registry, you can see their docu
 
 A Janis workflow is a Python script, so we can start by creating a file called `preprocessing.py` and importing Janis.
 
-```bash
-vim day1/preprocessing.py # or vim, emacs, sublime, vscode
-```
+Use a text editor to edit `day1/preprocessing.py` file.
 
 You'll see there already a number of imports for you, Let's go through them:
 

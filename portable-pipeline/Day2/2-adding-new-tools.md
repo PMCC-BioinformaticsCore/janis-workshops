@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (2.2)
+# Janis Workshop (2.2)
 
 In the previous workshop, we used tools from the Janis Bioinformatics toolbox. But what happens if you want to use a new tool that is not on Janis Bioinformatics!?
 
@@ -96,7 +96,7 @@ We will see how this works in our example.
 The VM that you are connected to should hopefully have all the files and setup to mirror what we have done on Day 1 and the necessary files for Day 2. To confirm: 
 
 ```bash
-cd ~/janis-bcc2020
+cd ~/janis-portable-pipeline
 cat ~/.janis/janis.conf
 ```
 

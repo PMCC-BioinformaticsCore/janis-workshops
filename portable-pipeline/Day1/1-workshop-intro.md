@@ -1,7 +1,7 @@
-# BCC2020 EAST - Janis Workshop (1.1)
+# Janis Workshop (1.1)
 ## Produce a portable germline variant-calling pipeline in CWL and WDL using Janis and GATK
 
-Welcome to BCC2020 East Janis workshop. This is a 2-part workshop where we will use Janis to build a genomic variant-calling pipeline. 
+Welcome to Janis workshop. This is a 2-part workshop where we will use Janis to build a genomic variant-calling pipeline. 
 
 Workflows from this workshop are adopted from the following GATK (Broad Institute)'s WDL pipelines with modifications to simplify the tasks for the purpose of this workshop. 
 
@@ -14,7 +14,7 @@ The goal of this workshop is to introduce Janis for building portable pipelines.
 
 - Janis Documentation: https://janis.readthedocs.io/en/latest
 - Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
-- This workshop GitHub: https://github.com/PMCC-BioinformaticsCore/janis-workshops/bcc2020
+- This workshop GitHub: https://github.com/PMCC-BioinformaticsCore/janis-workshops/portable-pipeline
 
 ## Workshop Outline
 
@@ -45,27 +45,10 @@ For the second session, we will complete our portable germline variant-calling p
 
 ## Workshop environment
 
-There are two ways to work through this workshop:
+Prerequisites to install Janis on your personal computer:
 
-1. (Preferred) Install Janis on your personal computer
-2. OR we can provide a Linux VM that you can SSH into as a backup.
-
-### Running your own version of Janis
-
-This is the preferred way of participating in the Janis workshop, however you must meet the following requirements (more information ):
-
-- A unix machine (MacOS / Ubuntu / RHEL / CentOS / etc)
+- A unix-based operating system (MacOS / Ubuntu / RHEL / CentOS / etc)
 - Python 3.6+
 - Docker
 - Zip (archiver for zip files)
 - Node.js
-
-
-### SSH to Linux VM
-
-During BCC, we can supply a limited number of preconfigured instances. These are t2.large EC2 instances (2 cores + 8GB ram) with the appropriate software installed. To use these instances, you must have: 
-
-- SSH client (for connecting to the instance):
-    - See [Connect to your Linux instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html) for more options,
-- Ability to connect an AWS EC2 instance (some institutes block this by default)
-

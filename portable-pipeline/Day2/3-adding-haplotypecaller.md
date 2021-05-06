@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (2.3)
+# Janis Workshop (2.3)
 
 ## Exercise: add a variant-caller (GATK Haplotypecaller) to complete the germline variant-caller for this workshop
 
