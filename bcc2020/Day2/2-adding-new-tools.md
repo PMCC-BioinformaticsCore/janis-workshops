@@ -124,7 +124,7 @@ ls -lGh day2/
 
 There are 4 files:
 
-1. `variantcaller.py` - This is from our 'processing.py' workflow yesterday, and where we will put our complete variant calling workflow.
+1. `variantcaller.py` - This is from our 'preprocessing.py' workflow yesterday, and where we will put our complete variant calling workflow.
 2. `tools.py` - We'll add our new tools in here, and then import them into the `variantcaller.py`.
 3. `tools_solution.py` is one of the solutions to these exercises (don't peek)!
 4. `variantcaller_solution.py` is one of the solutions to these exercises (don't peek)!
@@ -304,7 +304,7 @@ command <<<
       --input '~{bam}' \
       --reference '~{reference}' \
       --output '~{select_first([outputFilename, "generated.table"])}' \
-      ~{"--known-sites '" + sep("' --known-sites  '", knownSites) + "'"}
+      ~{if length(knownSites) > 0 then "--known-sites '" + sep("' --known-sites '", knownSites) + "'" else ""}
 >>>
 
 ```
@@ -362,7 +362,7 @@ ToolInput("reference", FastaWithIndexes, prefix="--reference"),
 
 ToolInput("recalFile", File, prefix="--bqsr-recal-file"),
 
-ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), suffix=".recal", extension=".bam"), prefix="--output"),
+ToolInput("outputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), suffix=".recal", extension=".bam"), prefix="--output"),
 
 ToolInput("createBamIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
 
@@ -390,7 +390,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
         ToolInput("recalFile", File, prefix="--bqsr-recal-file"),
-        ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), suffix=".recal", extension=".bam"), prefix="--output"),
+        ToolInput("outputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), suffix=".recal", extension=".bam"), prefix="--output"),
         ToolInput("createBamIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
     ],
     outputs=[
@@ -413,7 +413,7 @@ command <<<
       --reference '~{reference}' \
       --bqsr-recal-file '~{recalFile}' \
       --output '~{select_first([outputFilename, "~{basename(bam, ".bam")}.recal.bam"])}' \
-      ~{if defined(select_first([createBamIndex, true])) then "--create-output-bam-index" else ""}
+      ~{if select_first([createBamIndex, true]) then "--create-output-bam-index" else ""}
 
 >>>
 ```

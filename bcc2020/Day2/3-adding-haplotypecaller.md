@@ -58,9 +58,9 @@ Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
 
     ToolInput("reference", FastaWithIndexes, prefix="--reference"),
 
-     ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), extension=".vcf.gz"), prefix="--output"),
+    ToolInput("outputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), extension=".vcf.gz"), prefix="--output"),
 
-    ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam"), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
+    ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
 
     ToolInput("createBamOutputIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),   
 ```
@@ -98,8 +98,8 @@ You should have your final haplotypecaller tool that looks like the following:
     inputs=[
         ToolInput("bam", BamBai, prefix="--input"),
         ToolInput("reference", FastaWithIndexes, prefix="--reference"),
-        ToolInput("outputFilename", Filename(prefix=InputSelector("bam"), extension=".vcf.gz"), prefix="--output"),
-        ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam"), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
+        ToolInput("outputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), extension=".vcf.gz"), prefix="--output"),
+        ToolInput("bamOutputFilename", Filename(prefix=InputSelector("bam", remove_file_extension=True), suffix=".HAP", extension=".bam"),prefix="--bam-output"),
         ToolInput("createBamOutputIndex", Boolean(optional=True), prefix="--create-output-bam-index", default=True),
     ],
     outputs=[
@@ -131,7 +131,7 @@ command <<<
       --reference '~{reference}' \
       --output '~{select_first([outputFilename, "~{basename(bam, ".bam")}.vcf.gz"])}' \
       --bam-output '~{select_first([bamOutputFilename, "~{basename(bam, ".bam")}.HAP.bam"])}' \
-      ~{if defined(select_first([createBamOutputIndex, true])) then "--create-output-bam-index" else ""}
+      ~{if select_first([createBamOutputIndex, true]) then "--create-output-bam-index" else ""}
   }
 }
 ```
