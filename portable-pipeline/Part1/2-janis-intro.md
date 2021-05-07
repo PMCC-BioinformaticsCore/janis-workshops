@@ -55,24 +55,47 @@ In fact, Janis is actually split into two components that addresses these questi
 
 A virtual environment is the best way to install Janis. It contains all the dependencies separately, and avoid polluting your local Python installation. It also preserves the version of Janis in a reproducible way.
 
-1. Create an activate a virtualenv:
+
+1. Create a directory for all the activities of this workshop.
 
     ```bash
-    # create virtual env at $(pwd)/janis/env
-    python3 -m venv janis/env
+    # from now on, we will refer to this directory as $JW (it stands for janis workshop)
+    mkdir [MY_DIRECTORY]
+    cd [MY_DIRECTORY]
+    
+    # create an environment variable for this directory for easier reference.
+    export JW=$(pwd)
+   ```
 
-    # source the virtual env
-    source janis/env/bin/activate
+2. Create and activate a virtualenv:
+   ```bash
+    # create virtual environment
+    python3 -m venv env
+
+    # activate the virtual environment
+    source env/bin/activate
     ```
+   
+    > When you execute `which python`, you should get `$JW/env/bin/python`
 
-
-2. Install Janis through PIP:
+3. Install Janis through PIP:
 
     ```bash
     pip install janis-pipelines
     ```
+   > When you execute `which janis`, you should get `$JW/env/bin/janis`
+   > 
+   > If that is not the path you see, we want to exit and re-activate the virtual environment
+   > 
+   > ```
+   > # To exit
+   > deactivate
+   > 
+   > # To turn on the virtual environment again
+   > source env/bin/activate
+   > ```
 
-3. Test that Janis (and associated modules) were installed:
+4. Test that Janis (and associated modules) were installed:
 
     ```bash
     janis -v
@@ -98,7 +121,7 @@ We will start with downloading all the test data required for this workshop. For
 # to a difference of tar versions when archiving on macOS.
 
 
-mkdir portable-pipeline && cd portable-pipeline
+mkdir solutions && cd solutions
 
 wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/portable-pipeline/resources/data.tar" \
     | tar -xz
@@ -114,6 +137,11 @@ drwxr-xr-x 2 ec2-user  104 Jul 17 13:18 part2
 drwxr-xr-x 2 ec2-user 4.0K Jul 17 03:36 reference
 ```
 
+Now, we want to go back to `$JW`
+```bash
+cd ..
+```
+
 ### Setting up Janis 
 
 Next, let's initialise our Janis environment. This step is only required on the first time we setup Janis on a new environment.
@@ -124,14 +152,9 @@ janis init local
 
 Running this command will create a configuration file at `~/.janis/janis.conf`.
 
-We'll use a text editor to the first line in our template from `engine: cromwell` to `engine: cwltool`:
+We'll use a text editor to edit to the first line in our template from `engine: cromwell` to `engine: cwltool`:
 
-
-```bash
-vim ~/.janis/janis.conf
-```
-
-The file should be:
+The file should look like:
 
 ```yaml
 engine: cwltool
@@ -141,7 +164,9 @@ template:
   id: local
 ```
 
-Janis will automatically use the config for the rest of the workshop. Although we've used the `local` template, you could instead use `singularity` or use an advanced configuration (like `slurm_singularity` or `pbs_singularity`), important when used in High Performance Computing (HPC) environments. 
+Janis will automatically use the config for the rest of the workshop. 
+
+> Although we've used the `local` template, you could instead use `singularity` or use an advanced configuration (like `slurm_singularity` or `pbs_singularity`), important when used in High Performance Computing (HPC) environments. 
 
 ### How does Janis run a workflow?
 
@@ -154,7 +179,7 @@ For our tests, Janis will:
 - Watch the progress of the workflow,
 - Copy the outputs, and remove the execution directory on success.
 
-It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow on your own platform.
+> It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow on your own platform.
 
 
 ### Running a simple test workflow 
@@ -181,7 +206,7 @@ You will see logs from cwltool in the terminal. There is a number of statements 
 ... [INFO]: CWLTool has started with pid=41562
 ... # Selected CWLTool logs
 ... [INFO]: Task has finished with status: Completed
-... [INFO]: View the task outputs: file:///<path>/part1/
+... [INFO]: View the task outputs: file:///$JW/part1
 ```
 
 We can track the progress of our workflow with:
@@ -197,7 +222,8 @@ SID:        a6acf2
 EngId:      a6acf2
 Engine:     cwltool
 
-Task Dir:   /Users/franklinmichael/Desktop/tmp/janis/part1
+Task Dir:   $JW/part1
+Exec Dir:   $JW/part1/janis
 
 Status:     completed
 Duration:   9s
@@ -208,12 +234,10 @@ Updated:    1m:05s ago (2020-07-15T08:14:09+00:00)
 Jobs: 
         [✓] hello (7s)   
 
-Outputs:
-    - out: $HOME/part1/out
 ```
 
 
-In our output folder, there are two items (`ls part1`):
+In our output folder, there are two items (`ls -l part1`):
 ```
 drwxr-sr-x 8 mfranklin 133K Jan 31 12:59 janis
 -rw-r--r-- 1 mfranklin   14 Jan 31 12:58 out
@@ -226,7 +250,7 @@ cat part1/out
 # Hello, world!
 ```
 
-The `janis` folder contains information about the execution, including logs, we'll see more about that later
+> The `janis` folder contains information about the execution, including `logs`, we'll see more about that later
 
 ## Toolbox of prebuild tools
 
