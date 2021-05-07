@@ -60,8 +60,8 @@ A virtual environment is the best way to install Janis. It contains all the depe
 
     ```bash
     # from now on, we will refer to this directory as $JW (it stands for janis workshop)
-    mkdir [MY_DIRECTORY]
-    cd [MY_DIRECTORY]
+    mkdir janis-workshop
+    cd janis-workshop
     
     # create an environment variable for this directory for easier reference.
     export JW=$(pwd)
@@ -119,9 +119,6 @@ We will start with downloading all the test data required for this workshop. For
 ```bash
 # You might see warnings when untarring this workshop data due
 # to a difference of tar versions when archiving on macOS.
-
-
-mkdir solutions && cd solutions
 
 wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/portable-pipeline/resources/data.tar" \
     | tar -xz
@@ -189,7 +186,7 @@ To test that Janis is configured properly, we will run a simple workflow called 
 We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to output our results to a subdirectory called `part1`. 
 
 ```bash
-janis run -o part1 hello --inp "Hello, World"
+janis run -o my_hello hello --inp "Hello, World"
 ```
 
 This command will:
@@ -212,7 +209,7 @@ You will see logs from cwltool in the terminal. There is a number of statements 
 We can track the progress of our workflow with:
 
 ```bash
-janis watch part1/
+janis watch my_hello/
 ```
 
 You will see a progress screen like the following 
@@ -237,7 +234,7 @@ Jobs:
 ```
 
 
-In our output folder, there are two items (`ls -l part1`):
+In our output folder, there are two items (`ls -l my_hello`):
 ```
 drwxr-sr-x 8 mfranklin 133K Jan 31 12:59 janis
 -rw-r--r-- 1 mfranklin   14 Jan 31 12:58 out
@@ -246,7 +243,7 @@ drwxr-sr-x 8 mfranklin 133K Jan 31 12:59 janis
 The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies.
 
 ```bash
-cat part1/out
+cat my_hello/out
 # Hello, world!
 ```
 
