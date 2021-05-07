@@ -36,10 +36,10 @@ In fact, Janis is actually split into two components that addresses these questi
 
 ### Fundamental features
 
-- Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to in other pipelineing systems.
+- Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to in other pipelining systems.
 
     - For a file or directory to be available to your tool, you need to EXPLICITLY include it. 
-        - This includes associated files, if you want an indexed bam, you must use the BamBai type. 
+        - This includes associated files, if you want an indexed bam, you must use the [`BamBai`](https://janis.readthedocs.io/en/latest/datatypes/indexedbam.html) type. 
 
     - Outputs of a _tool_ must be EXPLICITLY collected to be used by future steps, else they will be removed.
 
