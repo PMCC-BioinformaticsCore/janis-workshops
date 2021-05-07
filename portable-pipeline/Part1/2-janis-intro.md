@@ -128,15 +128,11 @@ The download contains folders for data, references and the solutions. You can co
 
 ```bash
 ls -lGh
-drwxr-xr-x 2 ec2-user  119 Jul 17 13:18 data
-drwxr-xr-x 2 ec2-user   63 Jul 17 13:18 part1
-drwxr-xr-x 2 ec2-user  104 Jul 17 13:18 part2
-drwxr-xr-x 2 ec2-user 4.0K Jul 17 03:36 reference
-```
-
-Now, we want to go back to `$JW`
-```bash
-cd ..
+drwxr-xr-x@  5 user  staff   160B  7 May 19:47 data
+drwxr-xr-x   9 user  staff   288B  7 May 19:08 env
+drwxr-xr-x@  4 user  staff   128B  7 May 19:47 part1
+drwxr-xr-x@  6 user  staff   192B  7 May 19:47 part2
+drwxr-xr-x@ 14 user  staff   448B  7 May 19:47 reference
 ```
 
 ### Setting up Janis 
@@ -191,7 +187,7 @@ janis run -o my_hello hello --inp "Hello, World"
 
 This command will:
 
-- Create an output directory called `part1` (relative to the current directory)
+- Create an output directory called `my_hello` (relative to the current directory)
 - Convert `hello` Janis workflow to `hello` CWL workflow
 - Submit workflow to the cwltool and run a task that calls "echo"
 - Collect the results
@@ -203,7 +199,7 @@ You will see logs from cwltool in the terminal. There is a number of statements 
 ... [INFO]: CWLTool has started with pid=41562
 ... # Selected CWLTool logs
 ... [INFO]: Task has finished with status: Completed
-... [INFO]: View the task outputs: file:///$JW/part1
+... [INFO]: View the task outputs: file:///$JW/my_hello
 ```
 
 We can track the progress of our workflow with:
@@ -219,8 +215,8 @@ SID:        a6acf2
 EngId:      a6acf2
 Engine:     cwltool
 
-Task Dir:   $JW/part1
-Exec Dir:   $JW/part1/janis
+Task Dir:   $JW/my_hello
+Exec Dir:   $JW/my_hello/janis
 
 Status:     completed
 Duration:   9s
@@ -236,8 +232,8 @@ Jobs:
 
 In our output folder, there are two items (`ls -l my_hello`):
 ```
-drwxr-sr-x 8 mfranklin 133K Jan 31 12:59 janis
--rw-r--r-- 1 mfranklin   14 Jan 31 12:58 out
+drwxr-xr-x  12 user  staff  384  7 May 19:50 janis
+-rw-r--r--   1 user  staff   13  7 May 19:49 out
 ```
 
 The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies.
