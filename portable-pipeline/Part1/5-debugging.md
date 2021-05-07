@@ -21,10 +21,10 @@ less part1/janis/logs/engine.log
 
 ## Looking inside Janis directory
 
-Our previous execution directory `day1` contains a number of outputs, let's look at it using `ls`:
+Our previous execution directory `part1` contains a number of outputs, let's look at it using `ls`:
 
 ```bash
-$ ls -lgh day1/
+$ ls -lgh part1/
 # drwxr-xr-x  franklinmichael  320B  janis
 # -rw-r--r--  franklinmichael  2.7M  out_bam.bam
 # -rw-r--r--  franklinmichael  296B  out_bam.bam.bai
@@ -103,5 +103,4 @@ ERROR [step samtoolsview] Output is missing expected field file:///Users/frankli
 
 This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stderr`. Have a look through the engine log for more information.
 
-
-
+[Next >](6-closing.md)

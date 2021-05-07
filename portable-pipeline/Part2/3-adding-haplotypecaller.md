@@ -2,7 +2,7 @@
 
 ## Exercise: add a variant-caller (GATK Haplotypecaller) to complete the germline variant-caller for this workshop
 
-In this section, we will give you some hands-on time to add new tool (not previously in the registry) to a workflow. The task in this exercise is to create a CommandTool for `GATK HaplotypeCaller` using a `janis.CommandToolBuilder` (in our `day2/tools.py` file). After we create this tool, we'll add it to our `day2/variantcaller.py` workflow.
+In this section, we will give you some hands-on time to add new tool (not previously in the registry) to a workflow. The task in this exercise is to create a CommandTool for `GATK HaplotypeCaller` using a `janis.CommandToolBuilder` (in our `part2/tools.py` file). After we create this tool, we'll add it to our `part2/variantcaller.py` workflow.
 
 
 ## Creating GATK HaplotypeCaller tool class
@@ -119,7 +119,7 @@ You should have your final haplotypecaller tool that looks like the following:
 Let's check the WDL conversion of the full tool:
 
 ```bash
-    janis translate day2/tools.py --name Gatk4HaplotypeCaller_4_1_4 wdl
+    janis translate part2/tools.py --name Gatk4HaplotypeCaller_4_1_4 wdl
 ```
 
 The command part of this WDL file should look quite similar to the command that we are targetting. 
@@ -139,7 +139,7 @@ command <<<
 
 ## Adding variant-caller to workflow
 
-This looks good! Let's jump over to our `day2/variantcaller.py` and add this as our final piece.
+This looks good! Let's jump over to our `part2/variantcaller.py` and add this as our final piece.
 
 Import our newly created `Gatk4HaplotypeCaller_4_1_4` from `tools`:
 
@@ -169,10 +169,10 @@ w.output("out_variants", source=w.haplotypecaller.out_vcf)
 
 Let's check the translation of our full workflow just to check everything's looking okay. 
 
-> You can also confirm your workflow with the solution: `day2/variantcaller_solution.py`.
+> You can also confirm your workflow with the solution: `part2/variantcaller_solution.py`.
 
 ```bash
-janis translate day2/variantcaller.py wdl
+janis translate part2/variantcaller.py wdl
 ```
 
 ## Run the final workflow!
@@ -180,8 +180,8 @@ janis translate day2/variantcaller.py wdl
 Now that the final workflow is complete, you can run the final workflow with:
 
 ```bash
-janis run -o day2 --development \
-    day2/variantcaller.py \
+janis run -o part2 --development \
+    part2/variantcaller.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --known_sites reference/brca1_hg38_dbsnp138.vcf.gz \
@@ -193,7 +193,7 @@ janis run -o day2 --development \
 Let's inspect the final output directory:
 
 ```bash
-$ ls -lGh day2
+$ ls -lGh part2
 -rw-r--r-- 2 ec2-user 541K Jul 19 03:32 out_assembledbam.bam
 -rw-r--r-- 2 ec2-user  224 Jul 19 03:32 out_assembledbam.bam.bai
 -rw-r--r-- 2 ec2-user 2.6M Jul 19 03:23 out_bam.bam
@@ -202,3 +202,5 @@ $ ls -lGh day2
 -rw-r--r-- 2 ec2-user  12K Jul 19 03:32 out_variants.vcf.gz
 -rw-r--r-- 2 ec2-user  170 Jul 19 03:32 out_variants.vcf.gz.tbi
 ```
+
+[Next >](4-closing.md)

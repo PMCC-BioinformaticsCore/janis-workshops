@@ -109,8 +109,8 @@ The download contains folders for data, references and the solutions. You can co
 ```bash
 ls -lGh
 drwxr-xr-x 2 ec2-user  119 Jul 17 13:18 data
-drwxr-xr-x 2 ec2-user   63 Jul 17 13:18 day1
-drwxr-xr-x 2 ec2-user  104 Jul 17 13:18 day2
+drwxr-xr-x 2 ec2-user   63 Jul 17 13:18 part1
+drwxr-xr-x 2 ec2-user  104 Jul 17 13:18 part2
 drwxr-xr-x 2 ec2-user 4.0K Jul 17 03:36 reference
 ```
 
@@ -241,5 +241,5 @@ These tools exist in separate modules to Janis, which means they can be updated 
 
 We'll have a look at the toolbox when we build our workflow.
 
-
+[Next >](3-janis-run-alignment.md)
 

@@ -2,7 +2,7 @@
 
 In the previous workshop, we used tools from the Janis Bioinformatics toolbox. But what happens if you want to use a new tool that is not on Janis Bioinformatics!?
 
-Today we're going to use the `janis.CommandToolBuilder` to teach Janis how to interact with command line software. We sometimes refer to this as "Wrapping a new tool" or "Creating a tool wrapper".
+In Part 2 of this workshopw, we're going to use the `janis.CommandToolBuilder` to teach Janis how to interact with command line software. We sometimes refer to this as "Wrapping a new tool" or "Creating a tool wrapper".
 
 Importantly, every command line tool in Janis runs in a container. This means that all of our workflows are portable AND reproducible. Using containers means we also don't have to install the software on our computer.
 
@@ -93,10 +93,7 @@ We will see how this works in our example.
 
 ## Setup
 
-The VM that you are connected to should hopefully have all the files and setup to mirror what we have done on Day 1 and the necessary files for Day 2. To confirm: 
-
 ```bash
-cd ~/janis-portable-pipeline
 cat ~/.janis/janis.conf
 ```
 
@@ -109,10 +106,10 @@ template:
   id: local
 ```
 
-And you should see the following files on `day2` directory
+And you should see the following files on `part2` directory
 
 ```bash
-ls -lGh day2/
+ls -lGh part2/
 ```
 
 ```
@@ -124,7 +121,7 @@ ls -lGh day2/
 
 There are 4 files:
 
-1. `variantcaller.py` - This is from our 'preprocessing.py' workflow yesterday, and where we will put our complete variant calling workflow.
+1. `variantcaller.py` - This is from our 'preprocessing.py' workflow in Part 1, and where we will put our complete variant calling workflow.
 2. `tools.py` - We'll add our new tools in here, and then import them into the `variantcaller.py`.
 3. `tools_solution.py` is one of the solutions to these exercises (don't peek)!
 4. `variantcaller_solution.py` is one of the solutions to these exercises (don't peek)!
@@ -150,7 +147,7 @@ gatk BaseRecalibrator \
 To start, we will add this tool into `tools.py` (you can use your own favourite text editor, we will use vim for this example). 
 
 ```bash
-    vim day2/tools.py
+    vim part2/tools.py
 ```
 
 We have pre-populated some of the janis imports to get you started. 
@@ -293,7 +290,7 @@ At this point, we will save and exit this `tools.py` file.
 When translating a file of multiple tool definitions, it's good practice to specify the `--name` of the tool, eg:
 
 ```bash
-janis translate day2/tools.py --name Gatk4BaseRecalibrator_4_1_4 wdl
+janis translate part2/tools.py --name Gatk4BaseRecalibrator_4_1_4 wdl
 ```
 
 Look how closely our command section mirrors the command we're trying to replicate!
@@ -329,7 +326,7 @@ gatk ApplyBQSR \
 To start, we will add this tool into `tools.py` (you can use your own favourite text editor, we will use vim for this example). 
 
 ```bash
-    vim day2/tools.py
+    vim part2/tools.py
 ```
 
 You will fill in the basic details underneath `Gatk4BaseRecalibrator_4_1_4` that we created in the previous exercise. 
@@ -402,7 +399,7 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
 You can now exit vim agin and check the translated tool with:
 
 ```bash
-janis translate day2/tools.py --name Gatk4ApplyBQSR_4_1_4 wdl
+janis translate part2/tools.py --name Gatk4ApplyBQSR_4_1_4 wdl
 ```
 
 Command:
@@ -423,10 +420,10 @@ command <<<
 Now that we've created two tools, let's add them to our `variantcaller.py`, open up this file:
 
 ```bash
-vim day2/variantcaller.py
+vim part2/variantcaller.py
 ```
 
-You will notice that this is very similar to the `processing.py` workflow that we were working on yesterday. We have pre-populated them with the solution from yesteday. 
+You will notice that this is very similar to the `processing.py` workflow that we were working on in Part 1. We have pre-populated them with the solution from Part 1. 
 
 ```python
 from janis_core import WorkflowBuilder, String, Array
@@ -647,11 +644,11 @@ w.output("out_bam", source=w.applybqsr.out_bam)
 
 You can now exit vim again and try running the pipeline. 
 
-We will use similar command and inputs as yesterday but we will add a new `--known_sites` input):
+We will use similar command and inputs as Part 1 but we will add a new `--known_sites` input):
 
 ```bash
-janis run -o day2 --development \
-    day2/variantcaller.py \
+janis run -o part2 --development \
+    part2/variantcaller.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --known_sites reference/brca1_hg38_dbsnp138.vcf.gz \
@@ -663,7 +660,7 @@ janis run -o day2 --development \
 At the end of pipeline execution, if you check: 
 
 ```bash
-ls -lGH day2
+ls -lGH part2
 ```
 
 You should see some additional output files being created. 
@@ -673,3 +670,5 @@ You should see some additional output files being created.
 -rw-r--r-- 2 ec2-user     296 Jul 19 02:32 out_bam.bam.bai
 -rw-r--r-- 2 ec2-user 1104446 Jul 19 02:32 out_recalibration_table.table
 ```
+
+[Next >](3-adding-haplotypecaller.md)

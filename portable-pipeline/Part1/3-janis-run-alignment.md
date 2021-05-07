@@ -26,7 +26,7 @@ These tools already exist within the Janis Tool Registry, you can see their docu
 
 A Janis workflow is a Python script, so we can start by creating a file called `preprocessing.py` and importing Janis.
 
-Use a text editor to edit `day1/preprocessing.py` file.
+Use a text editor to edit `part1/preprocessing.py` file.
 
 You'll see there already a number of imports for you, Let's go through them:
 
@@ -227,7 +227,7 @@ Although we're using CWL to run the tools, because we've written out analysis in
 
 ```bash
 # in bash now
-janis translate day1/preprocessing.py wdl
+janis translate part1/preprocessing.py wdl
 ```
 
 ```wdl
@@ -286,7 +286,7 @@ workflow preprocessingWorkflow {
 We're looking good! Now let's run the worfklow using Janis and CWLTool. We'll include the `--development` flag, as when we re-run the pipeline, it won't recompute steps we've already ran!
 
 ```bash
-janis run -o day1 --development \
+janis run -o part1 --development \
     day1/preprocessing.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
@@ -297,7 +297,7 @@ janis run -o day1 --development \
 Hopefully we got `Task has finished with status: Completed`. We can check out output directory:
 
 ```bash
-$ ls -lgh day1/
+$ ls -lgh part1/
 # drwxr-xr-x  288B Jul 16 16:50 janis
 # -rw-r--r--  1.4K Jul 16 16:49 preprocessing_solution.py
 # -rw-r--r--  411B Jul 16 13:15 preprocessing.py
@@ -310,5 +310,6 @@ We see the `tmp_out_unsortedbam.bam` which is the BAM output of mark duplicates.
 
 Once you are happy with this task, you can now remove the `tmp_out_unsortedbam.bam` output we created in this section.
 
+[Next >](4-janis-data-preprocessing.md)
 
 
