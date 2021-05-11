@@ -20,4 +20,4 @@ If you want to learn more about Janis, please check out Janis' GitHub and readth
 - Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
 - This workshop GitHub: https://github.com/PMCC-BioinformaticsCore/janis-workshops
 - Gitter: https://gitter.im/janis-pipelines/community
-- Email: juny.kesumadewi@unimelb.edu.au; richard.lupat@petermac.org
+- If you have any feedback about this training materials, please create a Github Issue in https://github.com/PMCC-BioinformaticsCore/janis-workshops/issues

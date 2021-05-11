@@ -2,9 +2,9 @@
 
 In the previous workshop, we used tools from the Janis Bioinformatics toolbox. But what happens if you want to use a new tool that is not on Janis Bioinformatics!?
 
-In Part 2 of this workshopw, we're going to use the `janis.CommandToolBuilder` to teach Janis how to interact with command line software. We sometimes refer to this as "Wrapping a new tool" or "Creating a tool wrapper".
+In Part 2 of this workshop, we're going to use the `janis.CommandToolBuilder` to teach Janis how to interact with command line software. We sometimes refer to this as "Wrapping a new tool" or "Creating a tool wrapper".
 
-Importantly, every command line tool in Janis runs in a container. This means that all of our workflows are portable AND reproducible. Using containers means we also don't have to install the software on our computer.
+> Importantly, every command line tool in Janis runs in a container. This means that all of our workflows are portable AND reproducible. Using containers means we also don't have to install the software on our computer.
 
 In this section, we're going to add 3 new GATK tools to Janis:
 
@@ -84,9 +84,12 @@ janis.ToolOutput(
 )
 ```
 
-We can use different selectors to find out outputs, for example
+A tool may output multiple files, we want to give each of the relevant output file a meaningful output name.
+To do so, you will need to provide Janis with the instruction on which file to select for a given output name.
 
-- `InputSelector` - we can use the value of an input to find out output
+To do this in Janis, we can use different selectors to select the relevant outputs. For example:
+
+- `InputSelector` - we can use the value of an input to construct an output filename
 - `WildcardSelector` - use a `glob` format to find an output, for example get all the bams in the execution directory with `WildcardSelector("*.bams")`.
 
 We will see how this works in our example.
@@ -144,11 +147,7 @@ gatk BaseRecalibrator \
 
 ### Adding tool to Janis python file
 
-To start, we will add this tool into `tools.py` (you can use your own favourite text editor, we will use vim for this example). 
-
-```bash
-    vim part2/tools.py
-```
+To add this tool, use your favourite text editor edit `part2/tools.py`.
 
 We have pre-populated some of the janis imports to get you started. 
 
@@ -167,7 +166,7 @@ from janis_core import (
 from janis_bioinformatics.data_types import Bam, BamBai, FastaWithIndexes, VcfTabix, Vcf
 ```
 
-Let's fill in the basic details of the tool:
+Add the following lines into `part2/tools.py`: 
 
 ```python
 Gatk4BaseRecalibrator_4_1_4 = CommandToolBuilder(
@@ -210,7 +209,9 @@ Alright, let's decode the different inputs we see to a corresponding ToolInput:
     ```
 
 
-- `--known-sites` - An array of known sites (gzipped compressed and tabix indexed VCF: `VcfTabix`). Note that the prefix applies to each element in the array: 
+- `--known-sites` - An array of known sites (gzipped compressed and tabix indexed VCF: `VcfTabix`). 
+  Note that the tool requires us to apply prefix to each element in the array (e.g `--known-sites dbsnp.vcf --known-sites known_indels.vcf`).
+  To provide this instruction to Janis, you will need to add this parameter `prefix_applies_to_all_elements=True`: 
 
     ```python
     ToolInput(
@@ -254,7 +255,12 @@ Gatk4BaseRecalibrator_4_1_4 = CommandToolBuilder(
 
 Our BaseRecalibrator has one output, the recalibration table specified by `--output` (fed by our input called `outputFilename` above).
 
-We can use an `InputSelector` to get the `outputFilename` value to choose our output. This might look like the following:
+In general the value of `selector=` in `ToolOutput` can be as simple as `selector="my_output_filename.table"`.
+But, this definition makes your Janis tool less flexible. 
+If you want the user of your Janis tool to be able to dynamically set the output filename,
+you can use an `InputSelector` to construct a string to represent the output filename.
+
+In this example, we want to select an output file that has the exact value the user passed to `outputFilename`:
 
 ```python
 ToolOutput("out_recalibration_report", File, selector=InputSelector("outputFilename"))
@@ -262,7 +268,7 @@ ToolOutput("out_recalibration_report", File, selector=InputSelector("outputFilen
 
 ### Final tool definition
 
-This gives the following tool definition as:
+Your complete tool definition should look like this:
 
 ```python
 Gatk4BaseRecalibrator_4_1_4 = CommandToolBuilder(
@@ -283,7 +289,7 @@ Gatk4BaseRecalibrator_4_1_4 = CommandToolBuilder(
 )
 ```
 
-At this point, we will save and exit this `tools.py` file. 
+At this point, we will save this `tools.py` file. 
 
 ### Translate new tool definition to CWL/WDL 
 
@@ -323,13 +329,9 @@ gatk ApplyBQSR \
 
 ### Adding tool to Janis python file
 
-To start, we will add this tool into `tools.py` (you can use your own favourite text editor, we will use vim for this example). 
+To start, we will add this tool into `part2/tools.py`.
 
-```bash
-    vim part2/tools.py
-```
-
-You will fill in the basic details underneath `Gatk4BaseRecalibrator_4_1_4` that we created in the previous exercise. 
+You will add the following lines underneath `Gatk4BaseRecalibrator_4_1_4` tool definition that we created in the previous exercise. 
 
 ```python
 Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
@@ -367,7 +369,8 @@ ToolInput("createBamIndex", Boolean(optional=True), prefix="--create-output-bam-
 
 ### Adding Outputs
 
-We have one indexed bam as an output, than is named through the `outputFilename` (we'll need to perform the same `present_secondaries_as` treatment):
+We have one indexed bam as an output. The filename was specified in `outputFilename` input value.
+To instruct Janis that the Bam index file has a `.bai` extension instead of `.bam.bai`, add the parameter `secondaries_present_as={".bai": "^.bai"}`.
 
 ```python
 ToolOutput("out_bam", BamBai, selector=InputSelector("outputFilename"),secondaries_present_as={".bai": "^.bai"},)
@@ -375,7 +378,7 @@ ToolOutput("out_bam", BamBai, selector=InputSelector("outputFilename"),secondari
 
 ### Final tool
 
-This should leave you the final tool:
+The full tool definition should look like:
 
 ```python
 Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
@@ -396,13 +399,13 @@ Gatk4ApplyBQSR_4_1_4 = CommandToolBuilder(
 )
 ```
 
-You can now exit vim agin and check the translated tool with:
+You can save the file `part2/tools.py` and check the WDL translation for this tool with the following command:
 
 ```bash
 janis translate part2/tools.py --name Gatk4ApplyBQSR_4_1_4 wdl
 ```
 
-Command:
+In the standard output you should see the translated wdl code. This is what the WDL command section should look like:
 ```
 command <<<
     gatk ApplyBQSR \
@@ -417,11 +420,8 @@ command <<<
 
 ## Adding these tools to our workflow
 
-Now that we've created two tools, let's add them to our `variantcaller.py`, open up this file:
-
-```bash
-vim part2/variantcaller.py
-```
+Now that we've created two tools, let's add these tools to our workflow. 
+We will need to edit `part2/variantcaller.py` file.
 
 You will notice that this is very similar to the `processing.py` workflow that we were working on in Part 1. We have pre-populated them with the solution from Part 1. 
 
@@ -508,11 +508,11 @@ BaseRecalibrator requires an input for its known sites, let's mirror this input 
 w.input("known_sites", Array(VcfTabix))
 ```
 
-> We'll use the two files from the reference folder for our testing later:
+> We'll use these two files from the reference folder for our testing later:
 > - `reference/brca1_hg38_dbsnp138.vcf.gz`
 > - `reference/brca1_hg38_known_indels.vcf.gz`
 
-We can then add two new steps for `baserecalibrator` and `applybqsr` to the bottom of the same file`:
+To add two new steps `baserecalibrator` and `applybqsr` into our workflow, add the following lines below the comment `# Add the Base Quality Score Recalibration steps here!`:
 
 ```python
 # Generate the recalibration table from the bam in fix_tags
@@ -536,7 +536,7 @@ w.step(
 
 ### Add output to our new workflow
 
-Add a few outputs to collect the result of our workflow:
+To instruct Janis to collect the output files of this workflow, add the following lines to the end of the file:
 
 ```python
 w.output("out_recalibration_table", source=w.baserecalibration.out_recalibration_report)
@@ -642,12 +642,12 @@ w.output("out_bam", source=w.applybqsr.out_bam)
 
 ## Running the new workflow
 
-You can now exit vim again and try running the pipeline. 
+You can now save the file `part2/variantcaller.py` and try running the pipeline. 
 
-We will use similar command and inputs as Part 1 but we will add a new `--known_sites` input):
+We will use similar command as Part 1 with additional inputs `--known_sites`:
 
 ```bash
-janis run -o part2 --development \
+janis run -o part2 --development --keep-intermediate-files \
     part2/variantcaller.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
