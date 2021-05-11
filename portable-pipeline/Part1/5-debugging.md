@@ -92,13 +92,13 @@ Updated:    3s ago (2020-07-16T07:24:11+00:00)
 Jobs: 
         [✓] bwamem (0s)
         [!] samtoolsview (8s)
-            stderr: /Users/franklinmichael/source/janis-workshops/portable-pipeline/resources/part2/janis/logs/engine.log       
+            stderr: $JW/part2/janis/logs/engine.log       
 
 
 Error: 
 ERROR [job samtoolsview] Job error:
 ("Error collecting output for parameter 'out':\n../workflow/tools/SamToolsView_1_9_0.cwl:286:5: Did not find output file with glob pattern: '['generated.bam']'", {})
-ERROR [step samtoolsview] Output is missing expected field file:///Users/franklinmichael/source/janis-workshops/portable-pipeline/resources/part2/janis/workflow/preprocessingWorkflow.cwl#preprocessingWorkflow/samtoolsview/out
+ERROR [step samtoolsview] Output is missing expected field file://$JW/part2/janis/workflow/preprocessingWorkflow.cwl#preprocessingWorkflow/samtoolsview/out
 ```
 
 This indicates to us that `bwamem` failed, and it tries to prompt us with the locations of `stderr`. Have a look through the engine log for more information.

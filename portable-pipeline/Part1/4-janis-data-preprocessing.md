@@ -45,7 +45,8 @@ w.step(
 
 ### Adding SetNmMdAndUqTags
 
-[GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html)is going to calculate the following tags by comparing our BAM to the reference genome:
+[GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html) 
+is going to calculate the following tags by comparing our BAM to the reference genome:
 
 - NM: Edit distance to the reference
 - MD: String encoding mismatched and deleted reference bases
@@ -87,7 +88,7 @@ w.output("out_bam", source=w.fix_tags.out)
 
 Hopefully you have a workflow that looks like the following!
 
-> The final workflow is also available in `part1/preprocesing_solution.py`.
+> The final workflow is also available in `$JW/part1/preprocesing_solution.py`.
 
 <details>
     <summary> Click to show solution </summary>
@@ -180,7 +181,7 @@ janis translate part1/preprocessing.py wdl
 Now that we have a complete pipeline again, let's re-run the same command we did before.
 
 ```
-janis run -o part1 --development \
+janis run -o part1 --development --keep-intermediate-files \
     part1/preprocessing.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
@@ -210,7 +211,7 @@ Check to see if the `MD`, `NM` and `UQ` tags are in the output bam:
 
 > Hint: you can run `samtools view` in a the docker container with:
 > ```python
-> docker run -v $(pwd)/part1/:/data/ quay.io/biocontainers/samtools:1.9--h8571acd_11 samtools view /data/out_bam.bam | head
+> docker run -v $JW/part1/:/data/ quay.io/biocontainers/samtools:1.9--h8571acd_11 samtools view /data/out_bam.bam | head
 > ```
 
 ## Great work!!
