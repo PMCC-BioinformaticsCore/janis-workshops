@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.4)
+# Janis Workshop (1.4)
 
 ## Exercise: extend alignment workflow to complete the data processing workflow
 
@@ -7,7 +7,7 @@ In this section, we will give you some hands-on time to play  with Janis workflo
 - `GATK4 SortSam` to the output of Mark Duplicates. 
 - `Gatk4 SetNmMdAndUqTags` to the result from Sort Sam.
 
-We'll use the same file from the previous part (`day1/processing.py`) for our analysis. 
+We'll use the same file from the previous part (`part1/processing.py`) for our analysis. 
 
 ## Adding SortSam to workflow
 
@@ -45,7 +45,8 @@ w.step(
 
 ### Adding SetNmMdAndUqTags
 
-[GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html)is going to calculate the following tags by comparing our BAM to the reference genome:
+[GATK4 SetNmMdAndUqTags](https://janis.readthedocs.io/en/latest/tools/bioinformatics/gatk4/gatk4setnmmdanduqtags.html) 
+is going to calculate the following tags by comparing our BAM to the reference genome:
 
 - NM: Edit distance to the reference
 - MD: String encoding mismatched and deleted reference bases
@@ -87,7 +88,7 @@ w.output("out_bam", source=w.fix_tags.out)
 
 Hopefully you have a workflow that looks like the following!
 
-> The final workflow is also available in `day1/preprocesing_solution.py`.
+> The final workflow is also available in `$JW/part1/preprocesing_solution.py`.
 
 <details>
     <summary> Click to show solution </summary>
@@ -170,7 +171,7 @@ w.output("out_bam", source=w.fix_tags.out)
 We can again translate the following file into Workflow Description Language using janis from the terminal:
 
 ```bash
-janis translate day1/preprocessing.py wdl
+janis translate part1/preprocessing.py wdl
 ```
 
 
@@ -180,8 +181,8 @@ janis translate day1/preprocessing.py wdl
 Now that we have a complete pipeline again, let's re-run the same command we did before.
 
 ```
-janis run -o day1 --development \
-    day1/preprocessing.py \
+janis run -o part1 --development --keep-intermediate-files \
+    part1/preprocessing.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --sample_name NA12878 \
@@ -198,7 +199,7 @@ This time we notice that CWLTool is using _cached output_ of the first two steps
 Inspecting out output directory, we two more entries: a bam and its index!
 
 ```bash
-$ ls -lgh day1/
+$ ls -lgh part1/
 
 # -rw-r--r--  3 1677682026   2.7M Jul 16 17:15 out_bam.bam
 # -rw-r--r--  3 1677682026   296B Jul 16 17:15 out_bam.bam.bai
@@ -210,14 +211,12 @@ Check to see if the `MD`, `NM` and `UQ` tags are in the output bam:
 
 > Hint: you can run `samtools view` in a the docker container with:
 > ```python
-> docker run -v $(pwd)/day1/:/data/ quay.io/biocontainers/samtools:1.9--h8571acd_11 samtools view /data/out_bam.bam | head
+> docker run -v $JW/part1/:/data/ quay.io/biocontainers/samtools:1.9--h8571acd_11 samtools view /data/out_bam.bam | head
 > ```
 
 ## Great work!!
 
 Great work! You've built a completely portable pipeline that uses containers to align a set of fastqs to a reference genome, marked duplicates in the aligned BAM and sorted the result. You can run this pipeline in your current envionrment (local), on HPCs using Slurm, or even using Amazon or Google cloud services. 
-
-> In fact, you might already be running this workflow on Amazon!
 
 If you're looking for a bigger challenge, try the advanced task in the next section!
 
@@ -229,5 +228,5 @@ For those we are familiar with this GATK workflow, you might have noticed that t
 - Gatk4BaseRecalibrator_4_1_4
 - Gatk4ApplyBqsr_4_1_4
 
-
+[Next >](5-debugging.md)
 

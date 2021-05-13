@@ -13,7 +13,7 @@ AMI="ami-08167094da531571a"
 #     --count 1 --instance-type t2.large \
 #     --key-name $keyname \
 #     --query 'Instances[0].InstanceId' --output text \
-#     --tag-specification "ResourceType=instance,Tags=[{Key=User,Value=$participant},{Key=Project,Value=Janis-workshop-bcc2020}]" \
+#     --tag-specification "ResourceType=instance,Tags=[{Key=User,Value=$participant},{Key=Project,Value=Janis-workshop-portable-pipeline}]" \
 #     --user-data file://$__dir/01-install.sh \
 #     --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":30,"DeleteOnTermination":true}}]' \
 #     --security-group-ids sg-0c3bb8034f313fac1 \

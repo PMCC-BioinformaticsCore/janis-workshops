@@ -1,8 +1,8 @@
-# BCC2020 EAST - Janis Workshop (2.3)
+# Janis Workshop (2.3)
 
 ## Exercise: add a variant-caller (GATK Haplotypecaller) to complete the germline variant-caller for this workshop
 
-In this section, we will give you some hands-on time to add new tool (not previously in the registry) to a workflow. The task in this exercise is to create a CommandTool for `GATK HaplotypeCaller` using a `janis.CommandToolBuilder` (in our `day2/tools.py` file). After we create this tool, we'll add it to our `day2/variantcaller.py` workflow.
+In this section, we will give you some hands-on time to add new tool (not previously in the registry) to a workflow. The task in this exercise is to create a CommandTool for `GATK HaplotypeCaller` using a `janis.CommandToolBuilder` (in our `part2/tools.py` file). After we create this tool, we'll add it to our `part2/variantcaller.py` workflow.
 
 
 ## Creating GATK HaplotypeCaller tool class
@@ -40,15 +40,15 @@ Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
 
 <br> Let's wrap our individual inputs:
 
-- `bam`: will be an indexed bam (remember to rewrite the secondary files):
+- `bam`: will be an indexed bam
 
 - `reference`: Reference sequence file
 
-- `outputFilename`: Where to write the indexed output VCF.gz. Note, HaplotypeCaller will output a GZIP compressed VCF with it's tabix index (.vcf.gz.tbi), the Janis type `VcfTabix` can represent this on the output:
+- `outputFilename`: Output filename for the indexed output VCF.gz. Note, HaplotypeCaller will output a GZIP compressed VCF with it's tabix index (.vcf.gz.tbi). When writing the tool output, you can use the `VcfTabix` data type.
 
-- `bamOutputFilename`: File to which assembled haplotypes should be written
+- `bamOutputFilename`: Filename of the assembled haplotypes
 
-- `createBamOutputIndex`: We _want_ to create the index for the BAM.
+- `createBamOutputIndex`: A flag to specify that we _want_ to create the index for the BAM
     
 <details>
     <summary> Click to show solution </summary>
@@ -69,7 +69,7 @@ Gatk4HaplotypeCaller_4_1_4 = CommandToolBuilder(
 
 ### Outputs
 
-We have two outputs for this tool `out_vcf` and `out_bam`: 
+We want to collect the VCF file (name it `out_vcf`) and the BAM file (name it `out_bam`) produced by this tool: 
 
 <details>
     <summary> Click to show solution </summary>
@@ -85,7 +85,7 @@ We have two outputs for this tool `out_vcf` and `out_bam`:
 
 ### Final HaplotypeCaller tool
 
-You should have your final haplotypecaller tool that looks like the following: 
+You full definition of the haplotypecaller tool should look like the following: 
 <details>
     <summary> Click to show solution </summary>
     
@@ -116,10 +116,10 @@ You should have your final haplotypecaller tool that looks like the following:
     
 
 <br>
-Let's check the WDL conversion of the full tool:
+Let's check the WDL conversion of this tool:
 
 ```bash
-    janis translate day2/tools.py --name Gatk4HaplotypeCaller_4_1_4 wdl
+janis translate part2/tools.py --name Gatk4HaplotypeCaller_4_1_4 wdl
 ```
 
 The command part of this WDL file should look quite similar to the command that we are targetting. 
@@ -139,16 +139,13 @@ command <<<
 
 ## Adding variant-caller to workflow
 
-This looks good! Let's jump over to our `day2/variantcaller.py` and add this as our final piece.
+This looks good! Let's jump over to our `part2/variantcaller.py` file and add this as our final piece.
 
 Import our newly created `Gatk4HaplotypeCaller_4_1_4` from `tools`:
 
 ```python
-from tools import (
-    Gatk4BaseRecalibrator_4_1_4,
-    Gatk4ApplyBQSR_4_1_4,
-    Gatk4HaplotypeCaller_4_1_4,
-)
+# Add tools import here
+from tools import Gatk4BaseRecalibrator_4_1_4, Gatk4ApplyBQSR_4_1_4, Gatk4HaplotypeCaller_4_1_4
 ```
 
 
@@ -160,7 +157,7 @@ w.step(
 )
 ```
 
-Let's create 2 outputs for our new results:
+Let's collect the output files from haplotypecaller:
 
 ```python
 w.output("out_assembledbam", source=w.haplotypecaller.out_bam)
@@ -169,10 +166,10 @@ w.output("out_variants", source=w.haplotypecaller.out_vcf)
 
 Let's check the translation of our full workflow just to check everything's looking okay. 
 
-> You can also confirm your workflow with the solution: `day2/variantcaller_solution.py`.
+> You can also confirm your workflow with the solution: `part2/variantcaller_solution.py`.
 
 ```bash
-janis translate day2/variantcaller.py wdl
+janis translate part2/variantcaller.py wdl
 ```
 
 ## Run the final workflow!
@@ -180,8 +177,8 @@ janis translate day2/variantcaller.py wdl
 Now that the final workflow is complete, you can run the final workflow with:
 
 ```bash
-janis run -o day2 --development \
-    day2/variantcaller.py \
+janis run -o part2 --development --keep-intermediate-files  \
+    part2/variantcaller.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --known_sites reference/brca1_hg38_dbsnp138.vcf.gz \
@@ -193,7 +190,7 @@ janis run -o day2 --development \
 Let's inspect the final output directory:
 
 ```bash
-$ ls -lGh day2
+$ ls -lGh part2
 -rw-r--r-- 2 ec2-user 541K Jul 19 03:32 out_assembledbam.bam
 -rw-r--r-- 2 ec2-user  224 Jul 19 03:32 out_assembledbam.bam.bai
 -rw-r--r-- 2 ec2-user 2.6M Jul 19 03:23 out_bam.bam
@@ -202,3 +199,5 @@ $ ls -lGh day2
 -rw-r--r-- 2 ec2-user  12K Jul 19 03:32 out_variants.vcf.gz
 -rw-r--r-- 2 ec2-user  170 Jul 19 03:32 out_variants.vcf.gz.tbi
 ```
+
+[Next >](4-closing.md)

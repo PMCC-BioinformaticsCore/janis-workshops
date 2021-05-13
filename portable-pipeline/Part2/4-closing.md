@@ -1,8 +1,6 @@
-# BCC2020 EAST - Janis Workshop (2.4)
+# Janis Workshop (2.4)
 
 ## Summary
-
-Thanks for taking part in this BCC2020 East Janis workshop. 
 
 To summarise, throughout these 2-part sessions we have gone through:
 
@@ -22,4 +20,4 @@ If you want to learn more about Janis, please check out Janis' GitHub and readth
 - Janis GitHub: https://github.com/PMCC-BioinformaticsCore/janis
 - This workshop GitHub: https://github.com/PMCC-BioinformaticsCore/janis-workshops
 - Gitter: https://gitter.im/janis-pipelines/community
-- Email: michael.franklin@unimelb.edu.au; richard.lupat@petermac.org
+- If you have any feedback regarding this training materials, please create a Github Issue on https://github.com/PMCC-BioinformaticsCore/janis-workshops/issues

@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.2)
+# Janis Workshop (1.2)
 
 ## Introduction to Janis
 
@@ -36,10 +36,10 @@ In fact, Janis is actually split into two components that addresses these questi
 
 ### Fundamental features
 
-- Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to in other pipelineing systems.
+- Janis uses an _abstracted execution environment_ which removes the shared file system you may be used to in other pipelining systems.
 
     - For a file or directory to be available to your tool, you need to EXPLICITLY include it. 
-        - This includes associated files, if you want an indexed bam, you must use the BamBai type. 
+        - This includes associated files, if you want an indexed bam, you must use the [`BamBai`](https://janis.readthedocs.io/en/latest/datatypes/indexedbam.html) type. 
 
     - Outputs of a _tool_ must be EXPLICITLY collected to be used by future steps, else they will be removed.
 
@@ -53,79 +53,65 @@ In fact, Janis is actually split into two components that addresses these questi
 
 ### Setup
 
-Please follow the relevant instructions for the two methods of participating in this workshop (the requirements are on the previous page):
-
-1. (Preferred) Install Janis on your personal computer
-2. OR we can provide a Linux VM that you can SSH into as a backup.
-
-
-#### Installing Janis on your personal computer
-
-
 A virtual environment is the best way to install Janis. It contains all the dependencies separately, and avoid polluting your local Python installation. It also preserves the version of Janis in a reproducible way.
 
-1. Create an activate a virtualenv:
+
+1. Create a directory for all the activities of this workshop.
 
     ```bash
-    # create virtual env at $(pwd)/janis/env
-    python3 -m venv janis/env
+    # from now on, we will refer to this directory as $JW (it stands for janis workshop)
+    mkdir janis-workshop
+    cd janis-workshop
+    
+    # create an environment variable for this directory for easier reference.
+    export JW=$(pwd)
+   ```
 
-    # source the virtual env
-    source janis/env/bin/activate
+2. Create and activate a virtualenv:
+   ```bash
+    # create virtual environment
+    python3 -m venv env
+
+    # activate the virtual environment
+    source env/bin/activate
     ```
+   
+    > When you execute `which python`, you should get `$JW/env/bin/python`
 
-
-2. Install Janis through PIP:
+3. Install Janis through PIP:
 
     ```bash
     pip install janis-pipelines
     ```
+   > When you execute `which janis`, you should get `$JW/env/bin/janis`
+   > 
+   > If that is not the path you see, we want to exit and re-activate the virtual environment
+   > 
+   > ```
+   > # To exit
+   > deactivate
+   > 
+   > # To turn on the virtual environment again
+   > source env/bin/activate
+   > ```
 
-3. Test that Janis (and associated modules) were installed:
+4. Test that Janis (and associated modules) were installed:
 
     ```bash
     janis -v
     #--------------------  -------
-    #janis-core            v0.10.0
-    #janis-assistant       v0.10.0
-    #janis-templates       v0.10.0
-    #janis-unix            v0.10.0
-    #janis-bioinformatics  v0.10.0
-    #janis-pipelines       v0.10.0
+    #janis-core            v0.11.x
+    #janis-assistant       v0.11.x
+    #janis-templates       v0.11.x
+    #janis-unix            v0.11.x
+    #janis-bioinformatics  v0.11.x
+    #janis-pipelines       v0.11.x
     #--------------------  -------
     ```
 
-#### Connecting to preconfigured EC2 instance
-
-You will receive:
-
-- A URL to an instance,
-- A password
-
-To get to your instance, you can ssh in with the provided credentials. For example: 
-
-```bash
-ssh ec2-13-236-147-245.ap-southeast-2.compute.amazonaws.com
-# enter the password when prompted
-```
-
-Janis should be already installed, you can confirm this by running:
-
-```bash
-    janis -v
-    # --------------------  -------
-    # janis-core            v0.10.0
-    # janis-assistant       v0.10.0
-    # janis-unix            v0.10.0
-    # janis-bioinformatics  v0.10.0
-    # janis-templates       v0.10.0
-    # janis-pipelines       v0.10.0
-    # --------------------  -------
-```
-
 #### Download data
 
-We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `janis-bcc2020`. In this workshop, we use:
+We will start with downloading all the test data required for this workshop. For consistency, we will use a directory called `portable-pipeline`. In this workshop, we use:
 
 - A test sample based on [Genome-In-A-Bottle NA12878](https://github.com/genome-in-a-bottle/giab_data_indexes), with reads being cut down to a single gene region (chr17:43044045-43125733)
 - A test reference genome (and other resource bundle databases) derived from human HG38 reference provided by [GATK Resource Bundle]( https://console.cloud.google.com/storage/browser/genomics-public-data/references/hg38/v0/), cut down to a single gene region (chr17:43044045-43125733).
@@ -134,10 +120,7 @@ We will start with downloading all the test data required for this workshop. For
 # You might see warnings when untarring this workshop data due
 # to a difference of tar versions when archiving on macOS.
 
-
-mkdir janis-bcc2020 && cd janis-bcc2020
-
-wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/bcc2020/resources/bcc-data.tar" \
+wget -q -O- "https://github.com/PMCC-BioinformaticsCore/janis-workshops/raw/master/portable-pipeline/resources/data.tar" \
     | tar -xz
 ```
 
@@ -145,10 +128,11 @@ The download contains folders for data, references and the solutions. You can co
 
 ```bash
 ls -lGh
-drwxr-xr-x 2 ec2-user  119 Jul 17 13:18 data
-drwxr-xr-x 2 ec2-user   63 Jul 17 13:18 day1
-drwxr-xr-x 2 ec2-user  104 Jul 17 13:18 day2
-drwxr-xr-x 2 ec2-user 4.0K Jul 17 03:36 reference
+drwxr-xr-x@  5 user  staff   160B  7 May 19:47 data
+drwxr-xr-x   9 user  staff   288B  7 May 19:08 env
+drwxr-xr-x@  4 user  staff   128B  7 May 19:47 part1
+drwxr-xr-x@  6 user  staff   192B  7 May 19:47 part2
+drwxr-xr-x@ 14 user  staff   448B  7 May 19:47 reference
 ```
 
 ### Setting up Janis 
@@ -161,16 +145,9 @@ janis init local
 
 Running this command will create a configuration file at `~/.janis/janis.conf`.
 
-We'll use `vim` to the first line in our template from `engine: cromwell` to `engine: cwltool`:
+We'll use a text editor to edit to the first line in our template from `engine: cromwell` to `engine: cwltool`:
 
-
-```bash
-vim ~/.janis/janis.conf
-```
-
-> You can save and [exit vim](https://stackoverflow.com/a/11828573/2860731) by hitting the `Esc` key, then typing `:x` to write and quit (or `:q!` to quit without saving).
-
-The file should be:
+The file should look like:
 
 ```yaml
 engine: cwltool
@@ -180,7 +157,9 @@ template:
   id: local
 ```
 
-Janis will automatically use the config for the rest of the workshop. Although we've used the `local` template, you could instead use `singularity` or use an advanced configuration (like `slurm_singularity` or `pbs_singularity`), important when used in High Performance Computing (HPC) environments. 
+Janis will automatically use the config for the rest of the workshop. 
+
+> Although we've used the `local` template, you could instead use `singularity` or use an advanced configuration (like `slurm_singularity` or `pbs_singularity`), important when used in High Performance Computing (HPC) environments. 
 
 ### How does Janis run a workflow?
 
@@ -193,7 +172,7 @@ For our tests, Janis will:
 - Watch the progress of the workflow,
 - Copy the outputs, and remove the execution directory on success.
 
-It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow on your own platform.
+> It's important to note that building workflows in Janis does NOT limit you to running with Janis. You are free to take the exported CWL and WDL specifications to run your workflow on your own platform.
 
 
 ### Running a simple test workflow 
@@ -203,12 +182,12 @@ To test that Janis is configured properly, we will run a simple workflow called 
 We must specify an output directory (`-o`) to contain the execution and outputs, we'll ask Janis to output our results to a subdirectory called `part1`. 
 
 ```bash
-janis run -o part1 hello --inp "Hello, World"
+janis run -o my_hello hello --inp "Hello, World"
 ```
 
 This command will:
 
-- Create an output directory called `part1` (relative to the current directory)
+- Create an output directory called `my_hello` (relative to the current directory)
 - Convert `hello` Janis workflow to `hello` CWL workflow
 - Submit workflow to the cwltool and run a task that calls "echo"
 - Collect the results
@@ -220,13 +199,13 @@ You will see logs from cwltool in the terminal. There is a number of statements 
 ... [INFO]: CWLTool has started with pid=41562
 ... # Selected CWLTool logs
 ... [INFO]: Task has finished with status: Completed
-... [INFO]: View the task outputs: file:///<path>/part1/
+... [INFO]: View the task outputs: file:///$JW/my_hello
 ```
 
 We can track the progress of our workflow with:
 
 ```bash
-janis watch part1/
+janis watch my_hello/
 ```
 
 You will see a progress screen like the following 
@@ -236,7 +215,8 @@ SID:        a6acf2
 EngId:      a6acf2
 Engine:     cwltool
 
-Task Dir:   /Users/franklinmichael/Desktop/tmp/janis/bcc/part1
+Task Dir:   $JW/my_hello
+Exec Dir:   $JW/my_hello/janis
 
 Status:     completed
 Duration:   9s
@@ -247,25 +227,23 @@ Updated:    1m:05s ago (2020-07-15T08:14:09+00:00)
 Jobs: 
         [✓] hello (7s)   
 
-Outputs:
-    - out: $HOME/part1/out
 ```
 
 
-In our output folder, there are two items (`ls part1`):
+In our output folder, there are two items (`ls -l my_hello`):
 ```
-drwxr-sr-x 8 mfranklin 133K Jan 31 12:59 janis
--rw-r--r-- 1 mfranklin   14 Jan 31 12:58 out
+drwxr-xr-x  12 user  staff  384  7 May 19:50 janis
+-rw-r--r--   1 user  staff   13  7 May 19:49 out
 ```
 
 The output to the task is called `out`, as this is the name of the output that the `hello` tool specifies.
 
 ```bash
-cat part1/out
+cat my_hello/out
 # Hello, world!
 ```
 
-The `janis` folder contains information about the execution, including logs, we'll see more about that later
+> The `janis` folder contains information about the execution, including `logs`, we'll see more about that later
 
 ## Toolbox of prebuild tools
 
@@ -280,5 +258,5 @@ These tools exist in separate modules to Janis, which means they can be updated 
 
 We'll have a look at the toolbox when we build our workflow.
 
-
+[Next >](3-janis-run-alignment.md)
 

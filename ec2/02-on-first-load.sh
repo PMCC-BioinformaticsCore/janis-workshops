@@ -6,7 +6,7 @@ sudo service docker start
 
 
 # setup Janis with CWLTool
-mkdir -p ~/janis-bcc2020 && cd ~/janis-bcc2020
+mkdir -p ~/janis-portable-pipeline && cd ~/janis-portable-pipeline
 
 mkdir -p ~/.janis/
 cat <<EOT >> ~/.janis/janis.conf

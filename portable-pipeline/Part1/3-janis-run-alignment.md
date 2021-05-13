@@ -1,4 +1,4 @@
-# BCC2020 EAST - Janis Workshop (1.3)
+# Janis Workshop (1.3)
 
 ## Building alignment workflow 
 
@@ -26,9 +26,7 @@ These tools already exist within the Janis Tool Registry, you can see their docu
 
 A Janis workflow is a Python script, so we can start by creating a file called `preprocessing.py` and importing Janis.
 
-```bash
-vim day1/preprocessing.py # or vim, emacs, sublime, vscode
-```
+Use a text editor to edit `part1/preprocessing.py` file.
 
 You'll see there already a number of imports for you, Let's go through them:
 
@@ -59,7 +57,7 @@ from janis_bioinformatics.tools.gatk4 import (
 
 ## Importing additional data_type
 
-We'll import additional data_type to handle our Bam output. 
+We'll import additional data_type to handle our Bam output. Add the following line to the file:
 
 ```python
 from janis_bioinformatics.data_types import Bam
@@ -106,7 +104,7 @@ An input requires a unique identifier (string) and a DataType (String, FastqGzPa
 3. Read group header (`String`)
 4. Reference files (`FastaWithIndexes`) - `Fasta` + index files)
 
-This will give the following Python code:
+To add these input definitions to the workflow, add the following lines to your code:
 
 ```python
 w.input("sample_name", String)
@@ -144,7 +142,7 @@ We use [bwa mem's documentation](https://janis.readthedocs.io/en/latest/tools/bi
 
 > _The -M flag (`markShorterSplits`) causes BWA to mark shorter split hits as secondary (essential for Picard compatibility)._ [(howto) Map and mark duplicates](https://gatkforums.broadinstitute.org/gatk/discussion/2799/howto-map-and-mark-duplicates)
 
-We can connect them to the relevant inputs to get the following step definition:
+To add BWA MEM step to your workflow, add the following step definition to your code:
 
 ```python
 w.step(
@@ -161,7 +159,7 @@ w.step(
 #### Samtools view
 
 We'll use a very similar pattern for Samtools View, except this time we'll reference the output of `bwamem`. From bwa mem's documentation, there is one output called `out` with type `Sam`. We'll connect this to `SamtoolsView` only input, called `sam`.
-
+Add the following step definition to your code:
 
 ```python
 w.step(
@@ -181,8 +179,10 @@ Janis will automatically generate a filename for the metrics file, so we don't n
 Hence, we'll provide MarkDuplicates the following params:
 
 - `bam`: Output of `samtoolsview.out`
-- `assumeSortOrder` the value `"queryname"`:
+- `assumeSortOrder` the value `"queryname"`:https://gatkforums.broadinstitute.org/gatk/discussion/2799/howto-map-and-mark-duplicates
 
+
+Add the following step definition to your code:
 ```python
 w.step(
     "markduplicates",
@@ -211,13 +211,12 @@ Workflow.output(
 
 Often, we don't want to specify the output data type, because we can let Janis do this for us. We'll talk about the `output_folder` and `output_name` in the next few sections. For now, we just have to specify an output identifier and a source.
 
-We'll add an output called `tmp_bamoutput`, and use `markduplicates.out` as the source: 
+We'll add an output called `tmp_bamoutput`, and use `markduplicates.out` as the source.
+To add this output to your workflow, add the following line to your code:
 
 ```python
 w.output("tmp_out_unsortedbam", Bam, source=w.markduplicates.out)
 ```
-
-You can save and close your vim session now (`Esc` and then type `:x` + enter) for the next session.
 
 #### Let's test what we have!
 
@@ -229,7 +228,7 @@ Although we're using CWL to run the tools, because we've written out analysis in
 
 ```bash
 # in bash now
-janis translate day1/preprocessing.py wdl
+janis translate part1/preprocessing.py wdl
 ```
 
 ```wdl
@@ -288,8 +287,8 @@ workflow preprocessingWorkflow {
 We're looking good! Now let's run the worfklow using Janis and CWLTool. We'll include the `--development` flag, as when we re-run the pipeline, it won't recompute steps we've already ran!
 
 ```bash
-janis run -o day1 --development \
-    day1/preprocessing.py \
+janis run -o part1 --development --keep-intermediate-files \
+    part1/preprocessing.py \
     --fastq data/BRCA1_R*.fastq.gz \
     --reference reference/hg38-brca1.fasta \
     --sample_name NA12878 \
@@ -299,7 +298,7 @@ janis run -o day1 --development \
 Hopefully we got `Task has finished with status: Completed`. We can check out output directory:
 
 ```bash
-$ ls -lgh day1/
+$ ls -lgh part1/
 # drwxr-xr-x  288B Jul 16 16:50 janis
 # -rw-r--r--  1.4K Jul 16 16:49 preprocessing_solution.py
 # -rw-r--r--  411B Jul 16 13:15 preprocessing.py
@@ -312,5 +311,6 @@ We see the `tmp_out_unsortedbam.bam` which is the BAM output of mark duplicates.
 
 Once you are happy with this task, you can now remove the `tmp_out_unsortedbam.bam` output we created in this section.
 
+[Next >](4-janis-data-preprocessing.md)
 
 

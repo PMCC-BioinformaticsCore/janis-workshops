@@ -1,8 +1,6 @@
-# BCC2020 EAST - Janis Workshop (1.6)
+# Janis Workshop (1.6)
 
 ## Summary
-
-Thanks for taking part in the first part of BCC2020 East Janis workshop. 
 
 To summarise, in this session, we have gone through:
 
